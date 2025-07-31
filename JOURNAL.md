@@ -1,0 +1,23 @@
+# 30.07.2025 - j0
+- `uv init --lib pqlattice`
+- @(GitHub) - Created repositiory [pqlattice](https://github.com/MikolajLH/pqlattice)
+- `git add .\README.md`  
+- `git commit -m "repo init"`  
+- `git add .\src\ .\pyproject.toml`
+- `git commit -m "setup pyproject"`
+- `git add .\.gitignore`
+- `git commit -m "gitignore"`
+- `git add .\JOURNAL.md`
+- `git commit -m "create empty journal file"`
+- `git remote add origin git@github.com:MikolajLH/pqlattice.git`
+- `git push -u origin main`
+# 31.07.2025 - j1
+- `uv add numpy`
+- `uv tree`
+- `uv add --dev ruff`
+- `uv tree --all-groups`
+- `uv add --group docs mkdocs`
+- `git tag -a j0 -m "30.07.2025"`
+- `uv add --dev pytest`
+- `uv remove --dev pytest`
+- `uv add --group tests pytest`
