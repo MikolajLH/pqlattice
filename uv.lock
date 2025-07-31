@@ -258,11 +258,11 @@ dependencies = [
 ]
 
 [package.dev-dependencies]
-dev = [
-    { name = "ruff" },
-]
 docs = [
     { name = "mkdocs" },
+]
+lint = [
+    { name = "ruff" },
 ]
 tests = [
     { name = "pytest" },
@@ -272,8 +272,9 @@ tests = [
 requires-dist = [{ name = "numpy", specifier = ">=2.3.2" }]
 
 [package.metadata.requires-dev]
-dev = [{ name = "ruff", specifier = ">=0.12.7" }]
+dev = []
 docs = [{ name = "mkdocs", specifier = ">=1.6.1" }]
+lint = [{ name = "ruff", specifier = ">=0.12.7" }]
 tests = [{ name = "pytest", specifier = ">=8.4.1" }]
 
 [[package]]
