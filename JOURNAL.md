@@ -21,3 +21,19 @@
 - `uv add --dev pytest`
 - `uv remove --dev pytest`
 - `uv add --group tests pytest`
+- `git add .\pyproject.toml`
+- `git commit -m "planning dependencies and structure of pyproject"`
+- `git add .\uv.lock`
+- `git commit -m "uv.lock update"`
+- `git add .\JOURNAL.md`
+- `git commit -m "JOURNAL update"`
+- `uv remove --dev ruff`
+- `uv add --group lint ruff`
+- `git add .\pyproject.toml .\uv.lock`
+- `git commit -m "move ruff to lint dependency group"`
+- `git add .\pyproject.toml`
+- `git commit -m "defined dependencies groups"`
+- `git tag -a j1 -m "31.07.2025"`
+- `git add .\JOURNAL.md`
+- `git commit -m "JOURNAL 31.07.2025"`
+- `git push -u origin main`
