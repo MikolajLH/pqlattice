@@ -7,8 +7,21 @@ authors = [
     { name = "Mikołaj Leonhardt", email = "mikolaj.leonhardt@gmail.com" }
 ]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "numpy>=2.3.2",
+]
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.12.7",
+]
+docs = [
+    "mkdocs>=1.6.1",
+]
+tests = [
+    "pytest>=8.4.1",
+]
