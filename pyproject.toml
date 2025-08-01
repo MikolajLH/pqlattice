@@ -17,18 +17,16 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
-    {include-group = "lint"},
-    {include-group = "test"}
+    {include-group = "tests"},
+    {include-group = "docs"},
+    "pre-commit>=4.2.0",
+    "ruff>=0.12.7",
 ]
 
 docs = [
     "mkdocs>=1.6.1",
-    {include-group = "lint"}
 ]
 
-lint = [
-    "ruff>=0.12.7",
-]
 tests = [
     "pytest>=8.4.1",
 ]
