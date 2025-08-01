@@ -37,3 +37,20 @@
 - `git add .\JOURNAL.md`
 - `git commit -m "JOURNAL 31.07.2025"`
 - `git push -u origin main`
+# 01.08.2025 - j2
+- `uv remove --group lint ruff`
+- `uv add --dev pre-commit`
+- `pre-commit --version`
+- `pre-commit sample-config`
+- `uv add --dev ruff`
+- `git add .\pyproject.toml .\uv.lock`
+- `git commit -m "moved ruff to dev dependencies, added pre-commit to dev dependencies"`
+- `git add .\.pre-commit-config.yml`
+- `git commit -m "basic pre-commit config file"`
+- `git add .\.pre-commit-config.yml`
+- `git commit -m "ruff pre-commit hook"`
+- `git log --pretty=oneline`
+- `git add .\JOURNAL.md`
+- `git commit -m "JOURNAL 01.08.2025"`
+- `git tag -a j2 -m "JOURNAL 01.08.2025"`
+- `git push -u origin main`
