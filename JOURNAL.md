@@ -54,3 +54,11 @@
 - `git commit -m "JOURNAL 01.08.2025"`
 - `git tag -a j2 -m "JOURNAL 01.08.2025"`
 - `git push -u origin main`
+# 02.08.2025 - j3
+- `git log --pretty=oneline`
+- `git add .\.python-version`
+- `git commit -m "python version pin"`
+- `git add .\JOURNAL.md`
+- `git commit -m "JOURNAL 02.08.2025"`
+- `git tag -a j3 -m "JOURNAL 02.08.2025"`
+- `git push -u origin main`
