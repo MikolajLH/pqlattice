@@ -30,3 +30,6 @@ docs = [
 tests = [
     "pytest>=8.4.1",
 ]
+
+[tool.pytest.ini_options]
+testpaths = 'tests'
