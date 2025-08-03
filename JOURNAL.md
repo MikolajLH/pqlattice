@@ -62,3 +62,17 @@
 - `git commit -m "JOURNAL 02.08.2025"`
 - `git tag -a j3 -m "JOURNAL 02.08.2025"`
 - `git push -u origin main`
+# 03.08.2025 - j4
+- `mkdocs new .`
+- `mkdocs serve`
+- `git add .\mkdocs.yml .\docs\`
+- `git commit -m "mkdocs init"`
+- `git add .\src\pqlattice\`
+- `git commit -m "empty __init__.py"`
+- `git add .\src\ .\tests\ .\pyproject.toml`
+- `git commit -m "basic pytest setup"`
+- `pytest`
+- `git add .\JOURNAL.md`
+- `git commit -m "JOURNAL 03.08.2025"`
+- `git tag -a j4 -m "JOURNAL 03.08.2025"`
+- `git push -u origin main`
