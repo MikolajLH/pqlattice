@@ -76,3 +76,22 @@
 - `git commit -m "JOURNAL 03.08.2025"`
 - `git tag -a j4 -m "JOURNAL 03.08.2025"`
 - `git push -u origin main`
+# 04.08.2025 - j5
+- `git add .\.github\`
+- `git commit -m "deploy mkdocs to github pages workflow"`
+- `git push -u origin main`
+- `git add .\.github\`
+- `git commit -m "fix docs.yml so it uses uv to install deps from docs group"`
+- `git push -u origin main`
+- `git add .\.github\`
+- `git commit -m "fix docs.yml so the commands are ran with the uv run"`
+- `git push -u origin main`
+- `git add .\.github\`
+- `git commit -m "fix the actual deployment to github-pages action"`
+- `git push -u origin main`
+- @(GitHub) - make the repository public
+- @(GitHub) - allow GitHub Pages, source: GitHub Actions
+- `git add .\JOURNAL.md`
+- `git commit -m "JOURNAL 04.08.2025"`
+- `git tag -a j5 -m "JOURNAL 04.08.2025"`
+- `git push -u origin main`
