@@ -33,8 +33,8 @@ jobs:
 
       - name: Build MkDocs site
         run: | 
-          mkdocs build --strict
-          mkdocs gh-deploy --force
+          uv run mkdocs build --strict
+          uv run mkdocs gh-deploy --force
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
