@@ -1,8 +1,8 @@
 # 30.07.2025 - j0
 - `uv init --lib pqlattice`
 - @(GitHub) - Created repositiory [pqlattice](https://github.com/MikolajLH/pqlattice)
-- `git add .\README.md`  
-- `git commit -m "repo init"`  
+- `git add .\README.md`
+- `git commit -m "repo init"`
 - `git add .\src\ .\pyproject.toml`
 - `git commit -m "setup pyproject"`
 - `git add .\.gitignore`
@@ -94,4 +94,24 @@
 - `git add .\JOURNAL.md`
 - `git commit -m "JOURNAL 04.08.2025"`
 - `git tag -a j5 -m "JOURNAL 04.08.2025"`
+- `git push -u origin main`
+# 05.08.2025 - j6
+- `git add .\pyrightconfig.json`
+- `git commit -m "pyright setup"`
+- `ruff check . --fix`
+- `pre-commit install` ERROR
+- change the project absolute path so it does not contain the "ż" character
+- `pre-commit install`
+- `pre-commit run --all-files`
+- `pre-commit run --all-files --config .pre-commit-config.yaml`
+- The old path is still cached somewhere and pre-commit can't find the ".pre-commit-config.yml" now
+- `git add .`
+- `git restore --staged .\JOURNAL.md`
+- `git commit -m "install and run pre-commit hooks"`
+- pre-commit couldn't find the ".pre-commit-config.yml" so it aborted
+- after reproducing the repository it turned out that the ".yml" instead of ".yaml" was the real issue
+- `git mv .\.pre-commit-config.yml .\.pre-commit-config.yaml`
+- `git add .\JOURNAL.md`
+- `git commit -m "JOURNAL 05.08.2025"`
+- `git tag -a j6 -m "JOURNAL 05.08.2025"`
 - `git push -u origin main`
