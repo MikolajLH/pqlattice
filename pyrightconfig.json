@@ -1,0 +1,8 @@
+{
+  "typeCheckingMode": "strict",
+  "reportMissingImports": true,
+  "reportMissingTypeStubs": false,
+  "include": ["src", "tests"],
+  "venvPath": ".",
+  "venv": ".venv"
+}
