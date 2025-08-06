@@ -115,3 +115,16 @@
 - `git commit -m "JOURNAL 05.08.2025"`
 - `git tag -a j6 -m "JOURNAL 05.08.2025"`
 - `git push -u origin main`
+# 06.08.2025 - j7
+- `git add .\pyrightconfig.json`
+- `git commit -m "ignore unused imports"`
+- `git add .\src\pqlattice\types.py`
+- `git commit -m "declare numpy type aliases, can change in the future"`
+- `git add .\src\pqlattice\linalg.py`
+- `git commit -m "create empty linalg module file"`
+- `git add .\src\pqlattice\types_validator.py`
+- `git commit -m "create empty types_validator module file"`
+- `git add .\JOURNAL.md`
+- `git commit -m "JOURNAL 06.08.2025"`
+- `git tag -a j7 -m "JOURNAL 06.08.2025"`
+- `git push -u origin main`
