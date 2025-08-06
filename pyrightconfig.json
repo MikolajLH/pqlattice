@@ -2,6 +2,7 @@
   "typeCheckingMode": "strict",
   "reportMissingImports": true,
   "reportMissingTypeStubs": false,
+  "reportUnusedImport": false,
   "include": ["src", "tests"],
   "venvPath": ".",
   "venv": ".venv"
