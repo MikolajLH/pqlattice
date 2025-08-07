@@ -3,7 +3,7 @@ on:
     branches: [main]
     paths:
       - 'docs/**'
-      - 'mkdocs.yml'
+      - 'mkdocs.yaml'
   workflow_dispatch:
 
 jobs:
