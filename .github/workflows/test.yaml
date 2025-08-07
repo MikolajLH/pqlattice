@@ -1,5 +1,7 @@
 on:
   push:
+    paths:
+      - 'tests/**'
   workflow_dispatch:
 
 jobs:
