@@ -128,3 +128,22 @@
 - `git commit -m "JOURNAL 06.08.2025"`
 - `git tag -a j7 -m "JOURNAL 06.08.2025"`
 - `git push -u origin main`
+# 07.08.2025 - j8
+- `pytest`
+- `git add .\src\pqlattice\integer\integer.py`
+- `git commit -m "implement extended euclidean algorithm for integers"`
+- `git add .\tests\__init__.py`
+- `git commit -m "add __init__.py for tests"`
+- `git add .\tests\test_integer.py`
+- `git commit -m "write basic unit test for extended euclidean algorithm for integers"`
+- `git add .\pyproject.toml .\src\pqlattice\types.py`
+- `git commit -m "increase line lenght limit rule for ruff; add TODO comment in types.py"`
+- `git commit -m "create github action for tests"`
+- `git push`
+- `git add .\.github\workflows\test.yaml`
+- `git commit -m "configure test.yaml to call uv run pytest"`
+- `git push`
+- `git add .\JOURNAL.md`
+- `git commit -m "JOURNAL 07.08.2025"`
+- `git tag -a j8 -m "JOURNAL 07.08.2025"`
+- `git push -u origin main`
