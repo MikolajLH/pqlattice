@@ -1,6 +1,7 @@
 def eea(a: int, b: int) -> tuple[int, int, int]:
     """extended euclidean algorithm
     TODO: add doc string
+    TODO: throw exception when a and b are both 0
     """
     old_s, s = 1, 0
     old_r, r = a, b
