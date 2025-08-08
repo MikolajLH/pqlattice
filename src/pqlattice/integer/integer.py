@@ -12,4 +12,9 @@ def eea(a: int, b: int) -> tuple[int, int, int]:
     t = 0 if b == 0 else (old_r - old_s * a) // b
     s = old_s
     gcd = old_r
+    if gcd < 0:
+        gcd = -gcd
+        s = -s
+        t = -t
+
     return gcd, s, t
