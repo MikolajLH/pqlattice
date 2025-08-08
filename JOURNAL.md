@@ -147,3 +147,28 @@
 - `git commit -m "JOURNAL 07.08.2025"`
 - `git tag -a j8 -m "JOURNAL 07.08.2025"`
 - `git push -u origin main`
+# 08.08.2025 - j9
+- `git add .\.github\workflows\docs.yml`
+- `git commit -m "trigger deployment only on relevant changes to documentation"`
+- `git add .\.github\workflows\test.yaml`
+- `git commit -m "add workflow_dispatch option for test action"`
+- `git add .\.github\workflows\test.yaml`
+- `git commit -m "for now only trigger test action on changes in tests directory"`
+- `git mv .\mkdocs.yml .\mkdocs.yaml`
+- `git mv .\.github\workflows\docs.yml .\.github\workflows\docs.yaml`
+- `git commit -m "consistently use .yaml extension"`
+- `git add .\.github\workflows\docs.yaml .\docs\index.md`
+- `git commit --amend`
+- `git push`
+- `pytest`
+- `git add .\tests\test_integer.py`
+- `git commit -m "random tests for eaa"`
+- `git add .\src\pqlattice\integer\integer.py`
+- `git commit -m "fix bug with negative gcd, that was exposed by tests"`
+- `git add .\src\pqlattice\integer\integer.py`
+- `git commit -m "add TODO comment to eea" `
+- `git push`
+- `git add .\JOURNAL.md`
+- `git commit -m "JOURNAL 08.08.2025"`
+- `git tag -a j9 -m "JOURNAL 08.08.2025"`
+- `git push -u origin main`
