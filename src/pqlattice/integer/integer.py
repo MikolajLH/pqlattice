@@ -1,8 +1,10 @@
 def eea(a: int, b: int) -> tuple[int, int, int]:
     """extended euclidean algorithm
     TODO: add doc string
-    TODO: throw exception when a and b are both 0
     """
+    if a == 0 and b == 0:
+        raise ValueError("<PQLE> a and b can't be both zero")
+
     old_s, s = 1, 0
     old_r, r = a, b
     while r != 0:
