@@ -172,3 +172,14 @@
 - `git commit -m "JOURNAL 08.08.2025"`
 - `git tag -a j9 -m "JOURNAL 08.08.2025"`
 - `git push -u origin main`
+# 09.08.2025 - j10
+- `pytest`
+- `git add .\src\pqlattice\integer\integer.py`
+- `git commit -m "make eea throw ValueError on wrong domain"`
+- `git add .\tests\test_integer.py`
+- `git commit -m "test exception throwing, add test for edge cases, group tests in one class"`
+- `git push`
+- `git add .\JOURNAL.md`
+- `git commit -m "JOURNAL 09.08.2025"`
+- `git tag -a j10 -m "JOURNAL 09.08.2025"`
+- `git push -u origin main`
