@@ -183,3 +183,17 @@
 - `git commit -m "JOURNAL 09.08.2025"`
 - `git tag -a j10 -m "JOURNAL 09.08.2025"`
 - `git push -u origin main`
+# 10.08.2025 - j11
+- `git add .\src\pqlattice\integer\integer.py`
+- `git add .\pyproject.toml`
+- `git restore --staged .\src\pqlattice\integer\integer.py`
+- `git commit -m "change line-length rule for ruff"`
+- `git add .\src\pqlattice\integer\integer.py`
+- `git commit -m "write docstring for eea"`
+- `git add .\tests\test_integer.py`
+- `git commit -m "add more test cases for eea"`
+- `git push`
+- `git add .\JOURNAL.md`
+- `git commit -m "JOURNAL 10.08.2025"`
+- `git tag -a j11 -m "JOURNAL 10.08.2025"`
+- `git push -u origin main`
