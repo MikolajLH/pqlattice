@@ -1,6 +1,31 @@
 def eea(a: int, b: int) -> tuple[int, int, int]:
-    """extended euclidean algorithm
-    TODO: add doc string
+    r"""Implementation of [extended euclidean algorithm](https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm) for integers.
+
+    Computes the greatest common divisor of a and b and the coefficients of Bézout's identity.
+
+    Parameters
+    ----------
+    a : int
+    b : int
+
+    Returns
+    -------
+    (gcd, s, t) : tuple[int, int, int]
+        Integers such that a * s + b * t = gcd.
+
+    Raises
+    ------
+    ValueError
+        If both a and b are equal to 0
+
+    Notes
+    -----
+    When a == b, then s = 0 and t = 1, so for any integer x different than 0, eea(x, x) == (x, 0, 1)
+
+    Examples
+    --------
+    >>> eea(240, 46)
+    (2, -9, 47)
     """
     if a == 0 and b == 0:
         raise ValueError("<PQLE> a and b can't be both zero")
