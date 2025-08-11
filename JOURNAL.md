@@ -197,3 +197,12 @@
 - `git commit -m "JOURNAL 10.08.2025"`
 - `git tag -a j11 -m "JOURNAL 10.08.2025"`
 - `git push -u origin main`
+# 11.08.2025 - j12
+- `git add .\src\pqlattice\integer\modring.py`
+- `git commit -m "write modinv function"`
+- `git add .\src\pqlattice\integer\modring.py`
+- `git commit -m "write modpow function"`
+- `git add .\JOURNAL.md`
+- `git commit -m "JOURNAL 11.08.2025"`
+- `git tag -a j12 -m "JOURNAL 11.08.2025"`
+- `git push -u origin main`
