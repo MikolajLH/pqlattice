@@ -206,3 +206,27 @@
 - `git commit -m "JOURNAL 11.08.2025"`
 - `git tag -a j12 -m "JOURNAL 11.08.2025"`
 - `git push -u origin main`
+# 12.08.2025 - j13
+- `git checkout -b types-validator`
+- `git restore --staged .\src\pqlattice\types_validator.py`
+- `git status`
+- `git restore .\src\pqlattice\types_validator.py`
+- `git add .\src\pqlattice\types_validator.py`
+- `git commit -m "write prototype decorator for checking ndarray aliases"`
+- `git add .\src\pqlattice\types_validator.py`
+- `git commit -m "fix logging"`
+- `git add .\src\pqlattice\types_validator.py`
+- `git commit -m "write types predicates"`
+- `git add .\pyproject.toml`
+- `git commit -m "add rule for ignoring PEP8 naming"`
+- `git add .\src\pqlattice\types_validator.py`
+- `git commit -m "write type predicate retriever"`
+- `git checkout main`
+- `git add .\tests\test_modring.py`
+- `git commit -m "create basic unit tests for modinv"`
+- `git add .\tests\test_modring.py`
+- `git commit -m "start writing basic unit tests for modpow"`
+- `git add .\JOURNAL.md`
+- `git commit -m "JOURNAL 12.08.2025"`
+- `git tag -a j13 -m "JOURNAL 12.08.2025"`
+- `git push -u origin main`
