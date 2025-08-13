@@ -8,7 +8,7 @@ PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67
 
 def repeat_test(n: int):  # type: ignore
     def decorator(func):  # type: ignore
-        @pytest.mark.parametrize("repeat_i", range(n))
+        @pytest.mark.parametrize("_repeat_i", range(n))
         @functools.wraps(func)  # type: ignore
         def wrapper(*args, **kwargs):  # type: ignore
             return func(*args, **kwargs)  # type: ignore

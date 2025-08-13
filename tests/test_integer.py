@@ -1,23 +1,18 @@
 import math
-import random
+from collections.abc import Callable
 
 import pytest
 
 from pqlattice.integer.integer import eea
 
-
-def make_randint_gen(a: int, b: int, n: int):
-    for _ in range(n):
-        yield random.randint(a, b)
+from .conftest import repeat_test
 
 
 class Testeea:
-    # TODO: this mark.parametrize is kind of ugly, consider changing it
-    @pytest.mark.parametrize(
-        "a, b",
-        zip(make_randint_gen(-(2**63), 2**63 - 1, 100), make_randint_gen(-(2**63), 2**63 - 1, 100), strict=False),
-    )
-    def test_random(self, a: int, b: int):
+    @repeat_test(50)
+    def test_random(self, _repeat_i: int, gen_int64: Callable[[], int]):
+        a = gen_int64()
+        b = gen_int64()
         gcd, s, t = eea(a, b)
         assert gcd == math.gcd(a, b) and a * s + b * t == gcd
 
