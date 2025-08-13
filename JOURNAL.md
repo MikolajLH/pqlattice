@@ -230,3 +230,22 @@
 - `git commit -m "JOURNAL 12.08.2025"`
 - `git tag -a j13 -m "JOURNAL 12.08.2025"`
 - `git push -u origin main`
+# 13.08.2025 - j14
+- `git add .\tests\conftest.py`
+- `git commit -m "write fixture for generating random int64"`
+- `git add .\tests\conftest.py .\tests\test_modring.py`
+- `git commit -m "write tests for modinv using random fixture"`
+- `git add .\tests\conftest.py`
+- `git commit -m "write repeat_test(n) decorator, add fixtures for other int ranges"`
+- `git add .\tests\`
+- `git commit -m "write more tests for modring, use repeat_test decorator in other tests"`
+- `pytest`
+- `git add .\tests\test_modring.py`
+- `git commit -m "turn off the modring test for now`
+- `git add .\src\pqlattice\integer\modring.py`
+- `git commit -m "raise exception when calling modinv on 0 mod modulus"`
+- `git push`
+- `git add .\JOURNAL.md`
+- `git commit -m "JOURNAL 13.08.2025"`
+- `git tag -a j14 -m "JOURNAL 13.08.2025"`
+- `git push -u origin main`
