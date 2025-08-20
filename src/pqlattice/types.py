@@ -1,7 +1,6 @@
 import numpy as np
 from numpy.typing import NDArray
 
-
 type Float = np.float32
 type Int = np.int64
 

@@ -1,6 +1,24 @@
-from pqlattice.types import *
-from typing import Any, Callable, TypeVar, TypeAliasType, TypeGuard
+from collections.abc import Callable
 from inspect import signature
+from typing import Any, TypeAliasType, TypeGuard
+
+import numpy as np
+from numpy.typing import NDArray
+
+from pqlattice.types import (
+    Float,
+    Int,
+    Matrix,
+    MatrixFloat,
+    MatrixInt,
+    SquareMatrix,
+    SquareMatrixFloat,
+    SquareMatrixInt,
+    Vector,
+    VectorFloat,
+    VectorInt,
+)
+
 
 def _is_nparray(obj: Any) -> TypeGuard[NDArray[Any]]:
     return isinstance(obj, np.ndarray)
@@ -42,44 +60,38 @@ def _is_SquareMatrixFloat(obj: Any) -> TypeGuard[SquareMatrixFloat]:
     return _is_SquareMatrix(obj) and obj.dtype == Float
 
 
-
-T = TypeVar('T', bound=TypeAliasType)
-def get_predicate_for_alias(type_name: T) -> Callable[[T], bool] | None:
-    
+def get_predicate_for_alias[T: TypeAliasType](type_name: T) -> Callable[[T], bool] | None:
     # Bare
     if type_name == Vector:
         return _is_Vector
-    
+
     if type_name == Matrix:
         return _is_Matrix
 
     if type_name == SquareMatrix:
         return _is_SquareMatrix
-    
-    # Ints 
+
+    # Ints
     if type_name == VectorInt:
         return _is_VectorInt
-    
+
     if type_name == MatrixInt:
         return _is_MatrixInt
-    
+
     if type_name == SquareMatrixInt:
         return _is_SquareMatrixInt
-    
 
     # Floats
     if type_name == VectorFloat:
         return _is_VectorFloat
-    
+
     if type_name == MatrixFloat:
         return _is_MatrixFloat
-    
+
     if type_name == SquareMatrixFloat:
         return _is_SquareMatrixFloat
-    
-    
-    return None
 
+    return None
 
 
 def validate_types[**P, T](func: Callable[P, T]) -> Callable[P, T]:
@@ -88,16 +100,21 @@ def validate_types[**P, T](func: Callable[P, T]) -> Callable[P, T]:
         bounded_args = sig.bind(*args, **kwds)
         bounded_args.apply_defaults()
         for arg_name, arg_value in bounded_args.arguments.items():
-            if expected_type := func.__annotations__.get(arg_name): # There is a type annotation for the argument
+            if expected_type := func.__annotations__.get(arg_name):  # There is a type annotation for the argument
                 pred = get_predicate_for_alias(expected_type)
-                if pred is not None: # type annotations has a predicate to be checked
-                    if not pred(arg_value): # predicate is not fullfilled
-                        raise TypeError(f"in function <{func.__name__}> argument <{arg_name}> with value <{arg_value}> of type <{type(arg_value)}> does not fulfill predicate corresponding to expected type {expected_type}")
-                    else: # predicate is fullfilled
+                if pred is not None:  # type annotations has a predicate to be checked
+                    if not pred(arg_value):  # predicate is not fullfilled
+                        raise TypeError(
+                            f"func <{func.__name__}>, arg <{arg_name}> val <{arg_value}> arg's type <{type(arg_value)}> predicate for <{expected_type}> failed"
+                        )
+                    else:  # predicate is fullfilled
                         continue
-                else: # there is no predicate for given type annotation, I am not sure what to do, raise exception for now. TODO: change or remove
-                    raise TypeError(f"In function <{func.__name__}>, argument <{arg_name}> with value <{arg_value}>, No predicate defined for annotation <{expected_type}>")
-            else: # No type annotation for argument - raise exception for debugging purposes. TODO: change or remove
+                else:  # there is no predicate for given type annotation, I am not sure what to do, raise exception for now. TODO: change or remove
+                    raise TypeError(
+                        f"In function <{func.__name__}>, argument <{arg_name}> with value <{arg_value}>, No predicate defined for annotation <{expected_type}>"
+                    )
+            else:  # No type annotation for argument - raise exception for debugging purposes. TODO: change or remove
                 raise NotImplementedError(f"No annotation in function <{func.__name__}>, for argument <{arg_name}> with value <{arg_value}>")
         return func(*args, **kwds)
+
     return wrapper
