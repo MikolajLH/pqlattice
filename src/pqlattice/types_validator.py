@@ -1,44 +1,44 @@
 from pqlattice.types import *
-from typing import Any, Callable, TypeVar, TypeAliasType
+from typing import Any, Callable, TypeVar, TypeAliasType, TypeGuard
 from inspect import signature
 
-def _is_nparray(obj: Any) -> bool:
+def _is_nparray(obj: Any) -> TypeGuard[NDArray[Any]]:
     return isinstance(obj, np.ndarray)
 
 
-def _is_Vector(obj: Any) -> bool:
+def _is_Vector(obj: Any) -> TypeGuard[Vector]:
     return _is_nparray(obj) and len(obj.shape) == 1
 
 
-def _is_Matrix(obj: Any) -> bool:
+def _is_Matrix(obj: Any) -> TypeGuard[Matrix]:
     return _is_nparray(obj) and len(obj.shape) == 2
 
 
-def _is_SquareMatrix(obj: Any) -> bool:
+def _is_SquareMatrix(obj: Any) -> TypeGuard[SquareMatrix]:
     return _is_Matrix(obj) and obj.shape[0] == obj.shape[1]
 
 
-def _is_VectorInt(obj: Any) -> bool:
+def _is_VectorInt(obj: Any) -> TypeGuard[VectorInt]:
     return _is_Vector(obj) and obj.dtype == Int
 
 
-def _is_MatrixInt(obj: Any) -> bool:
+def _is_MatrixInt(obj: Any) -> TypeGuard[MatrixInt]:
     return _is_Matrix(obj) and obj.dtype == Int
 
 
-def _is_SquareMatrixInt(obj: Any) -> bool:
+def _is_SquareMatrixInt(obj: Any) -> TypeGuard[SquareMatrixInt]:
     return _is_SquareMatrix(obj) and obj.dtype == Int
 
 
-def _is_VectorFloat(obj: Any) -> bool:
+def _is_VectorFloat(obj: Any) -> TypeGuard[VectorFloat]:
     return _is_Vector(obj) and obj.dtype == Float
 
 
-def _is_MatrixFloat(obj: Any) -> bool:
+def _is_MatrixFloat(obj: Any) -> TypeGuard[MatrixFloat]:
     return _is_Matrix(obj) and obj.dtype == Float
 
 
-def _is_SquareMatrixFloat(obj: Any) -> bool:
+def _is_SquareMatrixFloat(obj: Any) -> TypeGuard[SquareMatrixFloat]:
     return _is_SquareMatrix(obj) and obj.dtype == Float
 
 
