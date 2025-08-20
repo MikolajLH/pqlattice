@@ -36,7 +36,7 @@ tests = [
 testpaths = 'tests'
 
 [tool.ruff]
-line-length = 150
+line-length = 170
 src = ["src", "tests"]
 fix = true
 
