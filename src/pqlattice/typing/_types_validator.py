@@ -5,7 +5,7 @@ from typing import Any, TypeAliasType, TypeGuard
 import numpy as np
 from numpy.typing import NDArray
 
-from pqlattice.types import (
+from ._types import (
     Float,
     Int,
     Matrix,

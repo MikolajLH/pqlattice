@@ -1,7 +1,29 @@
-from .integer import eea
+from ._integer import eea
 
 
 def modinv(a: int, modulus: int) -> int:
+    """
+    TODO: Write Documentation
+
+    Parameters
+    ----------
+    a : int
+        _description_
+    modulus : int
+        _description_
+
+    Returns
+    -------
+    int
+        _description_
+
+    Raises
+    ------
+    ValueError
+        _description_
+    ValueError
+        _description_
+    """
     if a % modulus == 0:
         raise ValueError(f"{a} mod {modulus} is zero; Modular inverse does not exist")
     gcd, a_inv, _ = eea(a, modulus)
@@ -12,6 +34,23 @@ def modinv(a: int, modulus: int) -> int:
 
 
 def modpow(a: int, r: int, modulus: int) -> int:
+    """
+    TODO: Write Documentation
+
+    Parameters
+    ----------
+    a : int
+        _description_
+    r : int
+        _description_
+    modulus : int
+        _description_
+
+    Returns
+    -------
+    int
+        _description_
+    """
     if r < 0:
         return modpow(modinv(a, modulus), -r, modulus)
 

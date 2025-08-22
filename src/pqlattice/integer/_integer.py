@@ -1,5 +1,6 @@
 def eea(a: int, b: int) -> tuple[int, int, int]:
-    r"""Implementation of [extended euclidean algorithm](https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm) for integers.
+    r"""
+    Implementation of [extended euclidean algorithm](https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm) for integers.
 
     Computes the greatest common divisor of a and b and the coefficients of Bézout's identity.
 
