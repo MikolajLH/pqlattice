@@ -2,7 +2,7 @@ from collections.abc import Callable
 
 import pytest
 
-import pqlattice.integer.modring as mr
+import pqlattice.integer as mr
 
 from .conftest import PRIMES, repeat_test
 

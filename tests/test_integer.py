@@ -3,7 +3,7 @@ from collections.abc import Callable
 
 import pytest
 
-from pqlattice.integer.integer import eea
+from pqlattice.integer import eea
 
 from .conftest import repeat_test
 
