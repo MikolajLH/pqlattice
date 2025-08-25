@@ -31,10 +31,14 @@ docs = [
 tests = [
     "hypothesis[numpy]>=6.142.1",
     "pytest>=8.4.1",
+    "pytest-cov>=7.0.0",
 ]
 
 [tool.pytest.ini_options]
 testpaths = 'tests'
+addopts = [
+    "--import-mode=importlib",
+]
 
 [tool.ruff]
 line-length = 170

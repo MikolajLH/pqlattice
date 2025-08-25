@@ -12,3 +12,6 @@ wheels/
 # vscode settings
 .vscode
 scratchpad
+
+
+.coverage
