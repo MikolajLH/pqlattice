@@ -459,6 +459,11 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/55/16/2c8023ea706dd3ef155b1ffe531cd7672271cd9c70fbbbafba614b218679/hypothesis-6.142.1-py3-none-any.whl", hash = "sha256:95a7d38fcc58e697e3020665adcb951c630cdbc8065e4b4474949e486b06bd6d", size = 533271, upload-time = "2025-10-16T21:05:48.174Z" },
 ]
 
+[package.optional-dependencies]
+numpy = [
+    { name = "numpy" },
+]
+
 [[package]]
 name = "identify"
 version = "2.6.12"
@@ -1154,7 +1159,7 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
-    { name = "hypothesis" },
+    { name = "hypothesis", extra = ["numpy"] },
     { name = "mkdocs" },
     { name = "notebook" },
     { name = "pre-commit" },
@@ -1165,7 +1170,7 @@ docs = [
     { name = "mkdocs" },
 ]
 tests = [
-    { name = "hypothesis" },
+    { name = "hypothesis", extra = ["numpy"] },
     { name = "pytest" },
 ]
 
@@ -1174,7 +1179,7 @@ requires-dist = [{ name = "numpy", specifier = ">=2.3.2" }]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "hypothesis", specifier = ">=6.142.1" },
+    { name = "hypothesis", extras = ["numpy"], specifier = ">=6.142.1" },
     { name = "mkdocs", specifier = ">=1.6.1" },
     { name = "notebook", specifier = ">=7.4.7" },
     { name = "pre-commit", specifier = ">=4.2.0" },
@@ -1183,7 +1188,7 @@ dev = [
 ]
 docs = [{ name = "mkdocs", specifier = ">=1.6.1" }]
 tests = [
-    { name = "hypothesis", specifier = ">=6.142.1" },
+    { name = "hypothesis", extras = ["numpy"], specifier = ">=6.142.1" },
     { name = "pytest", specifier = ">=8.4.1" },
 ]
 
