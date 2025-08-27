@@ -1,4 +1,4 @@
-from . import mod, modinv, modpow
+from . import _modring as mr  # type: ignore
 
 
 class IntModRing:
@@ -43,7 +43,7 @@ class IntModRing:
         _type_
             _description_
         """
-        return mod(a, self.q)
+        return mr.mod(a, self.q)
 
     def pow(self, a: int, r: int):
         """
@@ -61,7 +61,7 @@ class IntModRing:
         _type_
             _description_
         """
-        return self.mod(modpow(a, r, self.q))
+        return self.mod(mr.modpow(a, r, self.q))
 
     def inv(self, a: int):
         """
@@ -77,7 +77,7 @@ class IntModRing:
         _type_
             _description_
         """
-        return self.mod(modinv(a, self.q))
+        return self.mod(mr.modinv(a, self.q))
 
     def add(self, a: int, b: int):
         """
@@ -165,7 +165,7 @@ class IntModRing:
         _type_
             _description_
         """
-        return mod(a, self.q)
+        return mr.mod(a, self.q)
 
     def cmodr(self, a: int):
         """
@@ -181,7 +181,7 @@ class IntModRing:
         _type_
             _description_
         """
-        return mod(a, self.q) - (self.q // 2)
+        return mr.mod(a, self.q) - (self.q // 2)
 
     def cmodl(self, a: int):
         """
@@ -197,4 +197,4 @@ class IntModRing:
         _type_
             _description_
         """
-        return mod(a, self.q) - (self.q // 2) + 1
+        return mr.mod(a, self.q) - (self.q // 2) + 1
