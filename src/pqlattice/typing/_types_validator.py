@@ -1,3 +1,4 @@
+import logging
 from collections.abc import Callable
 from inspect import signature
 from typing import Any, TypeAliasType, TypeGuard
@@ -18,6 +19,8 @@ from ._types import (
     VectorFloat,
     VectorInt,
 )
+
+logger = logging.getLogger(__name__)
 
 
 def _is_nparray(obj: Any) -> TypeGuard[NDArray[Any]]:
@@ -94,8 +97,15 @@ def get_predicate_for_alias[T: TypeAliasType](type_name: T) -> Callable[[T], boo
     return None
 
 
-def validate_types[**P, T](func: Callable[P, T]) -> Callable[P, T]:
+def _peel_type_alias(tp: Any) -> Any:
+    while isinstance(tp, TypeAliasType):
+        tp = tp.__value__
+    return tp
+
+
+def validate_aliases[**P, T](func: Callable[P, T]) -> Callable[P, T]:
     def wrapper(*args: P.args, **kwds: P.kwargs) -> T:
+        # TODO: Is it possible to add memoization?
         sig = signature(func)
         bounded_args = sig.bind(*args, **kwds)
         bounded_args.apply_defaults()
@@ -109,12 +119,14 @@ def validate_types[**P, T](func: Callable[P, T]) -> Callable[P, T]:
                         )
                     else:  # predicate is fullfilled
                         continue
-                else:  # there is no predicate for given type annotation, I am not sure what to do, raise exception for now. TODO: change or remove
-                    raise TypeError(
-                        f"In function <{func.__name__}>, argument <{arg_name}> with value <{arg_value}>, No predicate defined for annotation <{expected_type}>"
-                    )
-            else:  # No type annotation for argument - raise exception for debugging purposes. TODO: change or remove
-                raise NotImplementedError(f"No annotation in function <{func.__name__}>, for argument <{arg_name}> with value <{arg_value}>")
+                else:  # no predicate defined for given type hint
+                    true_tp = _peel_type_alias(expected_type)
+                    msg = f"func <{func.__name__}>, arg <{arg_name}> val <{arg_value}>, arg's type <{type(arg_value)}>, hint <{expected_type}>, true hint <{true_tp}>"
+                    logger.warning(msg)
+            else:  # No type annotation for argument
+                msg = f"No annotation in function <{func.__name__}>, for argument <{arg_name}> with value <{arg_value}>"
+                logger.warning(msg)
+
         return func(*args, **kwds)
 
     return wrapper

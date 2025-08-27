@@ -15,5 +15,3 @@ type SquareMatrixFloat = NDArray[Float]
 type VectorInt = NDArray[Int]
 type MatrixInt = NDArray[Int]
 type SquareMatrixInt = NDArray[Int]
-
-# TODO: Consider using typing.Annotated to define types of values from quotient rings (integer or polynomial)

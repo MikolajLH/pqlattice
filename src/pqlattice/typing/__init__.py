@@ -1,6 +1,4 @@
 from ._types import (
-    Float,
-    Int,
     Matrix,
     MatrixFloat,
     MatrixInt,
@@ -11,11 +9,9 @@ from ._types import (
     VectorFloat,
     VectorInt,
 )
-from ._types_validator import validate_types
+from ._types_validator import validate_aliases
 
 __all__ = [
-    "Float",
-    "Int",
     "Matrix",
     "MatrixFloat",
     "MatrixInt",
@@ -25,5 +21,5 @@ __all__ = [
     "Vector",
     "VectorFloat",
     "VectorInt",
-    "validate_types",
+    "validate_aliases",
 ]
