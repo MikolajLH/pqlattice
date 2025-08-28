@@ -28,15 +28,15 @@ def _is_nparray(obj: Any) -> TypeGuard[NDArray[Any]]:
 
 
 def _is_Vector(obj: Any) -> TypeGuard[Vector]:
-    return _is_nparray(obj) and len(obj.shape) == 1
+    return _is_nparray(obj) and len(obj.shape) == 1 and (obj.dtype == Float or obj.dtype == Int)
 
 
 def _is_Matrix(obj: Any) -> TypeGuard[Matrix]:
-    return _is_nparray(obj) and len(obj.shape) == 2
+    return _is_nparray(obj) and len(obj.shape) == 2 and (obj.dtype == Float or obj.dtype == Int)
 
 
 def _is_SquareMatrix(obj: Any) -> TypeGuard[SquareMatrix]:
-    return _is_Matrix(obj) and obj.shape[0] == obj.shape[1]
+    return _is_Matrix(obj) and obj.shape[0] == obj.shape[1] and (obj.dtype == Float or obj.dtype == Int)
 
 
 def _is_VectorInt(obj: Any) -> TypeGuard[VectorInt]:
@@ -111,6 +111,8 @@ def validate_aliases[**P, T](func: Callable[P, T]) -> Callable[P, T]:
         bounded_args.apply_defaults()
         for arg_name, arg_value in bounded_args.arguments.items():
             if expected_type := func.__annotations__.get(arg_name):  # There is a type annotation for the argument
+                # msg = f"func <{func.__name__}>, arg <{arg_name}>  val <{arg_value}> type <{type(arg_value)}> expected <{expected_type}>"
+                # logger.info(msg)
                 pred = get_predicate_for_alias(expected_type)
                 if pred is not None:  # type annotations has a predicate to be checked
                     if not pred(arg_value):  # predicate is not fullfilled
