@@ -63,7 +63,7 @@ def _is_SquareMatrixFloat(obj: Any) -> TypeGuard[SquareMatrixFloat]:
     return _is_SquareMatrix(obj) and obj.dtype == Float
 
 
-def get_predicate_for_alias[T: TypeAliasType](type_name: T) -> Callable[[T], bool] | None:
+def _get_predicate_for_alias[T: TypeAliasType](type_name: T) -> Callable[[T], bool] | None:
     # Bare
     if type_name == Vector:
         return _is_Vector
@@ -113,7 +113,7 @@ def validate_aliases[**P, T](func: Callable[P, T]) -> Callable[P, T]:
             if expected_type := func.__annotations__.get(arg_name):  # There is a type annotation for the argument
                 # msg = f"func <{func.__name__}>, arg <{arg_name}>  val <{arg_value}> type <{type(arg_value)}> expected <{expected_type}>"
                 # logger.info(msg)
-                pred = get_predicate_for_alias(expected_type)
+                pred = _get_predicate_for_alias(expected_type)
                 if pred is not None:  # type annotations has a predicate to be checked
                     if not pred(arg_value):  # predicate is not fullfilled
                         raise TypeError(
