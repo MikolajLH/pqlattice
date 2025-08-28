@@ -49,32 +49,77 @@ def check_square_matrix_float(a: SquareMatrixFloat):
     pass
 
 
-def test_validate_aliases_with_wrong_types():
-    with pytest.raises(TypeError):
-        check_vector(np.ndarray((12,), dtype=bool))
-        check_vector_int(np.ndarray((17,), dtype=float))
-        check_vector_float(3.14)  # type: ignore
+class TestValidateAliasesWithWrongTypes:
+    def test_vector(self):
+        with pytest.raises(TypeError):
+            check_vector(np.ndarray((12,), dtype=str))
 
-        check_matrix(None)  # type: ignore
-        check_matrix_int(True)  # type: ignore
-        check_matrix_float(np.ndarray((1, 12), dtype=np.int64))  # type: ignore
+    def test_vector_int(self):
+        with pytest.raises(TypeError):
+            check_vector_int(np.ndarray((17,), dtype=float))
 
-        check_square_matrix(False)  # type: ignore
-        check_square_matrix_int(2.78)  # type: ignore
-        check_square_matrix_float(np.ndarray((4, 4), dtype=int))  # type: ignore
+    def test_vector_float(self):
+        with pytest.raises(TypeError):
+            check_vector_float(3.14)  # type: ignore
+
+    def test_matrix(self):
+        with pytest.raises(TypeError):
+            check_matrix(np.ndarray((72, 2), dtype=bool))
+
+    def test_matrix_int(self):
+        with pytest.raises(TypeError):
+            check_matrix_int(True)  # type: ignore
+
+    def test_matrix_float(self):
+        with pytest.raises(TypeError):
+            check_matrix_float(np.ndarray((1, 12), dtype=np.int64))
+
+    def test_square_matrix(self):
+        with pytest.raises(TypeError):
+            check_square_matrix(np.ndarray((12, 12), dtype=None))
+
+    def test_square_matrix_int(self):
+        with pytest.raises(TypeError):
+            check_square_matrix_int(2.78)  # type: ignore
+
+    def test_square_matrix_float(self):
+        with pytest.raises(TypeError):
+            check_square_matrix_float(np.ndarray((4, 4), dtype=int))
 
 
-# def test_validate_aliases_with_wrong_shapes():
-#     with pytest.raises(TypeError):
-#         check_vector(np.ndarray())
-#         check_vector_int(42)
-#         check_vector_float(3.14)
+class TestValidateAliasesWithWrongShapes:
+    def test_vector(self):
+        with pytest.raises(TypeError):
+            check_vector(np.ndarray((2, 4), dtype=int))
 
-#         check_matrix(None)
-#         check_matrix_int(True)
-#         check_matrix_float(b"xxx")
+    def test_vector_int(self):
+        with pytest.raises(TypeError):
+            check_vector_int(np.ndarray((9, 1), dtype=int))
 
-#         check_square_matrix(False)
-#         check_square_matrix_int(2.78)
-#         check_square_matrix_float(7)
-#         pass
+    def test_vector_float(self):
+        with pytest.raises(TypeError):
+            check_vector_float(np.ndarray((1, 4), dtype=float))
+
+    def test_matrix(self):
+        with pytest.raises(TypeError):
+            check_matrix(np.ndarray((4,), dtype=float))
+
+    def test_matrix_int(self):
+        with pytest.raises(TypeError):
+            check_matrix_int(np.ndarray(7, dtype=int))
+
+    def test_matrix_float(self):
+        with pytest.raises(TypeError):
+            check_matrix_float(np.ndarray(13, dtype=float))
+
+    def test_square_matrix(self):
+        with pytest.raises(TypeError):
+            check_square_matrix(np.ndarray((7, 3), dtype=int))
+
+    def test_square_matrix_int(self):
+        with pytest.raises(TypeError):
+            check_square_matrix_int(np.ndarray((1, 5), dtype=int))
+
+    def test_square_matrix_float(self):
+        with pytest.raises(TypeError):
+            check_square_matrix_float(np.ndarray(8, dtype=float))
