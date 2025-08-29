@@ -1,7 +1,7 @@
 from ..typing import MatrixInt, SquareMatrixInt
 
 
-def hnf(a: MatrixInt):
+def mod_ref(a: MatrixInt, modulus: int):
     """
     TODO: write docstring
 
@@ -9,12 +9,14 @@ def hnf(a: MatrixInt):
     ----------
     A : MatrixInt
         _description_
+    modulus : int
+        _description_
     """
     # TODO: implement
     pass
 
 
-def left_kernel(a: MatrixInt):
+def mod_rref(a: MatrixInt, modulus: int):
     """
     TODO: write docstring
 
@@ -22,12 +24,14 @@ def left_kernel(a: MatrixInt):
     ----------
     A : MatrixInt
         _description_
+    modulus : int
+        _description_
     """
     # TODO: implement
     pass
 
 
-def right_kernel(a: MatrixInt):
+def mod_left_kernel(a: MatrixInt, modulus: int):
     """
     TODO: write docstring
 
@@ -35,12 +39,14 @@ def right_kernel(a: MatrixInt):
     ----------
     A : MatrixInt
         _description_
+    modulus : int
+        _description_
     """
     # TODO: implement
     pass
 
 
-def nullity(a: MatrixInt):
+def mod_right_kernel(a: MatrixInt, modulus: int):
     """
     TODO: write docstring
 
@@ -48,12 +54,14 @@ def nullity(a: MatrixInt):
     ----------
     A : MatrixInt
         _description_
+    modulus : int
+        _description_
     """
     # TODO: implement
     pass
 
 
-def det(a: SquareMatrixInt):
+def mod_matinv(a: SquareMatrixInt, modulus: int):
     """
     TODO: write docstring
 
@@ -61,52 +69,7 @@ def det(a: SquareMatrixInt):
     ----------
     A : SquareMatrixInt
         _description_
-    """
-    # TODO: implement
-    pass
-
-
-def minor(a: SquareMatrixInt, i: int, j: int):
-    """
-    TODO: write docstring
-
-    Parameters
-    ----------
-    A : SquareMatrixInt
-        _description_
-    i : int
-        _description_
-    j : int
-        _description_
-    """
-    # TODO: implement
-    pass
-
-
-def cofactor(a: SquareMatrixInt, i: int, j: int):
-    """
-    TODO: write docstring
-
-    Parameters
-    ----------
-    A : SquareMatrixInt
-        _description_
-    i : int
-        _description_
-    j : int
-        _description_
-    """
-    # TODO: implement
-    pass
-
-
-def cofactor_matrix(a: SquareMatrixInt):
-    """
-    TODO: write docstring
-
-    Parameters
-    ----------
-    A : SquareMatrixInt
+    modulus : int
         _description_
     """
     # TODO: implement
