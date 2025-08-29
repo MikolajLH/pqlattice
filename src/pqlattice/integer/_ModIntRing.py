@@ -1,7 +1,7 @@
 from . import _modring as mr  # type: ignore
 
 
-class IntModRing:
+class ModIntRing:
     """
     TODO: write docstring
     """
