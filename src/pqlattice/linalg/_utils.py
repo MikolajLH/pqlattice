@@ -7,15 +7,14 @@ def row_swap(m: Matrix, i: int, k: int) -> None:
 
     Parameters
     ----------
-    M : Matrix
+    m : Matrix
         _description_
     i : int
         _description_
     k : int
         _description_
     """
-    # TODO: implement
-    pass
+    m[(i, k)] = m[(k, i)]
 
 
 def row_scale(m: Matrix, i: int, s: float | int) -> None:
@@ -24,15 +23,14 @@ def row_scale(m: Matrix, i: int, s: float | int) -> None:
 
     Parameters
     ----------
-    M : Matrix
+    m : Matrix
         _description_
     i : int
         _description_
     s : float | int
         _description_
     """
-    # TODO: implement
-    pass
+    m[i] *= s
 
 
 def row_add(m: Matrix, i: int, k: int, s: float | int) -> None:
@@ -41,7 +39,7 @@ def row_add(m: Matrix, i: int, k: int, s: float | int) -> None:
 
     Parameters
     ----------
-    M : Matrix
+    m : Matrix
         _description_
     i : int
         _description_
@@ -50,8 +48,7 @@ def row_add(m: Matrix, i: int, k: int, s: float | int) -> None:
     s : float | int
         _description_
     """
-    # TODO: implement
-    pass
+    m[i] += s * m[k]
 
 
 def col_swap(m: Matrix, i: int, k: int) -> None:
@@ -60,15 +57,14 @@ def col_swap(m: Matrix, i: int, k: int) -> None:
 
     Parameters
     ----------
-    M : Matrix
+    m : Matrix
         _description_
     i : int
         _description_
     k : int
         _description_
     """
-    # TODO: implement
-    pass
+    m[:, (i, k)] = m[:, (k, i)]
 
 
 def col_scale(m: Matrix, i: int, s: float | int) -> None:
@@ -77,15 +73,14 @@ def col_scale(m: Matrix, i: int, s: float | int) -> None:
 
     Parameters
     ----------
-    M : Matrix
+    m : Matrix
         _description_
     i : int
         _description_
     s : float | int
         _description_
     """
-    # TODO: implement
-    pass
+    m[:, i] *= s
 
 
 def col_add(m: Matrix, i: int, k: int, s: float | int) -> None:
@@ -94,7 +89,7 @@ def col_add(m: Matrix, i: int, k: int, s: float | int) -> None:
 
     Parameters
     ----------
-    M : Matrix
+    m : Matrix
         _description_
     i : int
         _description_
@@ -103,5 +98,4 @@ def col_add(m: Matrix, i: int, k: int, s: float | int) -> None:
     s : float | int
         _description_
     """
-    # TODO: implement
-    pass
+    m[:, i] += s * m[:, k]
