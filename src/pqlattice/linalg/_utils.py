@@ -14,7 +14,7 @@ def row_swap(m: Matrix, i: int, k: int) -> None:
     k : int
         _description_
     """
-    m[(i, k)] = m[(k, i)]
+    m[[i, k]] = m[[k, i]]
 
 
 def row_scale(m: Matrix, i: int, s: float | int) -> None:
@@ -64,7 +64,7 @@ def col_swap(m: Matrix, i: int, k: int) -> None:
     k : int
         _description_
     """
-    m[:, (i, k)] = m[:, (k, i)]
+    m[:, [i, k]] = m[:, [k, i]]
 
 
 def col_scale(m: Matrix, i: int, s: float | int) -> None:
