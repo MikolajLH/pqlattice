@@ -3,7 +3,7 @@ from ..typing import Matrix
 
 def row_swap(m: Matrix, i: int, k: int) -> None:
     """
-    TODO: write docsrting
+    TODO: write docstring
 
     Parameters
     ----------
@@ -19,7 +19,7 @@ def row_swap(m: Matrix, i: int, k: int) -> None:
 
 def row_scale(m: Matrix, i: int, s: float | int) -> None:
     """
-    TODO: write docsrting
+    TODO: write docstring
 
     Parameters
     ----------
@@ -35,7 +35,7 @@ def row_scale(m: Matrix, i: int, s: float | int) -> None:
 
 def row_add(m: Matrix, i: int, k: int, s: float | int) -> None:
     """
-    TODO: write docsrting
+    TODO: write docstring
 
     Parameters
     ----------
@@ -53,7 +53,7 @@ def row_add(m: Matrix, i: int, k: int, s: float | int) -> None:
 
 def col_swap(m: Matrix, i: int, k: int) -> None:
     """
-    TODO: write docsrting
+    TODO: write docstring
 
     Parameters
     ----------
@@ -69,7 +69,7 @@ def col_swap(m: Matrix, i: int, k: int) -> None:
 
 def col_scale(m: Matrix, i: int, s: float | int) -> None:
     """
-    TODO: write docsrting
+    TODO: write docstring
 
     Parameters
     ----------
@@ -85,7 +85,7 @@ def col_scale(m: Matrix, i: int, s: float | int) -> None:
 
 def col_add(m: Matrix, i: int, k: int, s: float | int) -> None:
     """
-    TODO: write docsrting
+    TODO: write docstring
 
     Parameters
     ----------

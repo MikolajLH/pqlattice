@@ -3,7 +3,7 @@ from ._integer import eea
 
 def mod(a: int, modulus: int) -> int:
     """
-    TODO: Write documentation
+    TODO: write docstring
     https://en.wikipedia.org/wiki/Euclidean_division
     https://en.wikipedia.org/wiki/Modulo
     https://doc.sagemath.org/html/en/reference/finite_rings/sage/rings/finite_rings/integer_mod.html#sage.rings.finite_rings.integer_mod.Mod
@@ -25,7 +25,7 @@ def mod(a: int, modulus: int) -> int:
 
 def modinv(a: int, modulus: int) -> int:
     """
-    TODO: Write Documentation
+    TODO: write docstring
 
     Parameters
     ----------
@@ -58,7 +58,7 @@ def modinv(a: int, modulus: int) -> int:
 
 def modpow(a: int, r: int, modulus: int) -> int:
     """
-    TODO: Write Documentation
+    TODO: write docstring
 
     Parameters
     ----------

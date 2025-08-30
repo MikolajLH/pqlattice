@@ -3,12 +3,12 @@ from ..typing import VectorInt
 
 class ModIntPolyRing:
     """
-    TODO: write docsrting
+    TODO: write docstring
     """
 
     def __init__(self, modulus: int):
         """
-        TODO: write docsrting
+        TODO: write docstring
 
         Parameters
         ----------
@@ -20,7 +20,7 @@ class ModIntPolyRing:
 
     def reduce(self, polynomial: VectorInt):
         """
-        TODO: write docsrting
+        TODO: write docstring
 
         Parameters
         ----------
@@ -32,7 +32,7 @@ class ModIntPolyRing:
 
     def deg(self, polynomial: VectorInt):
         """
-        TODO: write docsrting
+        TODO: write docstring
 
         Parameters
         ----------
@@ -44,7 +44,7 @@ class ModIntPolyRing:
 
     def add(self, p: VectorInt, q: VectorInt):
         """
-        TODO: write docsrting
+        TODO: write docstring
 
         Parameters
         ----------
@@ -58,7 +58,7 @@ class ModIntPolyRing:
 
     def sub(self, p: VectorInt, q: VectorInt):
         """
-        TODO: write docsrting
+        TODO: write docstring
 
         Parameters
         ----------
@@ -72,7 +72,7 @@ class ModIntPolyRing:
 
     def mul(self, p: VectorInt, q: VectorInt):
         """
-        TODO: write docsrting
+        TODO: write docstring
 
         Parameters
         ----------
@@ -86,7 +86,7 @@ class ModIntPolyRing:
 
     def euclidean_div(self, p: VectorInt, q: VectorInt):
         """
-        TODO: write docsrting
+        TODO: write docstring
 
         Parameters
         ----------
@@ -100,7 +100,7 @@ class ModIntPolyRing:
 
     def rem(self, p: VectorInt, q: VectorInt):
         """
-        TODO: write docsrting
+        TODO: write docstring
 
         Parameters
         ----------
@@ -114,7 +114,7 @@ class ModIntPolyRing:
 
     def to_monic(self, p: VectorInt):
         """
-        TODO: write docsrting
+        TODO: write docstring
 
         Parameters
         ----------
@@ -126,7 +126,7 @@ class ModIntPolyRing:
 
     def gcd(self, p: VectorInt, q: VectorInt):
         """
-        TODO: write docsrting
+        TODO: write docstring
 
         Parameters
         ----------
@@ -140,7 +140,7 @@ class ModIntPolyRing:
 
     def eea(self, p: VectorInt, q: VectorInt):
         """
-        TODO: write docsrting
+        TODO: write docstring
 
         Parameters
         ----------
@@ -154,7 +154,7 @@ class ModIntPolyRing:
 
     def coprime(self, p: VectorInt, q: VectorInt):
         """
-        TODO: write docsrting
+        TODO: write docstring
 
         Parameters
         ----------

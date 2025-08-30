@@ -105,7 +105,7 @@ def _peel_type_alias(tp: Any) -> Any:
 
 def validate_aliases[**P, T](func: Callable[P, T]) -> Callable[P, T]:
     """
-    TODO: write docstrings
+    TODO: write docstring
     """
 
     def wrapper(*args: P.args, **kwds: P.kwargs) -> T:

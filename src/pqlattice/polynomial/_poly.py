@@ -3,7 +3,7 @@ from ..typing import Int, VectorInt
 
 def pad(p: VectorInt, max_deg: int) -> VectorInt:
     """
-    TODO: write docstrings
+    TODO: write docstring
 
     Parameters
     ----------
@@ -23,7 +23,7 @@ def pad(p: VectorInt, max_deg: int) -> VectorInt:
 
 def trim(p: VectorInt) -> VectorInt:
     """
-    TODO: write docstrings
+    TODO: write docstring
 
     Parameters
     ----------
@@ -41,7 +41,7 @@ def trim(p: VectorInt) -> VectorInt:
 
 def add(p: VectorInt, q: VectorInt) -> VectorInt:
     """
-    TODO: write docstrings
+    TODO: write docstring
 
     Parameters
     ----------
@@ -61,7 +61,7 @@ def add(p: VectorInt, q: VectorInt) -> VectorInt:
 
 def sub(p: VectorInt, q: VectorInt) -> VectorInt:
     """
-    TODO: write docstrings
+    TODO: write docstring
 
     Parameters
     ----------
@@ -81,7 +81,7 @@ def sub(p: VectorInt, q: VectorInt) -> VectorInt:
 
 def mul(p: VectorInt, q: VectorInt) -> VectorInt:
     """
-    TODO: write docstrings
+    TODO: write docstring
 
     Parameters
     ----------
@@ -101,7 +101,7 @@ def mul(p: VectorInt, q: VectorInt) -> VectorInt:
 
 def monomial(coeff: Int, degree: Int) -> VectorInt:
     """
-    TODO: write docstrings
+    TODO: write docstring
 
     Parameters
     ----------
@@ -121,7 +121,7 @@ def monomial(coeff: Int, degree: Int) -> VectorInt:
 
 def const_poly(coeff: Int, max_deg: Int | None = None) -> VectorInt:
     """
-    TODO: write docstrings
+    TODO: write docstring
 
     Parameters
     ----------
@@ -141,7 +141,7 @@ def const_poly(coeff: Int, max_deg: Int | None = None) -> VectorInt:
 
 def zero_poly(max_deg: Int | None = None) -> VectorInt:
     """
-    TODO: write docstrings
+    TODO: write docstring
 
     Parameters
     ----------
@@ -159,7 +159,7 @@ def zero_poly(max_deg: Int | None = None) -> VectorInt:
 
 def is_zero_poly(p: VectorInt) -> bool:
     """
-    TODO: write docstrings
+    TODO: write docstring
 
     Parameters
     ----------
