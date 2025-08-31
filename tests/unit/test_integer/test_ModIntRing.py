@@ -43,7 +43,7 @@ def test_cmodr(modulus: int, a: int):
 @given(modulus=st.integers().filter(lambda x: abs(x) > 1), a=st.integers())
 def test_cmodl(modulus: int, a: int):
     R = ModIntRing(modulus)
-    ra = R.cmodr(a)
+    ra = R.cmodl(a)
     m = abs(modulus)
 
     right_end = m // 2 if m % 2 == 0 else floor(m / 2)
