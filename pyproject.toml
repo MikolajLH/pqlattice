@@ -58,7 +58,7 @@ select = [
   "T20",  # flake8-print (warns on print/debug)
   "ARG",  # flake8-unused arguments
 ]
-ignore = ["N802", "N999"]
+ignore = ["N802", "N999", "N806"]
 
 [tool.ruff.format]
 docstring-code-format = true
