@@ -15,6 +15,9 @@ class ModIntRing:
         modulus : int
             _description_
         """
+        if abs(modulus) < 2:
+            raise ValueError(f"absolute value of modulus has to greater than one, given modulus: {modulus}")
+
         self._modulus = abs(modulus)
 
     @property
@@ -167,22 +170,6 @@ class ModIntRing:
         """
         return mr.mod(a, self.q)
 
-    def cmodr(self, a: int):
-        """
-        TODO: write docstring
-
-        Parameters
-        ----------
-        a : int
-            _description_
-
-        Returns
-        -------
-        _type_
-            _description_
-        """
-        return mr.mod(a, self.q) - (self.q // 2)
-
     def cmodl(self, a: int):
         """
         TODO: write docstring
@@ -197,4 +184,20 @@ class ModIntRing:
         _type_
             _description_
         """
-        return mr.mod(a, self.q) - (self.q // 2) + 1
+        return mr.mod(a, self.q) - self.q // 2
+
+    def cmodr(self, a: int):
+        """
+        TODO: write docstring
+
+        Parameters
+        ----------
+        a : int
+            _description_
+
+        Returns
+        -------
+        _type_
+            _description_
+        """
+        return mr.mod(a, self.q) - int(self.q / 2 - 0.1)
