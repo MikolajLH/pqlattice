@@ -82,6 +82,17 @@ class ModIntRing:
         """
         return self.mod(mr.modinv(a, self.q))
 
+    def neg(self, a: int):
+        """
+        TODO: write docstring
+
+        Parameters
+        ----------
+        a : int
+            _description_
+        """
+        return self.mod(-a)
+
     def add(self, a: int, b: int):
         """
         TODO: write docstring
