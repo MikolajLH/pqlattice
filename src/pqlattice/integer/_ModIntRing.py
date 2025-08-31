@@ -184,7 +184,7 @@ class ModIntRing:
         _type_
             _description_
         """
-        return mr.mod(a, self.q) - self.q // 2
+        return mr.cmodl(a, self.q)
 
     def cmodr(self, a: int):
         """
@@ -200,4 +200,4 @@ class ModIntRing:
         _type_
             _description_
         """
-        return mr.mod(a, self.q) - int(self.q / 2 - 0.1)
+        return mr.cmodr(a, self.q)

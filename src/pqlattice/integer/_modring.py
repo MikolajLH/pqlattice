@@ -23,6 +23,44 @@ def mod(a: int, modulus: int) -> int:
     return a % abs(modulus)
 
 
+def cmodl(a: int, modulus: int) -> int:
+    """
+    TODO: write docstring
+
+    Parameters
+    ----------
+    a : int
+        _description_
+    modulus : int
+        _description_
+
+    Returns
+    -------
+    int
+        _description_
+    """
+    return mod(a, modulus) - modulus // 2
+
+
+def cmodr(a: int, modulus: int) -> int:
+    """
+    TODO: write docstring
+
+    Parameters
+    ----------
+    a : int
+        _description_
+    modulus : int
+        _description_
+
+    Returns
+    -------
+    int
+        _description_
+    """
+    return mod(a, modulus) - int(modulus / 2 - 0.1)
+
+
 def modinv(a: int, modulus: int) -> int:
     """
     TODO: write docstring
@@ -85,3 +123,24 @@ def modpow(a: int, r: int, modulus: int) -> int:
         r //= 2
         z = mod(z * z, modulus)
     return y
+
+
+def pmodinv(a: int, p: int) -> int:
+    """
+    TODO: write docstring
+    use Euler-Fermat Theorem,
+    asume p is prime number
+    Parameters
+    ----------
+    a : int
+        _description_
+    p : int
+        _description_
+
+    Returns
+    -------
+    int
+        _description_
+    """
+    phi = p - 1
+    return modpow(a, phi - 1, p)
