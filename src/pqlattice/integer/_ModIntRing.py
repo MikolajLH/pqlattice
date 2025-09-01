@@ -32,7 +32,10 @@ class ModIntRing:
         """
         return self._modulus
 
-    def mod(self, a: int):
+    def is_zero(self, a: int) -> bool:
+        return self.pmod(a) == 0
+
+    def mod(self, a: int) -> int:
         """
         TODO: write docstring
 
@@ -48,7 +51,7 @@ class ModIntRing:
         """
         return mr.mod(a, self.q)
 
-    def pow(self, a: int, r: int):
+    def pow(self, a: int, r: int) -> int:
         """
         TODO: write docstring
 
@@ -66,7 +69,7 @@ class ModIntRing:
         """
         return self.mod(mr.modpow(a, r, self.q))
 
-    def inv(self, a: int):
+    def inv(self, a: int) -> int:
         """
         TODO: write docstring
 
@@ -82,7 +85,7 @@ class ModIntRing:
         """
         return self.mod(mr.modinv(a, self.q))
 
-    def neg(self, a: int):
+    def neg(self, a: int) -> int:
         """
         TODO: write docstring
 
@@ -93,7 +96,7 @@ class ModIntRing:
         """
         return self.mod(-a)
 
-    def add(self, a: int, b: int):
+    def add(self, a: int, b: int) -> int:
         """
         TODO: write docstring
 
@@ -111,7 +114,7 @@ class ModIntRing:
         """
         return self.mod(a + b)
 
-    def mul(self, a: int, b: int):
+    def mul(self, a: int, b: int) -> int:
         """
         TODO: write docstring
 
@@ -129,7 +132,7 @@ class ModIntRing:
         """
         return self.mod(a * b)
 
-    def div(self, a: int, b: int):
+    def div(self, a: int, b: int) -> int:
         """
         TODO: write docstring
 
@@ -147,7 +150,7 @@ class ModIntRing:
         """
         return self.mul(a, self.inv(b))
 
-    def sub(self, a: int, b: int):
+    def sub(self, a: int, b: int) -> int:
         """
         TODO: write docstring
 
@@ -165,7 +168,7 @@ class ModIntRing:
         """
         return self.mod(a - b)
 
-    def pmod(self, a: int):
+    def pmod(self, a: int) -> int:
         """
         TODO: write docstring
 
@@ -181,7 +184,7 @@ class ModIntRing:
         """
         return mr.mod(a, self.q)
 
-    def cmodl(self, a: int):
+    def cmodl(self, a: int) -> int:
         """
         TODO: write docstring
 
@@ -197,7 +200,7 @@ class ModIntRing:
         """
         return mr.cmodl(a, self.q)
 
-    def cmodr(self, a: int):
+    def cmodr(self, a: int) -> int:
         """
         TODO: write docstring
 
