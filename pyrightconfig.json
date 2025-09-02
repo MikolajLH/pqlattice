@@ -4,6 +4,7 @@
   "reportMissingTypeStubs": false,
   "reportUnusedImport": false,
   "include": ["src", "tests"],
+  "ignore": ["tests/conftest.py"],
   "venvPath": ".",
   "venv": ".venv"
 }
