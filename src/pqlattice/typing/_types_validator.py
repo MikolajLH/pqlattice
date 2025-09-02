@@ -28,15 +28,15 @@ def _is_nparray(obj: Any) -> TypeGuard[NDArray[Any]]:
 
 
 def _is_Vector(obj: Any) -> TypeGuard[Vector]:
-    return _is_nparray(obj) and len(obj.shape) == 1 and (obj.dtype == Float or obj.dtype == Int)
+    return _is_nparray(obj) and len(obj.shape) == 1
 
 
 def _is_Matrix(obj: Any) -> TypeGuard[Matrix]:
-    return _is_nparray(obj) and len(obj.shape) == 2 and (obj.dtype == Float or obj.dtype == Int)
+    return _is_nparray(obj) and len(obj.shape) == 2
 
 
 def _is_SquareMatrix(obj: Any) -> TypeGuard[SquareMatrix]:
-    return _is_Matrix(obj) and obj.shape[0] == obj.shape[1] and (obj.dtype == Float or obj.dtype == Int)
+    return _is_Matrix(obj) and obj.shape[0] == obj.shape[1]
 
 
 def _is_VectorInt(obj: Any) -> TypeGuard[VectorInt]:
