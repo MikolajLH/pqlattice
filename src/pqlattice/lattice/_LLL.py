@@ -25,6 +25,7 @@ def GSO(B: Matrix) -> tuple[MatrixFloat, SquareMatrixFloat]:
     return B_star, U  # type: ignore
 
 
+@validate_aliases
 def LLL(lattice_basis: SquareMatrix, delta: float = 0.75) -> SquareMatrixFloat:
     n = lattice_basis.shape[0]
     B = lattice_basis.astype(float)
@@ -47,3 +48,22 @@ def LLL(lattice_basis: SquareMatrix, delta: float = 0.75) -> SquareMatrixFloat:
         if not exists:
             break
     return B
+
+
+def is_size_reduced(lattice_basis: Matrix) -> bool:
+    _, U = GSO(lattice_basis)
+    Z = np.fromfunction(lambda i, j: i < j, U.shape)  # type: ignore
+
+    return np.all(np.abs(U[Z.nonzero()]) <= 0.5)  # type: ignore
+
+
+def lovasz_condition(lattice_basis: Matrix, delta: float) -> bool:
+    norm2: Callable[[np.ndarray], float] = lambda x: np.sum(x * x, axis=1)
+    G, U = GSO(lattice_basis)
+    lhs = delta * norm2(G[:-1])
+    rhs = norm2(G[1:] + np.diag(U, 1)[:, np.newaxis] * G[:-1])
+    return np.all(lhs <= rhs)  # type: ignore
+
+
+def is_LLL_reduced(lattice_basis: Matrix, delta: float):
+    return is_size_reduced(lattice_basis) and lovasz_condition(lattice_basis, delta)
