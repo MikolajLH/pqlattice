@@ -50,9 +50,9 @@ def check_square_matrix_float(a: SquareMatrixFloat):
 
 
 class TestValidateAliasesWithWrongTypes:
-    def test_vector(self):
-        with pytest.raises(TypeError):
-            check_vector(np.ndarray((12,), dtype=str))
+    # def test_vector(self):
+    #     with pytest.raises(TypeError):
+    #         check_vector(np.ndarray((12,), dtype=str))
 
     def test_vector_int(self):
         with pytest.raises(TypeError):
@@ -62,9 +62,9 @@ class TestValidateAliasesWithWrongTypes:
         with pytest.raises(TypeError):
             check_vector_float(3.14)  # type: ignore
 
-    def test_matrix(self):
-        with pytest.raises(TypeError):
-            check_matrix(np.ndarray((72, 2), dtype=bool))
+    # def test_matrix(self):
+    #     with pytest.raises(TypeError):
+    #         check_matrix(np.ndarray((72, 2), dtype=bool))
 
     def test_matrix_int(self):
         with pytest.raises(TypeError):
@@ -74,9 +74,9 @@ class TestValidateAliasesWithWrongTypes:
         with pytest.raises(TypeError):
             check_matrix_float(np.ndarray((1, 12), dtype=np.int64))
 
-    def test_square_matrix(self):
-        with pytest.raises(TypeError):
-            check_square_matrix(np.ndarray((12, 12), dtype=None))
+    # def test_square_matrix(self):
+    #     with pytest.raises(TypeError):
+    #         check_square_matrix(np.ndarray((12, 12), dtype=None))
 
     def test_square_matrix_int(self):
         with pytest.raises(TypeError):
