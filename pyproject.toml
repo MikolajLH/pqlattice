@@ -29,6 +29,7 @@ docs = [
 ]
 
 tests = [
+    "gmpy2>=2.2.2",
     "hypothesis[numpy]>=6.142.1",
     "pytest>=8.4.1",
     "pytest-benchmark[histogram]>=5.1.0",
