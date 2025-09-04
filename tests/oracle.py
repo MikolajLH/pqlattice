@@ -1,5 +1,11 @@
 # pyright: reportAttributeAccessIssue=false
+import math
+
 import gmpy2
+
+
+def gcd(a: int, b: int) -> int:
+    return math.gcd(a, b)
 
 
 def is_prime(n: int) -> bool:
