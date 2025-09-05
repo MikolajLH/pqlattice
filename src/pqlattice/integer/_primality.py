@@ -1,65 +1,11 @@
+import logging
 import random
 from collections.abc import Callable
 
 from . import _modring as mr  # type: ignore
+from . import _primes as primes
 
-# All primes less than 256
-SMALL_PRIMES = (
-    2,
-    3,
-    5,
-    7,
-    11,
-    13,
-    17,
-    19,
-    23,
-    29,
-    31,
-    37,
-    41,
-    43,
-    47,
-    53,
-    59,
-    61,
-    67,
-    71,
-    73,
-    79,
-    83,
-    89,
-    97,
-    101,
-    103,
-    107,
-    109,
-    113,
-    127,
-    131,
-    137,
-    139,
-    149,
-    151,
-    157,
-    163,
-    167,
-    173,
-    179,
-    181,
-    191,
-    193,
-    197,
-    199,
-    211,
-    223,
-    227,
-    229,
-    233,
-    239,
-    241,
-    251,
-)
+logger = logging.getLogger(__name__)
 
 
 def fermat_primality_test(p: int, s: int, int_gen: Callable[[int, int], int] | None = None) -> bool:
@@ -93,47 +39,51 @@ def fermat_primality_test(p: int, s: int, int_gen: Callable[[int, int], int] | N
     return True
 
 
-def miller_rabin_primality_test(p: int, s: int, int_gen: Callable[[int, int], int] | None = None) -> bool:
+def miller_rabin_primality_test(n: int, s: int, int_gen: Callable[[int, int], int] | None = None) -> bool:
     """
     TODO: write docstring
+    Hoffstein - An Introduction to Mathematical Cryptography p. 131
+    Understanding Cryptography p. 191
+    https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test
 
     Parameters
     ----------
-    p : int
+    n : int
         _description_
-    s : int
+    a : int
         _description_
-    int_gen : Callable[[int, int], int] | None, optional
-        _description_, by default None
 
     Returns
     -------
     bool
         _description_
     """
-    if p <= 1:
-        return False
-
     if int_gen is None:
-        int_gen = lambda a, b: random.randint(a, b - 1)
+        int_gen = lambda a, b: random.randint(a, b)
 
+    # n - 1 = r * 2 ** u
     u = 0
-    r = p - 1
+    r = n - 1
     while r % 2 == 0:
         u += 1
         r //= 2
 
+    # assert n - 1 == r * 2 ** u, f"{n - 1=}, {r=}, {u=}, {2**u=}, {r * 2 ** u=}"
+
     for _ in range(s):
-        a = int_gen(2, p - 2)
-        z = mr.modpow(a, r, p)
-        if z != 1 and z != p - 1:
-            for _ in range(u - 1):
-                z = (z * z) % p
-                if z == 1:
-                    return False
-            if z != p - 1:
+        a = int_gen(2, n - 2)
+        z = mr.modpow(a, r, n)
+        for _ in range(u):
+            y = mr.mod(z * z, n)
+            if y == 1 and z != 1 and z != n - 1:
+                # composite
                 return False
-        return True
+            z = y
+        if z != 1:
+            # composite
+            return False
+
+    # likely prime
     return True
 
 
@@ -154,11 +104,11 @@ def is_prime(p: int) -> bool:
     if p <= 1:
         return False
 
-    if p in SMALL_PRIMES:
-        return True
+    for prime in primes.SMALL_PRIMES:
+        if p == prime:
+            return True
 
-    for prime in SMALL_PRIMES:
         if p % prime == 0:
             return False
 
-    return miller_rabin_primality_test(p, 20, lambda a, b: random.randint(a, b - 1))
+    return miller_rabin_primality_test(p, 20)
