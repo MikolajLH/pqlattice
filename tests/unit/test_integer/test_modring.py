@@ -7,15 +7,16 @@ from hypothesis import strategies as st
 from pqlattice.integer._modring import mod, modinv, modpow
 
 
-@given(a=st.integers(), m=st.integers())
-def test_mod(a: int, m: int):
-    if m == 0:
-        with pytest.raises(ZeroDivisionError):
-            mod(a, m)
-    else:
-        r = mod(a, m)
-        assert 0 <= r < abs(m)
-        assert (a - r) % m == 0
+class TestMod:
+    @given(a=st.integers(), m=st.integers())
+    def test_mod_properties(self, a: int, m: int):
+        if m == 0:
+            with pytest.raises(ZeroDivisionError):
+                mod(a, m)
+        else:
+            r = mod(a, m)
+            assert 0 <= r < abs(m)
+            assert (a - r) % m == 0
 
 
 class TestModInv:
