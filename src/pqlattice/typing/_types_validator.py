@@ -64,6 +64,19 @@ def _is_SquareMatrixFloat(obj: Any) -> TypeGuard[SquareMatrixFloat]:
 
 
 def _get_predicate_for_alias[T: TypeAliasType](type_name: T) -> Callable[[T], bool] | None:
+    """
+    TODO: write docstring
+
+    Parameters
+    ----------
+    type_name : T
+        _description_
+
+    Returns
+    -------
+    Callable[[T], bool] | None
+        _description_
+    """
     # Bare
     if type_name == Vector:
         return _is_Vector
@@ -98,6 +111,19 @@ def _get_predicate_for_alias[T: TypeAliasType](type_name: T) -> Callable[[T], bo
 
 
 def _peel_type_alias(tp: Any) -> Any:
+    """
+    TODO: write docstring
+
+    Parameters
+    ----------
+    tp : Any
+        _description_
+
+    Returns
+    -------
+    Any
+        _description_
+    """
     while isinstance(tp, TypeAliasType):
         tp = tp.__value__
     return tp
@@ -106,6 +132,16 @@ def _peel_type_alias(tp: Any) -> Any:
 def validate_aliases[**P, T](func: Callable[P, T]) -> Callable[P, T]:
     """
     TODO: write docstring
+
+    Parameters
+    ----------
+    func : Callable[P, T]
+        _description_
+
+    Returns
+    -------
+    Callable[P, T]
+        _description_
     """
 
     def wrapper(*args: P.args, **kwds: P.kwargs) -> T:
