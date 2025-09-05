@@ -35,7 +35,7 @@ def test_cmodr(modulus: int, a: int):
 
     left_end = -m // 2 if m % 2 == 0 else -floor(m / 2)
 
-    assert -m / 2 <= float(ra) <= m / 2
+    assert -m / 2 <= ra <= m / 2
     if m % 2 == 0:
         assert ra != left_end
 
