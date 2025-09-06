@@ -1,6 +1,7 @@
-from ..typing import MatrixInt, SquareMatrixInt
+from ..typing import MatrixInt, SquareMatrixInt, validate_aliases
 
 
+@validate_aliases
 def hnf(a: MatrixInt):
     """
     TODO: write docstring
@@ -14,6 +15,7 @@ def hnf(a: MatrixInt):
     pass
 
 
+@validate_aliases
 def left_kernel(a: MatrixInt):
     """
     TODO: write docstring
@@ -27,6 +29,7 @@ def left_kernel(a: MatrixInt):
     pass
 
 
+@validate_aliases
 def right_kernel(a: MatrixInt):
     """
     TODO: write docstring
@@ -40,6 +43,7 @@ def right_kernel(a: MatrixInt):
     pass
 
 
+@validate_aliases
 def nullity(a: MatrixInt):
     """
     TODO: write docstring
@@ -53,6 +57,7 @@ def nullity(a: MatrixInt):
     pass
 
 
+@validate_aliases
 def det(a: SquareMatrixInt):
     """
     TODO: write docstring
@@ -66,6 +71,7 @@ def det(a: SquareMatrixInt):
     pass
 
 
+@validate_aliases
 def minor(a: SquareMatrixInt, i: int, j: int):
     """
     TODO: write docstring
@@ -83,6 +89,7 @@ def minor(a: SquareMatrixInt, i: int, j: int):
     pass
 
 
+@validate_aliases
 def cofactor(a: SquareMatrixInt, i: int, j: int):
     """
     TODO: write docstring
@@ -100,6 +107,7 @@ def cofactor(a: SquareMatrixInt, i: int, j: int):
     pass
 
 
+@validate_aliases
 def cofactor_matrix(a: SquareMatrixInt):
     """
     TODO: write docstring
