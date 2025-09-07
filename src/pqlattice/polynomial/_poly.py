@@ -1,6 +1,35 @@
+from collections.abc import Iterable
+
 import numpy as np
 
 from ..typing import VectorInt, validate_aliases
+
+
+@validate_aliases
+def make_poly(data: Iterable[int | float]) -> VectorInt:
+    """_summary_
+
+    Parameters
+    ----------
+    data : Iterable[int | float]
+        _description_
+
+    Returns
+    -------
+    VectorInt
+        _description_
+
+    Raises
+    ------
+    ValueError
+        _description_
+    """
+    arr = np.array(data, dtype=np.int_)
+
+    if arr.ndim != 1:
+        raise ValueError(f"Expected 1D iterable, got {arr.ndim}D")
+
+    return arr
 
 
 @validate_aliases
