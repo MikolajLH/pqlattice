@@ -7,8 +7,6 @@ import numpy as np
 from numpy.typing import NDArray
 
 from ._types import (
-    Float,
-    Int,
     Matrix,
     MatrixFloat,
     MatrixInt,
@@ -40,27 +38,27 @@ def _is_SquareMatrix(obj: Any) -> TypeGuard[SquareMatrix]:
 
 
 def _is_VectorInt(obj: Any) -> TypeGuard[VectorInt]:
-    return _is_Vector(obj) and obj.dtype == Int
+    return _is_Vector(obj) and np.issubdtype(obj.dtype, np.integer)
 
 
 def _is_MatrixInt(obj: Any) -> TypeGuard[MatrixInt]:
-    return _is_Matrix(obj) and obj.dtype == Int
+    return _is_Matrix(obj) and np.issubdtype(obj.dtype, np.integer)
 
 
 def _is_SquareMatrixInt(obj: Any) -> TypeGuard[SquareMatrixInt]:
-    return _is_SquareMatrix(obj) and obj.dtype == Int
+    return _is_SquareMatrix(obj) and np.issubdtype(obj.dtype, np.integer)
 
 
 def _is_VectorFloat(obj: Any) -> TypeGuard[VectorFloat]:
-    return _is_Vector(obj) and obj.dtype == Float
+    return _is_Vector(obj) and np.issubdtype(obj.dtype, np.floating)
 
 
 def _is_MatrixFloat(obj: Any) -> TypeGuard[MatrixFloat]:
-    return _is_Matrix(obj) and obj.dtype == Float
+    return _is_Matrix(obj) and np.issubdtype(obj.dtype, np.floating)
 
 
 def _is_SquareMatrixFloat(obj: Any) -> TypeGuard[SquareMatrixFloat]:
-    return _is_SquareMatrix(obj) and obj.dtype == Float
+    return _is_SquareMatrix(obj) and np.issubdtype(obj.dtype, np.floating)
 
 
 def _get_predicate_for_alias[T: TypeAliasType](type_name: T) -> Callable[[T], bool] | None:
