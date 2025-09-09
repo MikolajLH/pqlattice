@@ -4,7 +4,7 @@ import pytest
 from hypothesis import assume, given
 from hypothesis import strategies as st
 
-from pqlattice.integer import ModIntRing
+from pqlattice.integer._modintring import ModIntRing
 
 
 @given(modulus=st.integers().filter(lambda x: abs(x) > 1))
