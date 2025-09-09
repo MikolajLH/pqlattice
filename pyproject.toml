@@ -59,8 +59,15 @@ select = [
   "SIM",  # flake8-simplify
   "T20",  # flake8-print (warns on print/debug)
   "ARG",  # flake8-unused arguments
+  "NPY",  # NumPy-specific rules
 ]
-ignore = ["N802", "N999", "N806", "E731", "N803"]
+ignore = [
+    "N802", # https://docs.astral.sh/ruff/rules/invalid-function-name/#invalid-function-name-n802
+    # "N999", # https://docs.astral.sh/ruff/rules/invalid-module-name/#invalid-module-name-n999
+    "N806", # https://docs.astral.sh/ruff/rules/non-lowercase-variable-in-function/#non-lowercase-variable-in-function-n806
+    "E731", # https://docs.astral.sh/ruff/rules/lambda-assignment/#lambda-assignment-e731
+    "N803", # https://docs.astral.sh/ruff/rules/invalid-argument-name/#invalid-argument-name-n803
+]
 
 [tool.ruff.format]
 docstring-code-format = true
