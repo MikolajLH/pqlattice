@@ -1,3 +1,5 @@
+import numpy as np
+
 from ._integer import eea
 
 
@@ -23,6 +25,9 @@ def mod(a: int, modulus: int) -> int:
     return a % abs(modulus)
 
 
+vmod = np.vectorize(mod, excluded=["modulus"], doc=mod.__doc__)
+
+
 def cmodl(a: int, modulus: int) -> int:
     """
     TODO: write docstring
@@ -42,6 +47,9 @@ def cmodl(a: int, modulus: int) -> int:
     return mod(a, modulus) - modulus // 2
 
 
+vcmodl = np.vectorize(cmodl, excluded=["modulus"], doc=cmodl.__doc__)
+
+
 def cmodr(a: int, modulus: int) -> int:
     """
     TODO: write docstring
@@ -59,6 +67,9 @@ def cmodr(a: int, modulus: int) -> int:
         _description_
     """
     return mod(a, modulus) - int(modulus / 2 - 0.1)
+
+
+vcmodr = np.vectorize(cmodr, excluded=["modulus"], doc=cmodr.__doc__)
 
 
 def modinv(a: int, modulus: int) -> int:
@@ -94,6 +105,9 @@ def modinv(a: int, modulus: int) -> int:
     return mod(a_inv, modulus)
 
 
+vmodinv = np.vectorize(modinv, excluded=["modulus"], doc=modinv.__doc__)
+
+
 def modpow(a: int, r: int, modulus: int) -> int:
     """
     TODO: write docstring
@@ -123,6 +137,9 @@ def modpow(a: int, r: int, modulus: int) -> int:
         r //= 2
         z = mod(z * z, modulus)
     return y
+
+
+vmodpow = np.vectorize(modpow, excluded=["r", "modulus"], doc=modpow.__doc__)
 
 
 def pmodinv(a: int, p: int) -> int:
