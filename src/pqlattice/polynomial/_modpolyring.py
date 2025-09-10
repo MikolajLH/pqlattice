@@ -1,4 +1,6 @@
-from ..typing import VectorInt
+from ..integer._modring import modinv, vmod
+from ..typing import VectorInt, validate_aliases
+from . import _poly as poly
 
 
 class ModIntPolyRing:
@@ -14,11 +16,19 @@ class ModIntPolyRing:
         ----------
         modulus : int
             _description_
-        """
-        # TODO: implement
-        pass
 
-    def reduce(self, polynomial: VectorInt):
+        Raises
+        ------
+        ValueError
+            _description_
+        """
+        if modulus <= 1:
+            raise ValueError("Modulus has to be greater than 1")
+
+        self.modulus = modulus
+
+    @validate_aliases
+    def reduce(self, polynomial: VectorInt) -> VectorInt:
         """
         TODO: write docstring
 
@@ -27,10 +37,27 @@ class ModIntPolyRing:
         polynomial : VectorInt
             _description_
         """
-        # TODO: implement
-        pass
+        return poly.trim(vmod(polynomial, self.modulus))
 
-    def deg(self, polynomial: VectorInt):
+    @validate_aliases
+    def is_zero(self, polynomial: VectorInt) -> bool:
+        """
+        TODO: write docstring
+
+        Parameters
+        ----------
+        polynomial : VectorInt
+            _description_
+
+        Returns
+        -------
+        bool
+            _description_
+        """
+        return poly.is_zero_poly(self.reduce(polynomial))
+
+    @validate_aliases
+    def deg(self, polynomial: VectorInt) -> int:
         """
         TODO: write docstring
 
@@ -39,129 +66,210 @@ class ModIntPolyRing:
         polynomial : VectorInt
             _description_
         """
-        # TODO: implement
-        pass
+        return poly.deg(self.reduce(polynomial))
 
-    def add(self, p: VectorInt, q: VectorInt):
+    @validate_aliases
+    def add(self, polynomial_a: VectorInt, polynomial_b: VectorInt) -> VectorInt:
         """
         TODO: write docstring
 
         Parameters
         ----------
-        p : VectorInt
+        polynomial_a : VectorInt
             _description_
-        q : VectorInt
+        polynomial_b : VectorInt
+            _description_
+
+        Returns
+        -------
+        VectorInt
             _description_
         """
-        # TODO: implement
-        pass
+        return self.reduce(poly.add(polynomial_a, polynomial_b))
 
-    def sub(self, p: VectorInt, q: VectorInt):
+    @validate_aliases
+    def sub(self, polynomial_a: VectorInt, polynomial_b: VectorInt) -> VectorInt:
         """
         TODO: write docstring
 
         Parameters
         ----------
-        p : VectorInt
+        polynomial_a : VectorInt
             _description_
-        q : VectorInt
+        polynomial_b : VectorInt
+            _description_
+
+        Returns
+        -------
+        VectorInt
             _description_
         """
-        # TODO: implement
-        pass
+        return self.reduce(poly.sub(polynomial_a, polynomial_b))
 
-    def mul(self, p: VectorInt, q: VectorInt):
+    @validate_aliases
+    def mul(self, polynomial_a: VectorInt, polynomial_b: VectorInt) -> VectorInt:
         """
         TODO: write docstring
 
         Parameters
         ----------
-        p : VectorInt
+        polynomial_a : VectorInt
             _description_
-        q : VectorInt
+        polynomial_b : VectorInt
+            _description_
+
+        Returns
+        -------
+        VectorInt
             _description_
         """
-        # TODO: implement
-        pass
+        return self.reduce(poly.mul(polynomial_a, polynomial_b))
 
-    def euclidean_div(self, p: VectorInt, q: VectorInt):
+    @validate_aliases
+    def euclidean_div(self, polynomial_a: VectorInt, polynomial_b: VectorInt) -> tuple[VectorInt, VectorInt]:
         """
         TODO: write docstring
 
         Parameters
         ----------
-        p : VectorInt
+        polynomial_a : VectorInt
             _description_
-        q : VectorInt
+        polynomial_b : VectorInt
+            _description_
+
+        Returns
+        -------
+        tuple[VectorInt, VectorInt]
+            _description_
+
+        Raises
+        ------
+        ZeroDivisionError
             _description_
         """
-        # TODO: implement
-        pass
 
-    def rem(self, p: VectorInt, q: VectorInt):
+        if self.is_zero(polynomial_b):
+            raise ZeroDivisionError("Can't divide by zero polynomial")
+
+        q = poly.zero_poly()
+        r = self.reduce(polynomial_a)
+
+        d = self.deg(polynomial_b)
+        c = polynomial_b[d]
+        while (dr := self.deg(r)) >= d:
+            s = poly.monomial(r[dr] * modinv(c, self.modulus), dr - d)
+            q = self.add(q, s)
+            r = self.sub(r, self.mul(s, polynomial_b))
+
+        return q, r
+
+    @validate_aliases
+    def rem(self, polynomial_a: VectorInt, polynomial_b: VectorInt) -> VectorInt:
         """
         TODO: write docstring
 
         Parameters
         ----------
-        p : VectorInt
+        polynomial_a : VectorInt
             _description_
-        q : VectorInt
+        polynomial_b : VectorInt
+            _description_
+
+        Returns
+        -------
+        VectorInt
             _description_
         """
-        # TODO: implement
-        pass
+        _, r = self.euclidean_div(polynomial_a, polynomial_b)
+        return r
 
-    def to_monic(self, p: VectorInt):
+    def to_monic(self, polynomial: VectorInt) -> VectorInt:
         """
         TODO: write docstring
 
         Parameters
         ----------
-        p : VectorInt
+        polynomial : VectorInt
+            _description_
+
+        Returns
+        -------
+        VectorInt
             _description_
         """
-        # TODO: implement
-        pass
+        leading_coeff = polynomial[self.deg(polynomial)]
+        return self.reduce(modinv(leading_coeff, self.modulus) * polynomial)
 
-    def gcd(self, p: VectorInt, q: VectorInt):
+    def gcd(self, polynomial_a: VectorInt, polynomial_b: VectorInt) -> VectorInt:
         """
         TODO: write docstring
 
         Parameters
         ----------
-        p : VectorInt
+        polynomial_a : VectorInt
             _description_
-        q : VectorInt
+        polynomial_b : VectorInt
+            _description_
+
+        Returns
+        -------
+        VectorInt
             _description_
         """
-        # TODO: implement
-        pass
+        r0 = self.reduce(polynomial_a)
+        r1 = self.reduce(polynomial_b)
+        if poly.deg(r1) > poly.deg(r0):
+            r0, r1 = r1, r0
 
-    def eea(self, p: VectorInt, q: VectorInt):
+        while not self.is_zero(r1):
+            r0, r1 = r1, self.rem(r0, r1)
+
+        return r0
+
+    def eea(self, polynomial_a: VectorInt, polynomial_b: VectorInt):
         """
         TODO: write docstring
 
         Parameters
         ----------
-        p : VectorInt
+        polynomial_a : VectorInt
             _description_
-        q : VectorInt
+        polynomial_b : VectorInt
+            _description_
+
+        Returns
+        -------
+        _type_
             _description_
         """
-        # TODO: implement
-        pass
+        f0, f1 = self.reduce(polynomial_a), self.reduce(polynomial_b)
+        a0, a1 = poly.monomial(1, 0), poly.zero_poly()
+        b0, b1 = poly.zero_poly(), poly.monomial(1, 0)
 
-    def coprime(self, p: VectorInt, q: VectorInt):
+        while not self.is_zero(f1):
+            q, r = self.euclidean_div(f0, f1)
+
+            f0, f1 = f1, r
+
+            a0, a1 = a1, self.sub(a0, self.mul(q, a1))
+            b0, b1 = b1, self.sub(b0, self.mul(q, b1))
+
+        return f0, a0, b0
+
+    def coprime(self, polynomial_a: VectorInt, polynomial_b: VectorInt) -> bool:
         """
         TODO: write docstring
 
         Parameters
         ----------
-        p : VectorInt
+        polynomial_a : VectorInt
             _description_
-        q : VectorInt
+        polynomial_b : VectorInt
+            _description_
+
+        Returns
+        -------
+        bool
             _description_
         """
-        # TODO: implement
-        pass
+        return all(self.to_monic(self.gcd(polynomial_a, polynomial_b)) == poly.monomial(1, 0))
