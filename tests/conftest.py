@@ -1,49 +1,34 @@
-import functools
-import json
-from pathlib import Path
+from multiprocessing.managers import BaseManager
+from typing import cast
 
-import numpy as np
 import pytest
+from tests import oracle
+from tests.sage_interface import DEFAULT_AUTHKEY, DEFAULT_PORT, SageEngineInterface
 
 
-@functools.cache
-def _load_json_file(filename: str) -> list[np.ndarray]:
-    data_file_path = Path(__file__).parent / "sage_data" / "lattice" / filename
-
-    if not data_file_path.is_file():
-        raise FileNotFoundError(f"Test data file not found. Expected at: {data_file_path.resolve()}")
-
-    with data_file_path.open("r") as f:
-        data = json.load(f)
-
-    if "-" in filename:
-        result = []
-        for k, v in data.items():
-            result.append((int(k), np.array(v, dtype=int)))
-        return result
-    elif "x" in filename:
-        result = []
-        for arr in data:
-            result.append(np.array(arr, dtype=int))
-        return result
-    else:
-        raise ValueError(f"unsupported file name: <{filename}>")
+class SageManager(BaseManager):
+    pass
 
 
-def load_lattice_basis(filenames: list[str]):
-    all_cases = []
-
-    for filename in filenames:
-        data = _load_json_file(filename)
-
-        for i, case_data in enumerate(data):
-            test_id = f"{filename.split('.')[0]}-case[{i}]"
-            all_cases.append(pytest.param(case_data, id=test_id))
-
-    return all_cases
+SageManager.register("get_engine")
 
 
-def load_lattice_sizes(filename: str):
-    data = _load_json_file(filename)
+def pytest_addoption(parser):
+    parser.addoption("--sage", action="store_true", default=False, help="Enable tests that use SageMath")
 
-    return data
+
+@pytest.fixture(scope="session", autouse=True)
+def initialize_sage_oracle(request):
+    should_run_sage = request.config.getoption("--sage")
+
+    if should_run_sage:
+        manager = SageManager(address=("localhost", DEFAULT_PORT), authkey=DEFAULT_AUTHKEY)
+        try:
+            manager.connect()
+            proxy = manager.get_engine()
+            oracle.Sage._engine = cast(SageEngineInterface, proxy)
+        except ConnectionRefusedError:
+            pytest.fail(f"Could not connect to Sage server on port {DEFAULT_PORT}")
+
+    yield
+    oracle.Sage._engine = None
