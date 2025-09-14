@@ -1,1 +1,6 @@
-site_name: My Docs
+site_name: pqlattice - docs
+repo_url: https://github.com/mikolajlh/pqlattice/
+site_description: "Documentation for Python library for lattice based cryptography and cryptoanalysis"
+site_author: "Mikołaj Leonhardt"
+theme:
+  name: material
