@@ -1,23 +1,352 @@
+# for compatibility with sage modules to silence Unknown type errors
+# ruff: noqa: F405
+# ruff: noqa: F403
+# pyright: reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false
+import multiprocessing as mp
+from concurrent.futures import ProcessPoolExecutor
 from multiprocessing.managers import BaseManager
 from typing import override
 
-from sage_interface import DEFAULT_AUTHKEY, DEFAULT_PORT, SageEngineInterface
+from sage.all import *
+from sage.modules.free_module_integer import IntegerLattice
 
-# from sage.all import Matrix, ZZ, QQ
+from sage_interface import DEFAULT_AUTHKEY, DEFAULT_PORT, SageEngineInterface, TMatrix, TMatrixInt, TVector, TVectorInt
+
+
+def _gen_lattice_task(type: str, n: int, m: int, q: int, seed: int | None, quotient: TVector | None, dual: bool) -> TMatrixInt:
+    n = Integer(n)
+    m = Integer(m)
+    q = Integer(q)
+    seed = None if seed is None else Integer(seed)
+    quotient = None  # if quotient is None else Polynomial()
+    sage_res = sage.crypto.gen_lattice(type, n, m, q, seed, quotient, dual)
+    return sage_res.numpy(dtype=int)
+
+
+def _gso_task(mat: TMatrix, orthonormal: bool) -> tuple[TMatrix, TMatrix]:
+    m = Matrix(RDF, mat.tolist())
+    r, u = m.gram_schmidt(orthonormal=orthonormal)
+    return r.numpy(dtype=float), u.numpy(dtype=float)
+
+
+def _lll_task(mat: TMatrixInt, delta: float, transformation: bool) -> TMatrixInt | tuple[TMatrixInt, TMatrixInt]:
+    m = Matrix(ZZ, mat.tolist())
+    if not transformation:
+        r = m.LLL(delta=delta, transformation=transformation)
+        return r.numpy(dtype=int)
+    else:
+        r, u = m.LLL(delta=delta, transformation=transformation)
+        return r.numpy(dtype=int), u.numpy(dtype=int)
+
+
+def _is_lll_reduced_task(mat: TMatrixInt, delta: float) -> bool:
+    m = Matrix(ZZ, mat.tolist())
+    return m.is_LLL_reduced(delta=delta)
+
+
+def _bkz_task(mat: TMatrixInt, delta: float, block_size: int) -> TMatrixInt:
+    m = IntegerLattice(mat.tolist())
+    return m.BKZ(delta=delta, block_size=block_size).numpy(dtype=int)
+
+
+def _hkz_task(mat: TMatrixInt) -> TMatrixInt:
+    m = IntegerLattice(mat.tolist())
+    return m.HKZ().numpy(dtype=int)
+
+
+def _svp_task(mat: TMatrixInt) -> TVectorInt:
+    m = IntegerLattice(mat.tolist())
+    v = m.shortest_vector().numpy(dtype=int)
+    return v
+
+
+def _cvp_task(mat: TMatrixInt, t: TVector) -> TVectorInt:
+    m = IntegerLattice(mat.tolist())
+    return m.closest_vector(vector(RDF, t)).numpy(dtype=int)
+
+
+def _babai_task(mat: TMatrixInt, t: TVector, alg: str, d: float) -> TVectorInt:
+    m = IntegerLattice(mat.tolist())
+    return m.approximate_closest_vector(vector(RDF, t), delta=d, algorithm=alg).numpy(dtype=int)
+
+
+def _hnf_task(mat: TMatrixInt, transformation: bool) -> TMatrixInt | tuple[TMatrixInt, TMatrixInt]:
+    m = Matrix(ZZ, mat.tolist())
+    if not transformation:
+        r = m.echelon_form(transformation=transformation)
+        return r.numpy(dtype=int)
+    else:
+        r, u = m.echelon_form(transformation=transformation)
+        return r.numpy(dtype=int), u.numpy(dtype=int)
+
+
+def _left_kernel_task(mat: TMatrixInt) -> TMatrixInt:
+    m = Matrix(ZZ, mat.tolist())
+    r = m.left_kernel_matrix()
+    return r.numpy(dtype=int)
+
+
+def _left_nullity_task(mat: TMatrixInt) -> int:
+    m = Matrix(ZZ, mat.tolist())
+    r = m.left_nullity()
+    return int(r)
+
+
+def _right_kernel_task(mat: TMatrixInt) -> TMatrixInt:
+    m = Matrix(ZZ, mat.tolist())
+    r = m.right_kernel_matrix()
+    return r.numpy(dtype=int)
+
+
+def _right_nullity_task(mat: TMatrixInt) -> int:
+    m = Matrix(ZZ, mat.tolist())
+    r = m.right_nullity()
+    return int(r)
+
+
+def _rank_task(mat: TMatrixInt) -> int:
+    m = Matrix(ZZ, mat.tolist())
+    r = m.rank()
+    return int(r)
+
+
+def _discriminant_task(mat: TMatrixInt) -> int:
+    m = IntegerLattice(mat.tolist(), lll_reduce=False)
+    d = m.discriminant()
+    return int(d)
+
+
+def _gaussian_heuristic_task(mat: TMatrixInt) -> float:
+    m = IntegerLattice(mat.tolist(), lll_reduce=False)
+    d = m.gaussian_heuristic()
+    return float(d)
+
+
+def _hadamard_ratio_task(mat: TMatrixInt) -> float:
+    m = IntegerLattice(mat.tolist(), lll_reduce=False)
+    d = m.hadamard_ratio(use_reduced_basis=False)
+    return float(d)
+
+
+def _is_unimodular_task(mat: TMatrixInt) -> bool:
+    m = IntegerLattice(mat.tolist(), lll_reduce=False)
+    d = m.is_unimodular()
+    return bool(d)
+
+
+def _volume_task(mat: TMatrixInt) -> float:
+    m = IntegerLattice(mat.tolist(), lll_reduce=False)
+    d = m.volume()
+    return float(d)
 
 
 class SageEngine(SageEngineInterface):
-    @override
-    def ok(self) -> bool:
-        return True
+    def __init__(self):
+        ctx = mp.get_context("spawn")
+        self.pool = ProcessPoolExecutor(max_workers=1, mp_context=ctx)
 
     @override
-    def hello_world(self) -> str:
-        print("Hello in Server")
-        return "Hello to Client"
+    def gen_lattice(
+        self, type: str = "modular", n: int = 4, m: int = 8, q: int = 11, seed: int | None = None, quotient: TVector | None = None, dual: bool = False
+    ) -> TMatrixInt:
+        """
+        https://doc.sagemath.org/html/en/reference/cryptography/sage/crypto/lattice.html
+        TODO: enable quotient
+        """
+        print("call gen_lattice")
+        future = self.pool.submit(_gen_lattice_task, type, n, m, q, seed, quotient, dual)
+        res = future.result()
+        return res
 
+    @override
+    def gso(self, matrix: TMatrix, orthonormal: bool = False) -> tuple[TMatrix, TMatrix]:
+        """
+        https://doc.sagemath.org/html/en/reference/matrices/sage/matrix/matrix2.html#sage.matrix.matrix2.Matrix.gram_schmidt
+        """
+        print("call gso")
+        future = self.pool.submit(_gso_task, matrix, orthonormal)
+        res = future.result()
+        return res
 
-_: SageEngineInterface = SageEngine()  # Check if all abstarct methods are implemented
+    @override
+    def lll(self, lattice_basis: TMatrixInt, delta: float = 0.99, transformation: bool = False) -> TMatrixInt | tuple[TMatrixInt, TMatrixInt]:
+        """
+        https://doc.sagemath.org/html/en/reference/matrices/sage/matrix/matrix_rational_dense.html#sage.matrix.matrix_rational_dense.Matrix_rational_dense.LLL
+        """
+        print("call lll")
+        future = self.pool.submit(_lll_task, lattice_basis, delta, transformation)
+        res = future.result()
+        return res
+
+    @override
+    def is_lll_reduced(self, lattice_basis: TMatrixInt, delta: float = 0.99) -> bool:
+        """
+        https://doc.sagemath.org/html/en/reference/matrices/sage/matrix/matrix_integer_dense.html#sage.matrix.matrix_integer_dense.Matrix_integer_dense.is_LLL_reduced
+        """
+        print("call is_lll_reduced")
+        future = self.pool.submit(_is_lll_reduced_task, lattice_basis, delta)
+        res = future.result()
+        return res
+
+    @override
+    def bkz(self, lattice_basis: TMatrixInt, delta: float = 0.99, block_size: int = 10) -> TMatrixInt:
+        """
+        https://doc.sagemath.org/html/en/reference/matrices/sage/matrix/matrix_rational_dense.html#sage.matrix.matrix_rational_dense.Matrix_rational_dense.BKZ
+        """
+        print("call bkz")
+        future = self.pool.submit(_bkz_task, lattice_basis, delta, block_size)
+        res = future.result()
+        return res
+
+    @override
+    def hkz(self, lattice_basis: TMatrixInt) -> TMatrixInt:
+        """
+        https://doc.sagemath.org/html/en/reference/modules/sage/modules/free_module_integer.html#sage.modules.free_module_integer.FreeModule_submodule_with_basis_integer.HKZ
+        """
+        print("call hkz")
+        future = self.pool.submit(_hkz_task, lattice_basis)
+        res = future.result()
+        return res
+
+    @override
+    def shortest_vector(self, lattice_basis: TMatrixInt) -> TVectorInt:
+        """
+        https://doc.sagemath.org/html/en/reference/modules/sage/modules/free_module_integer.html#sage.modules.free_module_integer.FreeModule_submodule_with_basis_integer.shortest_vector
+        """
+        print("call shortest_vector")
+        future = self.pool.submit(_svp_task, lattice_basis)
+        res = future.result()
+        return res
+
+    @override
+    def closest_vector(self, lattice_basis: TMatrixInt, target_vector: TVector) -> TVectorInt:
+        """
+        https://doc.sagemath.org/html/en/reference/modules/sage/modules/free_module_integer.html#sage.modules.free_module_integer.FreeModule_submodule_with_basis_integer.closest_vector
+        """
+        print("call closest_vector")
+        future = self.pool.submit(_cvp_task, lattice_basis, target_vector)
+        res = future.result()
+        return res
+
+    @override
+    def babai(self, algorithm: str, lattice_basis: TMatrixInt, target_vector: TVector, delta: float = 0.99) -> TVectorInt:
+        """
+        https://doc.sagemath.org/html/en/reference/modules/sage/modules/free_module_integer.html#sage.modules.free_module_integer.FreeModule_submodule_with_basis_integer.approximate_closest_vector
+        """
+        print("call babai")
+        future = self.pool.submit(_babai_task, lattice_basis, target_vector, algorithm, delta)
+        res = future.result()
+        return res
+
+    @override
+    def hnf(self, matrix: TMatrixInt, transformation: bool = False) -> TMatrixInt | tuple[TMatrixInt, TMatrixInt]:
+        """
+        https://doc.sagemath.org/html/en/reference/matrices/sage/matrix/matrix_integer_dense.html#sage.matrix.matrix_integer_dense.Matrix_integer_dense.echelon_form
+        """
+        print("call hnf")
+        future = self.pool.submit(_hnf_task, matrix, transformation)
+        res = future.result()
+        return res
+
+    @override
+    def left_kernel(self, matrix: TMatrixInt) -> TMatrixInt:
+        """
+        https://doc.sagemath.org/html/en/reference/matrices/sage/matrix/matrix2.html#sage.matrix.matrix2.Matrix.left_kernel_matrix
+        """
+        print("call left_kernel")
+        future = self.pool.submit(_left_kernel_task, matrix)
+        res = future.result()
+        return res
+
+    @override
+    def left_nullity(self, matrix: TMatrixInt) -> int:
+        """
+        https://doc.sagemath.org/html/en/reference/matrices/sage/matrix/matrix2.html#sage.matrix.matrix2.Matrix.left_nullity
+        """
+        print("call left_nullity")
+        future = self.pool.submit(_left_nullity_task, matrix)
+        res = future.result()
+        return res
+
+    @override
+    def right_kernel(self, matrix: TMatrixInt) -> TMatrixInt:
+        """
+        https://doc.sagemath.org/html/en/reference/matrices/sage/matrix/matrix2.html#sage.matrix.matrix2.Matrix.right_kernel_matrix
+        """
+        print("call right_kernel")
+        future = self.pool.submit(_right_kernel_task, matrix)
+        res = future.result()
+        return res
+
+    @override
+    def right_nullity(self, matrix: TMatrixInt) -> int:
+        """
+        https://doc.sagemath.org/html/en/reference/matrices/sage/matrix/matrix2.html#sage.matrix.matrix2.Matrix.right_nullity
+        """
+        print("call right_nullity")
+        future = self.pool.submit(_right_nullity_task, matrix)
+        res = future.result()
+        return res
+
+    @override
+    def rank(self, matrix: TMatrixInt) -> int:
+        """
+        https://doc.sagemath.org/html/en/reference/matrices/sage/matrix/matrix_integer_dense.html#sage.matrix.matrix_integer_dense.Matrix_integer_dense.rank
+        """
+        print("call rank")
+        future = self.pool.submit(_rank_task, matrix)
+        res = future.result()
+        return res
+
+    @override
+    def discriminant(self, lattice_basis: TMatrixInt) -> int:
+        """
+        https://doc.sagemath.org/html/en/reference/modules/sage/modules/free_module_integer.html#sage.modules.free_module_integer.FreeModule_submodule_with_basis_integer.discriminant
+        """
+        print("call discriminant")
+        future = self.pool.submit(_discriminant_task, lattice_basis)
+        res = future.result()
+        return res
+
+    @override
+    def gaussian_heuristic(self, lattice_basis: TMatrixInt) -> float:
+        """
+        https://doc.sagemath.org/html/en/reference/modules/sage/modules/free_module_integer.html#sage.modules.free_module_integer.FreeModule_submodule_with_basis_integer.gaussian_heuristic
+        """
+        print("call gaussian_heuristic")
+        future = self.pool.submit(_gaussian_heuristic_task, lattice_basis)
+        res = future.result()
+        return res
+
+    @override
+    def hadamard_ratio(self, lattice_basis: TMatrixInt) -> float:
+        """
+        https://doc.sagemath.org/html/en/reference/modules/sage/modules/free_module_integer.html#sage.modules.free_module_integer.FreeModule_submodule_with_basis_integer.hadamard_ratio
+        """
+        print("call hadamard_ratio")
+        future = self.pool.submit(_hadamard_ratio_task, lattice_basis)
+        res = future.result()
+        return res
+
+    @override
+    def is_unimodular(self, lattice_basis: TMatrixInt) -> bool:
+        """
+        https://doc.sagemath.org/html/en/reference/modules/sage/modules/free_module_integer.html#sage.modules.free_module_integer.FreeModule_submodule_with_basis_integer.is_unimodular
+        """
+        print("call is_unimodular")
+        future = self.pool.submit(_is_unimodular_task, lattice_basis)
+        res = future.result()
+        return res
+
+    @override
+    def volume(self, lattice_basis: TMatrixInt) -> float:
+        """
+        https://doc.sagemath.org/html/en/reference/modules/sage/modules/free_module_integer.html#sage.modules.free_module_integer.FreeModule_submodule_with_basis_integer.volume
+        """
+        print("call volume")
+        future = self.pool.submit(_volume_task, lattice_basis)
+        res = future.result()
+        return res
 
 
 class SageManager(BaseManager):
