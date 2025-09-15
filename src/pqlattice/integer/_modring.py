@@ -1,9 +1,18 @@
-import numpy as np
+from typing import overload
 
+from ..typing import ArrayInt
 from ._integer import eea
 
 
-def mod(a: int, modulus: int) -> int:
+@overload
+def mod(a: int, modulus: int) -> int: ...
+
+
+@overload
+def mod(a: ArrayInt, modulus: int) -> ArrayInt: ...
+
+
+def mod(a: int | ArrayInt, modulus: int) -> int | ArrayInt:
     """
     TODO: write docstring
     https://en.wikipedia.org/wiki/Euclidean_division
@@ -25,10 +34,15 @@ def mod(a: int, modulus: int) -> int:
     return a % abs(modulus)
 
 
-vmod = np.vectorize(mod, excluded=["modulus"], doc=mod.__doc__)
+@overload
+def cmodl(a: int, modulus: int) -> int: ...
 
 
-def cmodl(a: int, modulus: int) -> int:
+@overload
+def cmodl(a: ArrayInt, modulus: int) -> ArrayInt: ...
+
+
+def cmodl(a: int | ArrayInt, modulus: int) -> int | ArrayInt:
     """
     TODO: write docstring
 
@@ -47,10 +61,15 @@ def cmodl(a: int, modulus: int) -> int:
     return mod(a, modulus) - modulus // 2
 
 
-vcmodl = np.vectorize(cmodl, excluded=["modulus"], doc=cmodl.__doc__)
+@overload
+def cmodr(a: int, modulus: int) -> int: ...
 
 
-def cmodr(a: int, modulus: int) -> int:
+@overload
+def cmodr(a: ArrayInt, modulus: int) -> ArrayInt: ...
+
+
+def cmodr(a: int | ArrayInt, modulus: int) -> int | ArrayInt:
     """
     TODO: write docstring
 
@@ -69,10 +88,15 @@ def cmodr(a: int, modulus: int) -> int:
     return mod(a, modulus) - int(modulus / 2 - 0.1)
 
 
-vcmodr = np.vectorize(cmodr, excluded=["modulus"], doc=cmodr.__doc__)
+@overload
+def modinv(a: int, modulus: int) -> int: ...
 
 
-def modinv(a: int, modulus: int) -> int:
+@overload
+def modinv(a: ArrayInt, modulus: int) -> ArrayInt: ...
+
+
+def modinv(a: int | ArrayInt, modulus: int) -> int | ArrayInt:
     """
     TODO: write docstring
 
@@ -105,10 +129,15 @@ def modinv(a: int, modulus: int) -> int:
     return mod(a_inv, modulus)
 
 
-vmodinv = np.vectorize(modinv, excluded=["modulus"], doc=modinv.__doc__)
+@overload
+def modpow(a: ArrayInt, r: int, modulus: int) -> ArrayInt: ...
 
 
-def modpow(a: int, r: int, modulus: int) -> int:
+@overload
+def modpow(a: int, r: int, modulus: int) -> int: ...
+
+
+def modpow(a: int | ArrayInt, r: int, modulus: int) -> int | ArrayInt:
     """
     TODO: write docstring
 
@@ -139,25 +168,23 @@ def modpow(a: int, r: int, modulus: int) -> int:
     return y
 
 
-vmodpow = np.vectorize(modpow, excluded=["r", "modulus"], doc=modpow.__doc__)
+# def pmodinv(a: int, p: int) -> int:
+#     """
+#     Calculates the multiplicative inverse of *a* modulo *p*
+#     use Euler-Fermat Theorem,
+#     asume p is prime number
 
+#     Parameters
+#     ----------
+#     a : `int`
+#         _description_
+#     p : `int`
+#         _description_
 
-def pmodinv(a: int, p: int) -> int:
-    """
-    TODO: write docstring
-    use Euler-Fermat Theorem,
-    asume p is prime number
-    Parameters
-    ----------
-    a : int
-        _description_
-    p : int
-        _description_
-
-    Returns
-    -------
-    int
-        _description_
-    """
-    phi = p - 1
-    return modpow(a, phi - 1, p)
+#     Returns
+#     -------
+#     int
+#         number z such that (z * a) mod p == 1
+#     """
+#     phi = p - 1
+#     return modpow(a, phi - 1, p)

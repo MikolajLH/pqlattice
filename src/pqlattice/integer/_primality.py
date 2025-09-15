@@ -89,17 +89,25 @@ def miller_rabin_primality_test(n: int, s: int, int_gen: Callable[[int, int], in
 
 def is_prime(p: int) -> bool:
     """
-    TODO: write docstring
+    Checks if a given integer is a prime number using Miller-Rabin primality test.
 
     Parameters
     ----------
-    p : int
-        _description_
+    p : `int`
+        Integer to test the primality of.
 
     Returns
     -------
     bool
-        _description_
+        False if p is composite,
+        True if p passed Miller-Rabin test 20 times
+
+    Examples
+    --------
+    >>> is_prime(7)
+    True
+    >>> is_prime(2**20)
+    False
     """
     if p <= 1:
         return False

@@ -1,4 +1,4 @@
-from ..integer._modring import modinv, vmod
+from ..integer._modring import mod, modinv
 from ..typing import VectorInt, validate_aliases
 from . import _poly as poly
 
@@ -37,7 +37,7 @@ class ModIntPolyRing:
         polynomial : VectorInt
             _description_
         """
-        return poly.trim(vmod(polynomial, self.modulus))
+        return poly.trim(mod(polynomial, self.modulus))
 
     @validate_aliases
     def is_zero(self, polynomial: VectorInt) -> bool:
@@ -155,7 +155,7 @@ class ModIntPolyRing:
         r = self.reduce(polynomial_a)
 
         d = self.deg(polynomial_b)
-        c = polynomial_b[d]
+        c: int = polynomial_b[d]
         while (dr := self.deg(r)) >= d:
             s = poly.monomial(r[dr] * modinv(c, self.modulus), dr - d)
             q = self.add(q, s)
@@ -197,7 +197,7 @@ class ModIntPolyRing:
         VectorInt
             _description_
         """
-        leading_coeff = polynomial[self.deg(polynomial)]
+        leading_coeff: int = polynomial[self.deg(polynomial)]
         return self.reduce(modinv(leading_coeff, self.modulus) * polynomial)
 
     def gcd(self, polynomial_a: VectorInt, polynomial_b: VectorInt) -> VectorInt:

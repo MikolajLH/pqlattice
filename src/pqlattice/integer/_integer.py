@@ -1,4 +1,19 @@
-def eea(a: int, b: int) -> tuple[int, int, int]:
+from typing import cast, overload
+
+import numpy as np
+
+from ..typing import ArrayInt
+
+
+@overload
+def eea(a: ArrayInt, b: int) -> tuple[ArrayInt, ArrayInt, ArrayInt]: ...
+
+
+@overload
+def eea(a: int, b: int) -> tuple[int, int, int]: ...
+
+
+def eea(a: int | ArrayInt, b: int) -> tuple[int, int, int] | tuple[ArrayInt, ArrayInt, ArrayInt]:
     r"""
     Implementation of [extended euclidean algorithm](https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm) for integers.
 
@@ -28,6 +43,13 @@ def eea(a: int, b: int) -> tuple[int, int, int]:
     >>> eea(240, 46)
     (2, -9, 47)
     """
+    if isinstance(a, int):
+        return _eea(a, b)
+    else:
+        return tuple(np.array([_eea(cast(int, el), b) for el in a]).T)
+
+
+def _eea(a: int, b: int) -> tuple[int, int, int]:
     if a == 0 and b == 0:
         raise ValueError("<PQLE> a and b can't be both zero")
 

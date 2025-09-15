@@ -1,4 +1,5 @@
 from ._types import (
+    ArrayInt,
     Matrix,
     MatrixFloat,
     MatrixInt,
@@ -12,6 +13,7 @@ from ._types import (
 from ._types_validator import validate_aliases
 
 __all__ = [
+    "ArrayInt",
     "Matrix",
     "MatrixFloat",
     "MatrixInt",

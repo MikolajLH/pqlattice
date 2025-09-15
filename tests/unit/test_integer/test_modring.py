@@ -39,13 +39,15 @@ class TestModPow:
     def test_modpow_properties(self, a: int, r: int, modulus: int):
         if r >= 0:
             p = modpow(a, r, modulus)
-            q = mod(a**r, modulus)
+            t: int = a**r
+            q = mod(t, modulus)
             assert p == q
         else:
             if math.gcd(a, modulus) == 1:
                 inv = modinv(a, modulus)
                 p = modpow(a, r, modulus)
-                q = mod(inv ** (-r), modulus)
+                t: int = inv ** (-r)
+                q = mod(t, modulus)
                 assert p == q
             else:
                 with pytest.raises((ValueError, ZeroDivisionError)):
