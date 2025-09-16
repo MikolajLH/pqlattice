@@ -108,25 +108,6 @@ def _get_predicate_for_alias[T: TypeAliasType](type_name: T) -> Callable[[T], bo
     return None
 
 
-def _peel_type_alias(tp: Any) -> Any:
-    """
-    TODO: write docstring
-
-    Parameters
-    ----------
-    tp : Any
-        _description_
-
-    Returns
-    -------
-    Any
-        _description_
-    """
-    while isinstance(tp, TypeAliasType):
-        tp = tp.__value__
-    return tp
-
-
 def validate_aliases[**P, T](func: Callable[P, T]) -> Callable[P, T]:
     """
     TODO: write docstring
@@ -152,20 +133,8 @@ def validate_aliases[**P, T](func: Callable[P, T]) -> Callable[P, T]:
                 # msg = f"func <{func.__name__}>, arg <{arg_name}>  val <{arg_value}> type <{type(arg_value)}> expected <{expected_type}>"
                 # logger.info(msg)
                 pred = _get_predicate_for_alias(expected_type)
-                if pred is not None:  # type annotations has a predicate to be checked
-                    if not pred(arg_value):  # predicate is not fullfilled
-                        raise TypeError(
-                            f"func <{func.__name__}>, arg <{arg_name}> val <{arg_value}> arg's type <{type(arg_value)}> predicate for <{expected_type}> failed"
-                        )
-                    else:  # predicate is fullfilled
-                        continue
-                else:  # no predicate defined for given type hint
-                    true_tp = _peel_type_alias(expected_type)
-                    msg = f"func <{func.__name__}>, arg <{arg_name}> val <{arg_value}>, arg's type <{type(arg_value)}>, hint <{expected_type}>, true hint <{true_tp}>"
-                    logger.warning(msg)
-            else:  # No type annotation for argument
-                msg = f"No annotation in function <{func.__name__}>, for argument <{arg_name}> with value <{arg_value}>"
-                logger.warning(msg)
+                if pred is not None and not pred(arg_value):  # type annotations has a predicate to be checked and predicate is not fullfilled
+                    raise TypeError(f"func <{func.__name__}>, arg <{arg_name}> val <{arg_value}> arg's type <{type(arg_value)}> predicate for <{expected_type}> failed")
 
         return func(*args, **kwds)
 
