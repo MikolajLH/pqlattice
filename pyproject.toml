@@ -44,7 +44,7 @@ addopts = [
 ]
 
 [tool.ruff]
-line-length = 170
+line-length = 200
 src = ["src", "tests"]
 fix = true
 
