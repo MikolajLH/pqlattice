@@ -2,8 +2,12 @@ from multiprocessing.managers import BaseManager
 from typing import cast
 
 import pytest
+from hypothesis import settings
 from tests import oracle
 from tests.sage_interface import DEFAULT_AUTHKEY, DEFAULT_PORT, SageEngineInterface
+
+settings.register_profile("default", deadline=None)
+settings.load_profile("default")
 
 
 class SageManager(BaseManager):
