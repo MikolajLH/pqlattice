@@ -4,9 +4,9 @@ import numpy as np
 import pytest
 from hypothesis import given
 from tests import oracle
-from tests.strategies import int_matrices
+from tests.strategies import full_rank_matrices, int_matrices, low_rank_matrices
 
-from pqlattice.linalg._linalg import hnf
+from pqlattice.linalg._linalg import hnf, rank
 from pqlattice.typing import MatrixInt
 
 
@@ -59,3 +59,28 @@ class TestHnf:
         sage_H = oracle.Sage.hnf(m)
 
         np.testing.assert_array_equal(H, sage_H, f"hnf missmatch for \n{m}\nexpected:\n{sage_H}\ngot\n{H}")
+
+
+class TestKernelAndRank:
+    @given(m=int_matrices())
+    def test_rank_with_oracle_general(self, m: MatrixInt):
+        sage_rank = oracle.Sage.rank(m)
+        r = rank(m)
+
+        assert r == sage_rank
+
+    @given(m=low_rank_matrices())
+    def test_rank_with_oracle_low_rank(self, m: MatrixInt):
+        sage_rank = oracle.Sage.rank(m)
+        r = rank(m)
+
+        assert r == sage_rank
+
+    @given(m=full_rank_matrices())
+    def test_rank_with_oracle_full_rank(self, m: MatrixInt):
+        rows, cols = m.shape
+        sage_rank = oracle.Sage.rank(m)
+        assert min(rows, cols) == sage_rank
+        r = rank(m)
+        assert min(rows, cols) == r
+        assert r == sage_rank

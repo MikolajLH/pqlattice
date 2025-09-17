@@ -1,6 +1,6 @@
 import numpy as np
 
-from ..typing import MatrixInt, SquareMatrixInt, validate_aliases
+from ..typing import MatrixInt, SquareMatrixInt, VectorInt, validate_aliases
 from ._utils import row_add, row_scale, row_swap
 
 
@@ -77,12 +77,11 @@ def left_kernel(a: MatrixInt):
     A : MatrixInt
         _description_
     """
-    # TODO: implement
-    pass
+    return right_kernel(a.T)
 
 
 @validate_aliases
-def right_kernel(a: MatrixInt):
+def right_kernel(a: MatrixInt) -> MatrixInt:
     """
     TODO: write docstring
 
@@ -91,22 +90,74 @@ def right_kernel(a: MatrixInt):
     A : MatrixInt
         _description_
     """
-    # TODO: implement
-    pass
+    H, U = hnf(a.T)
+    kernel_basis: list[VectorInt] = []
+
+    m, _ = H.shape
+    for i in range(m):
+        if np.all(H[i] == 0):
+            kernel_basis.append(U[i])
+
+    return np.array(kernel_basis, dtype=int)
 
 
 @validate_aliases
-def nullity(a: MatrixInt):
+def left_nullity(a: MatrixInt) -> int:
     """
     TODO: write docstring
 
     Parameters
     ----------
-    A : MatrixInt
+    a : MatrixInt
+        _description_
+
+    Returns
+    -------
+    int
         _description_
     """
-    # TODO: implement
-    pass
+    kernel = left_kernel(a)
+    return kernel.shape[0]
+
+
+@validate_aliases
+def right_nullity(a: MatrixInt) -> int:
+    """
+    TODO: write docstring
+
+    Parameters
+    ----------
+    a : MatrixInt
+        _description_
+
+    Returns
+    -------
+    int
+        _description_
+    """
+    kernel = right_kernel(a)
+    return kernel.shape[0]
+
+
+def rank(a: MatrixInt) -> int:
+    """
+    TODO: write docstring
+
+    Parameters
+    ----------
+    a : MatrixInt
+        _description_
+
+    Returns
+    -------
+    int
+        _description_
+    """
+    m, n = a.shape
+    l_rank = m - left_nullity(a)
+    r_rank = n - right_nullity(a)
+    assert l_rank == r_rank
+    return l_rank
 
 
 @validate_aliases
