@@ -93,3 +93,64 @@ def unimodular_int_matrices(draw: DrawFn[int | npt.NDArray[np.integer]], min_n: 
     R = part_R + np.diag(diag_R)
 
     return L @ R
+
+
+@st.composite
+def int_vectors(draw: DrawFn[npt.NDArray[np.integer]], n: int, min_value: int = -100, max_value: int = 100):
+    return draw(hnp.arrays(int, n, elements=st.integers(min_value, max_value)))
+
+
+@st.composite
+def low_rank_matrices(draw: DrawFn[npt.NDArray[np.integer] | int], min_rows: int = 2, max_rows: int = 10, min_cols: int = 2, max_cols: int = 10, min_value: int = -50, max_value: int = 50):
+    rows = cast(int, draw(st.integers(min_rows, max_rows)))
+    cols = cast(int, draw(st.integers(min_cols, max_cols)))
+
+    max_rank = min(rows, cols)
+    if max_rank <= 1:
+        return np.zeros((rows, cols), dtype=int)
+
+    r = cast(int, draw(st.integers(1, max_rank - 1)))
+
+    U = cast(npt.NDArray[np.integer], draw(hnp.arrays(int, (rows, r), elements=st.integers(min_value, max_value))))
+    V = cast(npt.NDArray[np.integer], draw(hnp.arrays(int, (r, cols), elements=st.integers(min_value, max_value))))
+
+    return U @ V
+
+
+@st.composite
+def full_rank_matrices(draw: DrawFn[npt.NDArray[np.integer] | int | bool], min_rows: int = 2, max_rows: int = 10, min_cols: int = 2, max_cols: int = 10, min_value: int = -50, max_value: int = 50, square: bool = False):
+    rows = cast(int, draw(st.integers(min_rows, max_rows)))
+    cols = cast(int, draw(st.integers(min_cols, max_cols)))
+
+    if square:
+        cols = rows
+
+    rank = min(rows, cols)
+
+    A = np.zeros((rows, cols), dtype=int)
+    diagonals = cast(npt.NDArray[np.integer], draw(hnp.arrays(int, rank, elements=st.integers(min_value, max_value).filter(lambda x: x != 0))))
+    A[np.diag_indices(rank)] = diagonals
+
+    if rank == 1:
+        return A
+
+    num_scrambles = cast(int, draw(st.integers(min_value=rows + cols, max_value=(rows + cols) * 2)))
+
+    for _ in range(num_scrambles):
+        row_op = cast(bool, draw(st.booleans()))
+        if row_op:
+            i = cast(int, draw(st.integers(0, rows - 1)))
+            j = cast(int, draw(st.integers(0, rows - 1)))
+            if i == j:
+                continue
+            factor = cast(int, draw(st.integers(-10, 10)))
+            A[i] += factor * A[j]
+        else:
+            i = cast(int, draw(st.integers(0, cols - 1)))
+            j = cast(int, draw(st.integers(0, cols - 1)))
+            if i == j:
+                continue
+            factor = cast(int, draw(st.integers(-10, 10)))
+            A[:, i] += factor * A[:, j]
+
+    return A
