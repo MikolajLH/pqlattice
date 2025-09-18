@@ -1,6 +1,6 @@
 from typing import overload
 
-from ..typing import ArrayInt
+from ..typing import Array
 from ._integer import eea
 
 
@@ -9,10 +9,10 @@ def mod(a: int, modulus: int) -> int: ...
 
 
 @overload
-def mod(a: ArrayInt, modulus: int) -> ArrayInt: ...
+def mod(a: Array, modulus: int) -> Array: ...
 
 
-def mod(a: int | ArrayInt, modulus: int) -> int | ArrayInt:
+def mod(a: int | Array, modulus: int) -> int | Array:
     """
     TODO: write docstring
     https://en.wikipedia.org/wiki/Euclidean_division
@@ -39,10 +39,10 @@ def cmodl(a: int, modulus: int) -> int: ...
 
 
 @overload
-def cmodl(a: ArrayInt, modulus: int) -> ArrayInt: ...
+def cmodl(a: Array, modulus: int) -> Array: ...
 
 
-def cmodl(a: int | ArrayInt, modulus: int) -> int | ArrayInt:
+def cmodl(a: int | Array, modulus: int) -> int | Array:
     """
     TODO: write docstring
 
@@ -66,10 +66,10 @@ def cmodr(a: int, modulus: int) -> int: ...
 
 
 @overload
-def cmodr(a: ArrayInt, modulus: int) -> ArrayInt: ...
+def cmodr(a: Array, modulus: int) -> Array: ...
 
 
-def cmodr(a: int | ArrayInt, modulus: int) -> int | ArrayInt:
+def cmodr(a: int | Array, modulus: int) -> int | Array:
     """
     TODO: write docstring
 
@@ -93,10 +93,10 @@ def modinv(a: int, modulus: int) -> int: ...
 
 
 @overload
-def modinv(a: ArrayInt, modulus: int) -> ArrayInt: ...
+def modinv(a: Array, modulus: int) -> Array: ...
 
 
-def modinv(a: int | ArrayInt, modulus: int) -> int | ArrayInt:
+def modinv(a: int | Array, modulus: int) -> int | Array:
     """
     TODO: write docstring
 
@@ -130,14 +130,14 @@ def modinv(a: int | ArrayInt, modulus: int) -> int | ArrayInt:
 
 
 @overload
-def modpow(a: ArrayInt, r: int, modulus: int) -> ArrayInt: ...
+def modpow(a: Array, r: int, modulus: int) -> Array: ...
 
 
 @overload
 def modpow(a: int, r: int, modulus: int) -> int: ...
 
 
-def modpow(a: int | ArrayInt, r: int, modulus: int) -> int | ArrayInt:
+def modpow(a: int | Array, r: int, modulus: int) -> int | Array:
     """
     TODO: write docstring
 

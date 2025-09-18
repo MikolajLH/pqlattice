@@ -5,13 +5,13 @@ from hypothesis import given
 from tests import strategies as st
 
 from pqlattice.polynomial._poly import deg, is_zero_poly, make_poly
-from pqlattice.typing import VectorInt
+from pqlattice.typing import Vector
 
 
 class TestIsZeroPoly:
     class Case(NamedTuple):
         # input:
-        p: VectorInt
+        p: Vector
         # output:
         res: bool
 
@@ -27,13 +27,13 @@ class TestIsZeroPoly:
         assert is_zero_poly(case.p) == case.res
 
     @given(p=st.polynomials())
-    def test_is_zero_poly_properties(self, p: VectorInt):
+    def test_is_zero_poly_properties(self, p: Vector):
         assert not is_zero_poly(p)
 
     INVALID_CASES = [make_poly([])]
 
     @pytest.mark.parametrize("p", INVALID_CASES)
-    def test_is_zero_poly_invalid_cases(self, p: VectorInt):
+    def test_is_zero_poly_invalid_cases(self, p: Vector):
         with pytest.raises(ValueError, match="Empty coefficient array is not a proper polynomial"):
             is_zero_poly(p)
 
@@ -41,7 +41,7 @@ class TestIsZeroPoly:
 class TestDeg:
     class Case(NamedTuple):
         # input:
-        p: VectorInt
+        p: Vector
         # output:
         degree: int
 
@@ -57,7 +57,7 @@ class TestDeg:
         assert deg(case.p) == case.degree
 
     @given(p=st.polynomials())
-    def test_deg_properties(self, p: VectorInt):
+    def test_deg_properties(self, p: Vector):
         assert deg(p) == len(p) - 1
 
     INVALID_CASES = [
@@ -68,6 +68,6 @@ class TestDeg:
     ]
 
     @pytest.mark.parametrize("p", INVALID_CASES)
-    def test_deg_invalid_cases(self, p: VectorInt):
+    def test_deg_invalid_cases(self, p: Vector):
         with pytest.raises(ValueError):
             deg(p)

@@ -1,6 +1,6 @@
 from typing import overload
 
-from ..typing import ArrayInt
+from ..typing import Array
 from . import _modring as mr
 
 
@@ -42,9 +42,9 @@ class ModIntRing:
     def mod(self, a: int) -> int: ...
 
     @overload
-    def mod(self, a: ArrayInt) -> ArrayInt: ...
+    def mod(self, a: Array) -> Array: ...
 
-    def mod(self, a: int | ArrayInt) -> int | ArrayInt:
+    def mod(self, a: int | Array) -> int | Array:
         """
         TODO: write docstring
 
@@ -64,9 +64,9 @@ class ModIntRing:
     def pow(self, a: int, r: int) -> int: ...
 
     @overload
-    def pow(self, a: ArrayInt, r: int) -> ArrayInt: ...
+    def pow(self, a: Array, r: int) -> Array: ...
 
-    def pow(self, a: int | ArrayInt, r: int) -> int | ArrayInt:
+    def pow(self, a: int | Array, r: int) -> int | Array:
         """
         TODO: write docstring
 
@@ -88,9 +88,9 @@ class ModIntRing:
     def inv(self, a: int) -> int: ...
 
     @overload
-    def inv(self, a: ArrayInt) -> ArrayInt: ...
+    def inv(self, a: Array) -> Array: ...
 
-    def inv(self, a: int | ArrayInt) -> int | ArrayInt:
+    def inv(self, a: int | Array) -> int | Array:
         """
         TODO: write docstring
 
@@ -110,9 +110,9 @@ class ModIntRing:
     def neg(self, a: int) -> int: ...
 
     @overload
-    def neg(self, a: ArrayInt) -> ArrayInt: ...
+    def neg(self, a: Array) -> Array: ...
 
-    def neg(self, a: int | ArrayInt) -> int | ArrayInt:
+    def neg(self, a: int | Array) -> int | Array:
         """
         TODO: write docstring
 
@@ -199,9 +199,9 @@ class ModIntRing:
     def pmod(self, a: int) -> int: ...
 
     @overload
-    def pmod(self, a: ArrayInt) -> ArrayInt: ...
+    def pmod(self, a: Array) -> Array: ...
 
-    def pmod(self, a: int | ArrayInt) -> int | ArrayInt:
+    def pmod(self, a: int | Array) -> int | Array:
         """
         TODO: write docstring
 
@@ -221,9 +221,9 @@ class ModIntRing:
     def cmodl(self, a: int) -> int: ...
 
     @overload
-    def cmodl(self, a: ArrayInt) -> ArrayInt: ...
+    def cmodl(self, a: Array) -> Array: ...
 
-    def cmodl(self, a: int | ArrayInt) -> int | ArrayInt:
+    def cmodl(self, a: int | Array) -> int | Array:
         """
         TODO: write docstring
 
@@ -243,9 +243,9 @@ class ModIntRing:
     def cmodr(self, a: int) -> int: ...
 
     @overload
-    def cmodr(self, a: ArrayInt) -> ArrayInt: ...
+    def cmodr(self, a: Array) -> Array: ...
 
-    def cmodr(self, a: int | ArrayInt) -> int | ArrayInt:
+    def cmodr(self, a: int | Array) -> int | Array:
         """
         TODO: write docstring
 

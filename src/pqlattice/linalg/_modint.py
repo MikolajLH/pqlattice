@@ -1,7 +1,7 @@
-from ..typing import MatrixInt, SquareMatrixInt
+from ..typing import Matrix, SquareMatrix
 
 
-def mod_ref(a: MatrixInt, modulus: int):
+def mod_ref(a: Matrix, modulus: int):
     """
     TODO: write docstring
 
@@ -16,7 +16,7 @@ def mod_ref(a: MatrixInt, modulus: int):
     pass
 
 
-def mod_rref(a: MatrixInt, modulus: int):
+def mod_rref(a: Matrix, modulus: int):
     """
     TODO: write docstring
 
@@ -31,7 +31,7 @@ def mod_rref(a: MatrixInt, modulus: int):
     pass
 
 
-def mod_left_kernel(a: MatrixInt, modulus: int):
+def mod_left_kernel(a: Matrix, modulus: int):
     """
     TODO: write docstring
 
@@ -46,7 +46,7 @@ def mod_left_kernel(a: MatrixInt, modulus: int):
     pass
 
 
-def mod_right_kernel(a: MatrixInt, modulus: int):
+def mod_right_kernel(a: Matrix, modulus: int):
     """
     TODO: write docstring
 
@@ -61,7 +61,7 @@ def mod_right_kernel(a: MatrixInt, modulus: int):
     pass
 
 
-def mod_matinv(a: SquareMatrixInt, modulus: int):
+def mod_matinv(a: SquareMatrix, modulus: int):
     """
     TODO: write docstring
 

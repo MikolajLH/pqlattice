@@ -3,7 +3,7 @@ import math
 
 import gmpy2
 import pytest
-from tests.sage_interface import SageEngineInterface, TMatrix, TMatrixInt, TVector, TVectorInt
+from tests.sage_interface import SageEngineInterface, TMatrix, TVector
 
 
 def gcd(a: int, b: int) -> int:
@@ -31,61 +31,59 @@ class Sage:
     # -- Public API
 
     @classmethod
-    def gen_lattice(
-        cls, type: str = "modular", n: int = 4, m: int = 8, q: int = 11, seed: int | None = None, quotient: TVector | None = None, dual: bool = False
-    ) -> TMatrixInt:
+    def gen_lattice(cls, type: str = "modular", n: int = 4, m: int = 8, q: int = 11, seed: int | None = None, quotient: TVector | None = None, dual: bool = False) -> TMatrix:
         return cls._get_engine().gen_lattice(type, n, m, q, seed, quotient, dual)
 
     @classmethod
-    def lll(cls, lattice_basis: TMatrixInt, delta: float = 0.99, transformation: bool = False) -> TMatrixInt | tuple[TMatrixInt, TMatrixInt]:
+    def lll(cls, lattice_basis: TMatrix, delta: float = 0.99, transformation: bool = False) -> TMatrix | tuple[TMatrix, TMatrix]:
         return cls._get_engine().lll(lattice_basis, delta, transformation)
 
     @classmethod
-    def bkz(cls, lattice_basis: TMatrixInt, delta: float = 0.99, block_size: int = 10) -> TMatrixInt:
+    def bkz(cls, lattice_basis: TMatrix, delta: float = 0.99, block_size: int = 10) -> TMatrix:
         return cls._get_engine().bkz(lattice_basis, delta, block_size)
 
     @classmethod
-    def hkz(cls, lattice_basis: TMatrixInt) -> TMatrixInt:
+    def hkz(cls, lattice_basis: TMatrix) -> TMatrix:
         return cls._get_engine().hkz(lattice_basis)
 
     @classmethod
-    def shortest_vector(cls, lattice_basis: TMatrixInt) -> TVectorInt:
+    def shortest_vector(cls, lattice_basis: TMatrix) -> TVector:
         return cls._get_engine().shortest_vector(lattice_basis)
 
     @classmethod
-    def closest_vector(cls, lattice_basis: TMatrixInt, target_vector: TVector) -> TVectorInt:
+    def closest_vector(cls, lattice_basis: TMatrix, target_vector: TVector) -> TVector:
         return cls._get_engine().closest_vector(lattice_basis, target_vector)
 
     @classmethod
-    def babai(cls, algorithm: str, lattice_basis: TMatrixInt, target_vector: TVector, delta: float = 0.99) -> TVectorInt:
+    def babai(cls, algorithm: str, lattice_basis: TMatrix, target_vector: TVector, delta: float = 0.99) -> TVector:
         return cls._get_engine().babai(algorithm, lattice_basis, target_vector, delta)
 
     @classmethod
-    def discriminant(cls, lattice_basis: TMatrixInt) -> int:
+    def discriminant(cls, lattice_basis: TMatrix) -> int:
         return cls._get_engine().discriminant(lattice_basis)
 
     @classmethod
-    def gaussian_heuristic(cls, lattice_basis: TMatrixInt) -> float:
+    def gaussian_heuristic(cls, lattice_basis: TMatrix) -> float:
         return cls._get_engine().gaussian_heuristic(lattice_basis)
 
     @classmethod
-    def hadamard_ratio(cls, lattice_basis: TMatrixInt) -> float:
+    def hadamard_ratio(cls, lattice_basis: TMatrix) -> float:
         return cls._get_engine().hadamard_ratio(lattice_basis)
 
     @classmethod
-    def is_unimodular(cls, lattice_basis: TMatrixInt) -> bool:
+    def is_unimodular(cls, lattice_basis: TMatrix) -> bool:
         return cls._get_engine().is_unimodular(lattice_basis)
 
     @classmethod
-    def volume(cls, lattice_basis: TMatrixInt) -> float:
+    def volume(cls, lattice_basis: TMatrix) -> float:
         return cls._get_engine().volume(lattice_basis)
 
     @classmethod
-    def hnf(cls, matrix: TMatrixInt, transformation: bool = False) -> TMatrixInt | tuple[TMatrixInt, TMatrixInt]:
+    def hnf(cls, matrix: TMatrix, transformation: bool = False) -> TMatrix | tuple[TMatrix, TMatrix]:
         return cls._get_engine().hnf(matrix, transformation)
 
     @classmethod
-    def is_lll_reduced(cls, lattice_basis: TMatrixInt, delta: float = 0.99) -> bool:
+    def is_lll_reduced(cls, lattice_basis: TMatrix, delta: float = 0.99) -> bool:
         return cls._get_engine().is_lll_reduced(lattice_basis, delta)
 
     @classmethod
@@ -93,21 +91,21 @@ class Sage:
         return cls._get_engine().gso(matrix, orthonormal)
 
     @classmethod
-    def left_kernel(cls, matrix: TMatrixInt) -> TMatrixInt:
+    def left_kernel(cls, matrix: TMatrix) -> TMatrix:
         return cls._get_engine().left_kernel(matrix)
 
     @classmethod
-    def left_nullity(cls, matrix: TMatrixInt) -> int:
+    def left_nullity(cls, matrix: TMatrix) -> int:
         return cls._get_engine().left_nullity(matrix)
 
     @classmethod
-    def right_kernel(cls, matrix: TMatrixInt) -> TMatrixInt:
+    def right_kernel(cls, matrix: TMatrix) -> TMatrix:
         return cls._get_engine().right_kernel(matrix)
 
     @classmethod
-    def right_nullity(cls, matrix: TMatrixInt) -> int:
+    def right_nullity(cls, matrix: TMatrix) -> int:
         return cls._get_engine().right_nullity(matrix)
 
     @classmethod
-    def rank(cls, matrix: TMatrixInt) -> int:
+    def rank(cls, matrix: TMatrix) -> int:
         return cls._get_engine().rank(matrix)

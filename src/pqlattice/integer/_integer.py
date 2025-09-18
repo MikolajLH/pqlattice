@@ -2,18 +2,18 @@ from typing import cast, overload
 
 import numpy as np
 
-from ..typing import ArrayInt
+from ..typing import Array
 
 
 @overload
-def eea(a: ArrayInt, b: int) -> tuple[ArrayInt, ArrayInt, ArrayInt]: ...
+def eea(a: Array, b: int) -> tuple[Array, Array, Array]: ...
 
 
 @overload
 def eea(a: int, b: int) -> tuple[int, int, int]: ...
 
 
-def eea(a: int | ArrayInt, b: int) -> tuple[int, int, int] | tuple[ArrayInt, ArrayInt, ArrayInt]:
+def eea(a: int | Array, b: int) -> tuple[int, int, int] | tuple[Array, Array, Array]:
     r"""
     Implementation of [extended euclidean algorithm](https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm) for integers.
 
@@ -46,7 +46,7 @@ def eea(a: int | ArrayInt, b: int) -> tuple[int, int, int] | tuple[ArrayInt, Arr
     if isinstance(a, int):
         return _eea(a, b)
     else:
-        return tuple(np.array([_eea(cast(int, el), b) for el in a]).T)
+        return tuple(np.array([_eea(cast(int, el), b) for el in a], dtype=object).T)
 
 
 def _eea(a: int, b: int) -> tuple[int, int, int]:

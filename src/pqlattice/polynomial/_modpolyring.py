@@ -1,5 +1,5 @@
 from ..integer._modring import mod, modinv
-from ..typing import VectorInt, validate_aliases
+from ..typing import Vector, validate_aliases
 from . import _poly as poly
 
 
@@ -28,25 +28,25 @@ class ModIntPolyRing:
         self.modulus = modulus
 
     @validate_aliases
-    def reduce(self, polynomial: VectorInt) -> VectorInt:
+    def reduce(self, polynomial: Vector) -> Vector:
         """
         TODO: write docstring
 
         Parameters
         ----------
-        polynomial : VectorInt
+        polynomial : Vector
             _description_
         """
         return poly.trim(mod(polynomial, self.modulus))
 
     @validate_aliases
-    def is_zero(self, polynomial: VectorInt) -> bool:
+    def is_zero(self, polynomial: Vector) -> bool:
         """
         TODO: write docstring
 
         Parameters
         ----------
-        polynomial : VectorInt
+        polynomial : Vector
             _description_
 
         Returns
@@ -57,89 +57,89 @@ class ModIntPolyRing:
         return poly.is_zero_poly(self.reduce(polynomial))
 
     @validate_aliases
-    def deg(self, polynomial: VectorInt) -> int:
+    def deg(self, polynomial: Vector) -> int:
         """
         TODO: write docstring
 
         Parameters
         ----------
-        polynomial : VectorInt
+        polynomial : Vector
             _description_
         """
         return poly.deg(self.reduce(polynomial))
 
     @validate_aliases
-    def add(self, polynomial_a: VectorInt, polynomial_b: VectorInt) -> VectorInt:
+    def add(self, polynomial_a: Vector, polynomial_b: Vector) -> Vector:
         """
         TODO: write docstring
 
         Parameters
         ----------
-        polynomial_a : VectorInt
+        polynomial_a : Vector
             _description_
-        polynomial_b : VectorInt
+        polynomial_b : Vector
             _description_
 
         Returns
         -------
-        VectorInt
+        Vector
             _description_
         """
         return self.reduce(poly.add(polynomial_a, polynomial_b))
 
     @validate_aliases
-    def sub(self, polynomial_a: VectorInt, polynomial_b: VectorInt) -> VectorInt:
+    def sub(self, polynomial_a: Vector, polynomial_b: Vector) -> Vector:
         """
         TODO: write docstring
 
         Parameters
         ----------
-        polynomial_a : VectorInt
+        polynomial_a : Vector
             _description_
-        polynomial_b : VectorInt
+        polynomial_b : Vector
             _description_
 
         Returns
         -------
-        VectorInt
+        Vector
             _description_
         """
         return self.reduce(poly.sub(polynomial_a, polynomial_b))
 
     @validate_aliases
-    def mul(self, polynomial_a: VectorInt, polynomial_b: VectorInt) -> VectorInt:
+    def mul(self, polynomial_a: Vector, polynomial_b: Vector) -> Vector:
         """
         TODO: write docstring
 
         Parameters
         ----------
-        polynomial_a : VectorInt
+        polynomial_a : Vector
             _description_
-        polynomial_b : VectorInt
+        polynomial_b : Vector
             _description_
 
         Returns
         -------
-        VectorInt
+        Vector
             _description_
         """
         return self.reduce(poly.mul(polynomial_a, polynomial_b))
 
     @validate_aliases
-    def euclidean_div(self, polynomial_a: VectorInt, polynomial_b: VectorInt) -> tuple[VectorInt, VectorInt]:
+    def euclidean_div(self, polynomial_a: Vector, polynomial_b: Vector) -> tuple[Vector, Vector]:
         """
         TODO: write docstring
 
         Parameters
         ----------
-        polynomial_a : VectorInt
+        polynomial_a : Vector
             _description_
-        polynomial_b : VectorInt
+        polynomial_b : Vector
             _description_
 
         Returns
         -------
-        tuple[VectorInt, VectorInt]
+        tuple[Vector, Vector]
             _description_
 
         Raises
@@ -164,56 +164,56 @@ class ModIntPolyRing:
         return q, r
 
     @validate_aliases
-    def rem(self, polynomial_a: VectorInt, polynomial_b: VectorInt) -> VectorInt:
+    def rem(self, polynomial_a: Vector, polynomial_b: Vector) -> Vector:
         """
         TODO: write docstring
 
         Parameters
         ----------
-        polynomial_a : VectorInt
+        polynomial_a : Vector
             _description_
-        polynomial_b : VectorInt
+        polynomial_b : Vector
             _description_
 
         Returns
         -------
-        VectorInt
+        Vector
             _description_
         """
         _, r = self.euclidean_div(polynomial_a, polynomial_b)
         return r
 
-    def to_monic(self, polynomial: VectorInt) -> VectorInt:
+    def to_monic(self, polynomial: Vector) -> Vector:
         """
         TODO: write docstring
 
         Parameters
         ----------
-        polynomial : VectorInt
+        polynomial : Vector
             _description_
 
         Returns
         -------
-        VectorInt
+        Vector
             _description_
         """
         leading_coeff: int = polynomial[self.deg(polynomial)]
         return self.reduce(modinv(leading_coeff, self.modulus) * polynomial)
 
-    def gcd(self, polynomial_a: VectorInt, polynomial_b: VectorInt) -> VectorInt:
+    def gcd(self, polynomial_a: Vector, polynomial_b: Vector) -> Vector:
         """
         TODO: write docstring
 
         Parameters
         ----------
-        polynomial_a : VectorInt
+        polynomial_a : Vector
             _description_
-        polynomial_b : VectorInt
+        polynomial_b : Vector
             _description_
 
         Returns
         -------
-        VectorInt
+        Vector
             _description_
         """
         r0 = self.reduce(polynomial_a)
@@ -226,15 +226,15 @@ class ModIntPolyRing:
 
         return r0
 
-    def eea(self, polynomial_a: VectorInt, polynomial_b: VectorInt):
+    def eea(self, polynomial_a: Vector, polynomial_b: Vector):
         """
         TODO: write docstring
 
         Parameters
         ----------
-        polynomial_a : VectorInt
+        polynomial_a : Vector
             _description_
-        polynomial_b : VectorInt
+        polynomial_b : Vector
             _description_
 
         Returns
@@ -256,15 +256,15 @@ class ModIntPolyRing:
 
         return f0, a0, b0
 
-    def coprime(self, polynomial_a: VectorInt, polynomial_b: VectorInt) -> bool:
+    def coprime(self, polynomial_a: Vector, polynomial_b: Vector) -> bool:
         """
         TODO: write docstring
 
         Parameters
         ----------
-        polynomial_a : VectorInt
+        polynomial_a : Vector
             _description_
-        polynomial_b : VectorInt
+        polynomial_b : Vector
             _description_
 
         Returns

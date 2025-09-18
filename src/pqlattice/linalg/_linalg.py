@@ -1,22 +1,22 @@
 import numpy as np
 
-from ..typing import MatrixInt, SquareMatrixInt, VectorInt, validate_aliases
+from ..typing import Matrix, SquareMatrix, Vector, validate_aliases
 from ._utils import row_add, row_scale, row_swap
 
 
 @validate_aliases
-def hnf(a: MatrixInt) -> tuple[MatrixInt, SquareMatrixInt]:
+def hnf(a: Matrix) -> tuple[Matrix, SquareMatrix]:
     """
     TODO: write docstring
 
     Parameters
     ----------
-    a : MatrixInt
+    a : Matrix
         _description_
 
     Returns
     -------
-    tuple[MatrixInt, SquareMatrixInt]
+    tuple[Matrix, SquareMatrix]
         _description_
     """
     H = np.array(a, dtype=object)
@@ -68,47 +68,47 @@ def hnf(a: MatrixInt) -> tuple[MatrixInt, SquareMatrixInt]:
 
 
 @validate_aliases
-def left_kernel(a: MatrixInt):
+def left_kernel(a: Matrix):
     """
     TODO: write docstring
 
     Parameters
     ----------
-    A : MatrixInt
+    A : Matrix
         _description_
     """
     return right_kernel(a.T)
 
 
 @validate_aliases
-def right_kernel(a: MatrixInt) -> MatrixInt:
+def right_kernel(a: Matrix) -> Matrix:
     """
     TODO: write docstring
 
     Parameters
     ----------
-    A : MatrixInt
+    A : Matrix
         _description_
     """
     H, U = hnf(a.T)
-    kernel_basis: list[VectorInt] = []
+    kernel_basis: list[Vector] = []
 
     m, _ = H.shape
     for i in range(m):
         if np.all(H[i] == 0):
             kernel_basis.append(U[i])
 
-    return np.array(kernel_basis, dtype=int)
+    return np.array(kernel_basis, dtype=object)
 
 
 @validate_aliases
-def left_nullity(a: MatrixInt) -> int:
+def left_nullity(a: Matrix) -> int:
     """
     TODO: write docstring
 
     Parameters
     ----------
-    a : MatrixInt
+    a : Matrix
         _description_
 
     Returns
@@ -121,13 +121,13 @@ def left_nullity(a: MatrixInt) -> int:
 
 
 @validate_aliases
-def right_nullity(a: MatrixInt) -> int:
+def right_nullity(a: Matrix) -> int:
     """
     TODO: write docstring
 
     Parameters
     ----------
-    a : MatrixInt
+    a : Matrix
         _description_
 
     Returns
@@ -139,13 +139,13 @@ def right_nullity(a: MatrixInt) -> int:
     return kernel.shape[0]
 
 
-def rank(a: MatrixInt) -> int:
+def rank(a: Matrix) -> int:
     """
     TODO: write docstring
 
     Parameters
     ----------
-    a : MatrixInt
+    a : Matrix
         _description_
 
     Returns
@@ -161,13 +161,13 @@ def rank(a: MatrixInt) -> int:
 
 
 @validate_aliases
-def det(a: SquareMatrixInt):
+def det(a: SquareMatrix):
     """
     TODO: write docstring
 
     Parameters
     ----------
-    A : SquareMatrixInt
+    A : SquareMatrix
         _description_
     """
     # TODO: implement
@@ -175,13 +175,13 @@ def det(a: SquareMatrixInt):
 
 
 @validate_aliases
-def minor(a: SquareMatrixInt, i: int, j: int):
+def minor(a: SquareMatrix, i: int, j: int):
     """
     TODO: write docstring
 
     Parameters
     ----------
-    A : SquareMatrixInt
+    A : SquareMatrix
         _description_
     i : int
         _description_
@@ -193,13 +193,13 @@ def minor(a: SquareMatrixInt, i: int, j: int):
 
 
 @validate_aliases
-def cofactor(a: SquareMatrixInt, i: int, j: int):
+def cofactor(a: SquareMatrix, i: int, j: int):
     """
     TODO: write docstring
 
     Parameters
     ----------
-    A : SquareMatrixInt
+    A : SquareMatrix
         _description_
     i : int
         _description_
@@ -211,13 +211,13 @@ def cofactor(a: SquareMatrixInt, i: int, j: int):
 
 
 @validate_aliases
-def cofactor_matrix(a: SquareMatrixInt):
+def cofactor_matrix(a: SquareMatrix):
     """
     TODO: write docstring
 
     Parameters
     ----------
-    A : SquareMatrixInt
+    A : SquareMatrix
         _description_
     """
     # TODO: implement

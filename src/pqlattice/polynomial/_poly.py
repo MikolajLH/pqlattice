@@ -2,11 +2,11 @@ from collections.abc import Iterable
 
 import numpy as np
 
-from ..typing import VectorInt, validate_aliases
+from ..typing import Vector, validate_aliases
 
 
 @validate_aliases
-def make_poly(data: Iterable[int | float]) -> VectorInt:
+def make_poly(data: Iterable[int | float]) -> Vector:
     """_summary_
 
     Parameters
@@ -24,7 +24,7 @@ def make_poly(data: Iterable[int | float]) -> VectorInt:
     ValueError
         _description_
     """
-    arr = np.array(data, dtype=np.int_)
+    arr = np.array(data, dtype=object)
 
     if arr.ndim != 1:
         raise ValueError(f"Expected 1D iterable, got {arr.ndim}D")
@@ -33,7 +33,7 @@ def make_poly(data: Iterable[int | float]) -> VectorInt:
 
 
 @validate_aliases
-def is_zero_poly(p: VectorInt) -> bool:
+def is_zero_poly(p: Vector) -> bool:
     """
     TODO: write docstring
 
@@ -59,7 +59,7 @@ def is_zero_poly(p: VectorInt) -> bool:
 
 
 @validate_aliases
-def deg(p: VectorInt) -> int:
+def deg(p: Vector) -> int:
     """
     TODO: write docstring
 
@@ -92,7 +92,7 @@ def deg(p: VectorInt) -> int:
 
 
 @validate_aliases
-def pad(p: VectorInt, max_deg: int) -> VectorInt:
+def pad(p: Vector, max_deg: int) -> Vector:
     """
     TODO: write docstring
 
@@ -124,7 +124,7 @@ def pad(p: VectorInt, max_deg: int) -> VectorInt:
 
 
 @validate_aliases
-def trim(p: VectorInt) -> VectorInt:
+def trim(p: Vector) -> Vector:
     """
     TODO: write docstring
 
@@ -139,13 +139,13 @@ def trim(p: VectorInt) -> VectorInt:
         _description_
     """
     if is_zero_poly(p):
-        return np.zeros(1, dtype=int)
+        return np.zeros(1, dtype=object)
 
     return p[: deg(p) + 1].copy()
 
 
 @validate_aliases
-def add(p: VectorInt, q: VectorInt) -> VectorInt:
+def add(p: Vector, q: Vector) -> Vector:
     """
     TODO: write docstring
 
@@ -166,7 +166,7 @@ def add(p: VectorInt, q: VectorInt) -> VectorInt:
 
 
 @validate_aliases
-def sub(p: VectorInt, q: VectorInt) -> VectorInt:
+def sub(p: Vector, q: Vector) -> Vector:
     """
     TODO: write docstring
 
@@ -187,7 +187,7 @@ def sub(p: VectorInt, q: VectorInt) -> VectorInt:
 
 
 @validate_aliases
-def mul(p: VectorInt, q: VectorInt) -> VectorInt:
+def mul(p: Vector, q: Vector) -> Vector:
     """
     TODO: write docstring
 
@@ -207,7 +207,7 @@ def mul(p: VectorInt, q: VectorInt) -> VectorInt:
 
 
 @validate_aliases
-def monomial(coeff: int, degree: int) -> VectorInt:
+def monomial(coeff: int, degree: int) -> Vector:
     """
     TODO: write docstring
 
@@ -232,13 +232,13 @@ def monomial(coeff: int, degree: int) -> VectorInt:
     if degree < 0:
         raise ValueError("degree has to be non negative")
 
-    p = np.zeros(degree + 1, dtype=int)
+    p = np.zeros(degree + 1, dtype=object)
     p[degree] = coeff
     return p
 
 
 @validate_aliases
-def zero_poly(max_deg: int = 0) -> VectorInt:
+def zero_poly(max_deg: int = 0) -> Vector:
     """
     TODO: write docstring
 
@@ -260,4 +260,4 @@ def zero_poly(max_deg: int = 0) -> VectorInt:
     if max_deg < 0:
         raise ValueError("degree has to be non negative")
 
-    return np.zeros(max_deg + 1, dtype=int)
+    return np.zeros(max_deg + 1, dtype=object)

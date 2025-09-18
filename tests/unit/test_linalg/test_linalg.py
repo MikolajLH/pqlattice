@@ -4,10 +4,10 @@ import numpy as np
 import pytest
 from hypothesis import given
 from tests import oracle
-from tests.strategies import full_rank_matrices, int_matrices, low_rank_matrices
+from tests.strategies import full_rank_matrices, low_rank_matrices, matrices
 
 from pqlattice.linalg._linalg import hnf, rank
-from pqlattice.typing import MatrixInt
+from pqlattice.typing import Matrix
 
 
 class TestHnf:
@@ -47,14 +47,14 @@ class TestHnf:
 
     @pytest.mark.parametrize("case", KNOWN_CASES)
     def test_hnf_known_cases(self, case: Case):
-        A = np.array(case.A, dtype=int)
-        expected_H = np.array(case.H, dtype=int)
+        A = np.array(case.A, dtype=object)
+        expected_H = np.array(case.H, dtype=object)
         H, _ = hnf(A)
 
         np.testing.assert_equal(H, expected_H)
 
-    @given(m=int_matrices())
-    def test_hnf_with_oracle(self, m: MatrixInt):
+    @given(m=matrices())
+    def test_hnf_with_oracle(self, m: Matrix):
         H, _ = hnf(m)
         sage_H = oracle.Sage.hnf(m)
 
@@ -62,22 +62,22 @@ class TestHnf:
 
 
 class TestKernelAndRank:
-    @given(m=int_matrices())
-    def test_rank_with_oracle_general(self, m: MatrixInt):
+    @given(m=matrices())
+    def test_rank_with_oracle_general(self, m: Matrix):
         sage_rank = oracle.Sage.rank(m)
         r = rank(m)
 
         assert r == sage_rank
 
     @given(m=low_rank_matrices())
-    def test_rank_with_oracle_low_rank(self, m: MatrixInt):
+    def test_rank_with_oracle_low_rank(self, m: Matrix):
         sage_rank = oracle.Sage.rank(m)
         r = rank(m)
 
         assert r == sage_rank
 
     @given(m=full_rank_matrices())
-    def test_rank_with_oracle_full_rank(self, m: MatrixInt):
+    def test_rank_with_oracle_full_rank(self, m: Matrix):
         rows, cols = m.shape
         sage_rank = oracle.Sage.rank(m)
         assert min(rows, cols) == sage_rank
