@@ -1,4 +1,6 @@
-from ..typing import Matrix, validate_aliases
+import math
+
+from ..typing import Matrix, Vector, validate_aliases
 
 
 @validate_aliases
@@ -105,3 +107,19 @@ def col_add(m: Matrix, i: int, k: int, s: float | int) -> None:
         _description_
     """
     m[:, i] += s * m[:, k]
+
+
+def norm2(v: Vector) -> int:
+    return int(v @ v.T)
+
+
+def norm(v: Vector) -> float:
+    return math.sqrt(norm2(v))
+
+
+def per_row_norm2(A: Matrix) -> list[int]:
+    return [norm2(row) for row in A]
+
+
+def per_row_norm(A: Matrix) -> list[float]:
+    return [math.sqrt(n2) for n2 in per_row_norm2(A)]
