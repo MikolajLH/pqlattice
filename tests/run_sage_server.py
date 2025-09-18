@@ -142,10 +142,10 @@ def _is_unimodular_task(mat: TMatrix) -> bool:
     return bool(d)
 
 
-def _volume_task(mat: TMatrix) -> float:
+def _volume_task(mat: TMatrix) -> int:
     m = IntegerLattice(mat.tolist(), lll_reduce=False)
     d = m.volume()
-    return float(d)
+    return int(d)
 
 
 class SageEngine(SageEngineInterface):
@@ -345,7 +345,7 @@ class SageEngine(SageEngineInterface):
         return res
 
     @override
-    def volume(self, lattice_basis: TMatrix) -> float:
+    def volume(self, lattice_basis: TMatrix) -> int:
         """
         https://doc.sagemath.org/html/en/reference/modules/sage/modules/free_module_integer.html#sage.modules.free_module_integer.FreeModule_submodule_with_basis_integer.volume
         """
