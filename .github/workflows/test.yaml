@@ -15,7 +15,7 @@ jobs:
               create-args: >-
                 sage
                 python=3.12
-              cache-enviroment: true
+              cache-environment: true
 
           - name: Install uv
             uses: astral-sh/setup-uv@v5
