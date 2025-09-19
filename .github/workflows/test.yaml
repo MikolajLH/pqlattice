@@ -2,28 +2,54 @@ on:
   push:
     paths:
       - 'tests/**'
-  workflow_dispatch:
 
 jobs:
     test:
         runs-on: ubuntu-latest
-        strategy:
-            fail-fast: false
         steps:
-            - uses: actions/checkout@v4
-            - name: Set up Python
-              uses: actions/setup-python@v5
-              with:
-                python-version: '3.12'
-            - name: Install uv
-              run: |
-                curl -LsSf https://astral.sh/uv/install.sh | sh
-                echo "${HOME}/.cargo/bin" >> $GITHUB_PATH
+          - uses: actions/checkout@v4
+          - name: Install SageMath using Micromamba
+            uses: mamba-org/setup-micromamba@v2
+            with:
+              environment-name: sage-env
+              create-args: >-
+                sage
+                python=3.11
+              cache-enviroment: true
 
-            - name: Install tests dependencies with uv
-              run: |
-                uv sync --group tests
+          - name: Install uv
+            uses: astral-sh/setup-uv@v5
+            with:
+              enable-cache: true
+              cache-dependency-glob: "uv.lock"
 
-            - name: Run tests with pytest
-              run: |
-                uv run pytest
+          - name: Install library and test dependencies
+            run:  uv sync --group tests
+
+          - name: Start sage server
+            shell: bash
+            run: |
+              SERVER_CMD="micromamba run -n sage-env python ./tests/run_sage_server.py"
+              echo "Starting sage server..."
+              $SERVER_CMD > sage_server.log 2>&1 &
+              echo $! > sage_pid.txt
+              echo "sage server PID: $(cat sage_pid.txt)"
+          - name: Wait for server to start
+            run: |
+              echo "Waiting for sage server to listen on port 5050..."
+
+              for i in {1..30}; do
+                if nc -z localhost 5050; then
+                  echo "sage server is listening"
+                  exit 0
+                fi
+                echo "Waiting..."
+                sleep 1
+              done
+
+              echo "Timeout: sage server did not start in time."
+              cat sage_server.log
+              exit 1
+
+          - name: Run tests
+            run: uv run pytest --sage
