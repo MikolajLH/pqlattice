@@ -126,13 +126,13 @@ def _discriminant_task(mat: TMatrix) -> int:
 
 def _gaussian_heuristic_task(mat: TMatrix) -> float:
     m = IntegerLattice(mat.tolist(), lll_reduce=False)
-    d = m.gaussian_heuristic()
+    d = m.gaussian_heuristic().n()
     return float(d)
 
 
 def _hadamard_ratio_task(mat: TMatrix) -> float:
     m = IntegerLattice(mat.tolist(), lll_reduce=False)
-    d = m.hadamard_ratio(use_reduced_basis=False)
+    d = m.hadamard_ratio(use_reduced_basis=False).n()
     return float(d)
 
 
