@@ -61,6 +61,4 @@ class TestLatticeProperties:
     def test_hadamard_ratio_with_oracle(self, lattice_basis: SquareMatrix):
         result = hadamard_ratio(lattice_basis)
         sage_result = oracle.Sage.hadamard_ratio(lattice_basis)
-        print(f"<><><><><><><><><><>\nhadamard {sage_result=}")
-
         assert result == pytest.approx(sage_result)  # type: ignore

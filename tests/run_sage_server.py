@@ -132,7 +132,6 @@ def _gaussian_heuristic_task(mat: TMatrix) -> float:
 
 def _hadamard_ratio_task(mat: TMatrix) -> float:
     m = IntegerLattice(mat.tolist(), lll_reduce=False)
-    return dir(m)  # type: ignore
     d = m.hadamard_ratio(use_reduced_basis=False).n()
     return float(d)
 

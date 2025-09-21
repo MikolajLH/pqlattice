@@ -68,9 +68,7 @@ class Sage:
 
     @classmethod
     def hadamard_ratio(cls, lattice_basis: TMatrix) -> float:
-        x = cls._get_engine().hadamard_ratio(lattice_basis)
-        print(x)
-        return x
+        return cls._get_engine().hadamard_ratio(lattice_basis)
 
     @classmethod
     def is_unimodular(cls, lattice_basis: TMatrix) -> bool:

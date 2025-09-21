@@ -22,6 +22,7 @@ jobs:
             run: |
               micromamba run -n sage-env sage -v
               micromamba run -n sage-env python -c "import sage.all; print(sage.all.version())"
+              micromamba run -n sage-env python -c "from sage.all import *;from sage.modules.free_module_integer import IntegerLattice;print('\n'.join(dir(IntegerLattice([[1, 0], [0, 1]], lll_reduce=False))))"
 
           - name: Install uv
             uses: astral-sh/setup-uv@v5
