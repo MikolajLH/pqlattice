@@ -18,6 +18,11 @@ jobs:
                 python=3.12
               cache-environment: true
 
+          - name: Check sage version
+            run: |
+              micromamba run -n sage-env sage -v
+              micromamba run -n sage-env python -c "import sage.all; print(sage.all.version())"
+
           - name: Install uv
             uses: astral-sh/setup-uv@v5
             with:
