@@ -6,7 +6,7 @@ from hypothesis import given
 from tests import oracle
 from tests.strategies import full_rank_matrices
 
-from pqlattice.lattice._lattice import discriminant, glr_2dim, volume
+from pqlattice.lattice._lattice import discriminant, gaussian_heuristic, glr_2dim, hadamard_ratio, volume
 from pqlattice.typing import SquareMatrix
 
 
@@ -50,16 +50,17 @@ class TestLatticeProperties:
 
         assert result == sage_result
 
-    # @given(lattice_basis=full_rank_matrices(square=True))
-    # def test_gaussian_heuristic_with_oracle(self, lattice_basis: SquareMatrix):
-    #     result = gaussian_heuristic(lattice_basis)
-    #     sage_result = oracle.Sage.gaussian_heuristic(lattice_basis)
+    @given(lattice_basis=full_rank_matrices(square=True))
+    def test_gaussian_heuristic_with_oracle(self, lattice_basis: SquareMatrix):
+        result = gaussian_heuristic(lattice_basis)
+        sage_result = oracle.Sage.gaussian_heuristic(lattice_basis)
 
-    #     assert result == pytest.approx(sage_result)  # type: ignore
+        assert result == pytest.approx(sage_result)  # type: ignore
 
-    # @given(lattice_basis=full_rank_matrices(square=True))
-    # def test_hadamard_ratio_with_oracle(self, lattice_basis: SquareMatrix):
-    #     result = hadamard_ratio(lattice_basis)
-    #     sage_result = oracle.Sage.hadamard_ratio(lattice_basis)
+    @given(lattice_basis=full_rank_matrices(square=True))
+    def test_hadamard_ratio_with_oracle(self, lattice_basis: SquareMatrix):
+        result = hadamard_ratio(lattice_basis)
+        sage_result = oracle.Sage.hadamard_ratio(lattice_basis)
+        print(f"<><><><><><><><><><>\nhadamard {sage_result=}")
 
-    #     assert result == pytest.approx(sage_result)  # type: ignore
+        assert result == pytest.approx(sage_result)  # type: ignore
