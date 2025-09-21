@@ -15,7 +15,7 @@ jobs:
               environment-name: sage-env
               create-args: >-
                 sage
-                python=3.12
+                python=3.13
               cache-environment: true
 
           - name: Check sage version
