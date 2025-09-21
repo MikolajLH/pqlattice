@@ -25,8 +25,14 @@ class Sage:
     def _get_engine(cls) -> SageEngineInterface:
         if cls._engine is None:
             pytest.skip("Skipping: Test requires SageMath (--sage flag not set)")
-            # raise RuntimeError("Sage is not connected")
         return cls._engine
+
+    @classmethod
+    def _check_version(cls) -> None:
+        v_major, v_minor = cls._get_engine().sage_version()
+        version = float(f"{v_major}.{v_minor}")
+        if version < 10.8:
+            pytest.skip(f"Need Sage 10.8+, got {version}")
 
     # -- Public API
 
@@ -64,10 +70,12 @@ class Sage:
 
     @classmethod
     def gaussian_heuristic(cls, lattice_basis: TMatrix) -> float:
+        cls._check_version()
         return cls._get_engine().gaussian_heuristic(lattice_basis)
 
     @classmethod
     def hadamard_ratio(cls, lattice_basis: TMatrix) -> float:
+        cls._check_version()
         return cls._get_engine().hadamard_ratio(lattice_basis)
 
     @classmethod

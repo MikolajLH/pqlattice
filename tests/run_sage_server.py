@@ -3,6 +3,7 @@
 # ruff: noqa: F403
 # pyright: reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false
 import multiprocessing as mp
+import re
 from concurrent.futures import ProcessPoolExecutor
 from multiprocessing.managers import BaseManager
 from typing import Any, override
@@ -10,6 +11,7 @@ from typing import Any, override
 import numpy as np
 from sage.all import *
 from sage.modules.free_module_integer import IntegerLattice
+from sage.version import version
 
 from sage_interface import DEFAULT_AUTHKEY, DEFAULT_PORT, SageEngineInterface, TMatrix, TVector
 
@@ -152,6 +154,13 @@ class SageEngine(SageEngineInterface):
     def __init__(self):
         ctx = mp.get_context("spawn")
         self.pool = ProcessPoolExecutor(max_workers=1, mp_context=ctx)
+
+    def sage_version(self) -> tuple[int, int]:
+        if match := re.search(r"(\d+\.\d+)", version):
+            major, minor = match.group(0).split(".")
+            return int(major), int(minor)
+        else:
+            return 0, 0
 
     @override
     def gen_lattice(self, type: str = "modular", n: int = 4, m: int = 8, q: int = 11, seed: int | None = None, quotient: TVector | None = None, dual: bool = False) -> TMatrix:
@@ -364,7 +373,8 @@ SageManager.register("get_engine", callable=lambda: SageEngine())
 
 def main():
     manager = SageManager(address=("", DEFAULT_PORT), authkey=DEFAULT_AUTHKEY)
-    print(f"Sage Server listening on {DEFAULT_PORT}...")
+    print(f"Sage version: {SageEngine().sage_version()}")
+    print(f"Sage server listening on {DEFAULT_PORT}...")
     manager.get_server().serve_forever()
 
 
