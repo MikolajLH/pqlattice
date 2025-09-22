@@ -120,6 +120,12 @@ def _rank_task(mat: TMatrix) -> int:
     return int(r)
 
 
+def _det_task(mat: TMatrix) -> int:
+    m = Matrix(ZZ, mat.tolist())
+    r = m.det()
+    return int(r)
+
+
 def _discriminant_task(mat: TMatrix) -> int:
     m = IntegerLattice(mat.tolist(), lll_reduce=False)
     d = m.discriminant()
@@ -310,6 +316,16 @@ class SageEngine(SageEngineInterface):
         """
         print("call rank")
         future = self.pool.submit(_rank_task, matrix)
+        res = future.result()
+        return res
+
+    @override
+    def det(self, matrix: TMatrix) -> int:
+        """
+        https://doc.sagemath.org/html/en/reference/matrices/sage/matrix/matrix2.html#sage.matrix.matrix2.Matrix.det
+        """
+        print("call det")
+        future = self.pool.submit(_det_task, matrix)
         res = future.result()
         return res
 

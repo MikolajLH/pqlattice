@@ -2,6 +2,7 @@ from typing import Any, Protocol
 
 from numpy.typing import NDArray
 
+type TArray = NDArray[Any]
 type TVector = NDArray[Any]
 type TMatrix = NDArray[Any]
 
@@ -57,3 +58,5 @@ class SageEngineInterface(Protocol):
     def right_nullity(self, matrix: TMatrix) -> int: ...
 
     def rank(self, matrix: TMatrix) -> int: ...
+
+    def det(self, matrix: TMatrix) -> int: ...

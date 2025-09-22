@@ -3,12 +3,12 @@ from typing import Any, cast
 
 import hypothesis.strategies as st
 import numpy as np
-import numpy.typing as npt
+from hypothesis import assume
 from hypothesis.extra import numpy as hnp
 from tests import oracle
+from tests.sage_interface import TArray
 
 type DrawFn[T] = Callable[[st.SearchStrategy[T]], T]
-type TArray = npt.NDArray[Any]
 
 
 @st.composite
@@ -117,3 +117,26 @@ def full_rank_matrices(draw: DrawFn[TArray | int | bool], min_rows: int = 2, max
             A[:, i] += factor * A[:, j]
 
     return A
+
+
+@st.composite
+def lattices(draw: DrawFn[Any], n_range: tuple[int, int] = (2, 15), value_range: tuple[int, int] = (-100, 100)):
+    n: int = draw(st.integers(*n_range))
+    lattice_basis: TArray = draw(hnp.arrays(object, (n, n), elements=st.integers(*value_range)))
+
+    det = oracle.Sage.det(lattice_basis)
+
+    assume(det != 0)
+
+    return lattice_basis
+
+
+@st.composite
+def sage_lattices(draw: DrawFn[Any], types: list[str], n_range: tuple[int, int], m_range: tuple[int, int], q_range: tuple[int, int], allow_dual: bool):
+    type: str = draw(st.sampled_from(types))
+    n: int = draw(st.integers(*n_range))
+    m: int = draw(st.integers(*m_range))
+    q: int = draw(st.integers(*q_range))
+    dual: bool = False if not allow_dual else draw(st.booleans())
+
+    return oracle.Sage.gen_lattice(type, n, m, q, dual=dual)

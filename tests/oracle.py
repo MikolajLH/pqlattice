@@ -117,3 +117,7 @@ class Sage:
     @classmethod
     def rank(cls, matrix: TMatrix) -> int:
         return cls._get_engine().rank(matrix)
+
+    @classmethod
+    def det(cls, matrix: TMatrix) -> int:
+        return cls._get_engine().det(matrix)
