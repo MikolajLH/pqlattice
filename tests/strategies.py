@@ -1,3 +1,4 @@
+import logging
 from collections.abc import Callable
 from typing import Any, cast
 
@@ -9,6 +10,8 @@ from tests import oracle
 from tests.sage_interface import TArray
 
 type DrawFn[T] = Callable[[st.SearchStrategy[T]], T]
+
+logger = logging.getLogger(__name__)
 
 
 @st.composite
@@ -132,11 +135,15 @@ def lattices(draw: DrawFn[Any], n_range: tuple[int, int] = (2, 15), value_range:
 
 
 @st.composite
-def sage_lattices(draw: DrawFn[Any], types: list[str], n_range: tuple[int, int], m_range: tuple[int, int], q_range: tuple[int, int], allow_dual: bool):
+def sage_lattices(draw: DrawFn[Any], types: list[str] | None = None, n_range: tuple[int, int] = (1, 6), m_range: tuple[int, int] = (4, 12), q_range: tuple[int, int] = (2, 17), allow_dual: bool = True):
+    if types is None:
+        types = ["modular", "random"]
+
     type: str = draw(st.sampled_from(types))
-    n: int = draw(st.integers(*n_range))
+    n: int = 1 if type == "random" else draw(st.integers(*n_range))
     m: int = draw(st.integers(*m_range))
     q: int = draw(st.integers(*q_range))
     dual: bool = False if not allow_dual else draw(st.booleans())
+    # logger.warning(f"{type=} {n=} {m=} {q=} {dual=}")
 
     return oracle.Sage.gen_lattice(type, n, m, q, dual=dual)
