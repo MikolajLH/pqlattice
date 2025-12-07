@@ -1,15 +1,15 @@
+from collections.abc import Iterable
 from fractions import Fraction
+from typing import Any
 
 import numpy as np
 
-from .typing import Array, validate_aliases
+from .typing import Array
 
 
-@validate_aliases
-def as_integer(a: Array) -> Array:
-    return (np.vectorize(int)(a.astype(object))).astype(object)
+def as_integer(a: Iterable[Any]) -> Array:
+    return (np.vectorize(int)(np.array(a, dtype=object))).astype(object)
 
 
-@validate_aliases
-def as_rational(a: Array) -> Array:
-    return (np.vectorize(Fraction)(a.astype(object))).astype(object)
+def as_rational(a: Iterable[Any]) -> Array:
+    return (np.vectorize(Fraction)(np.array(a, dtype=object))).astype(object)
