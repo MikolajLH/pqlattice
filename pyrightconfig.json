@@ -3,6 +3,7 @@
   "reportMissingImports": true,
   "reportMissingTypeStubs": false,
   "reportUnusedImport": false,
+  "reportConstantRedefinition": false,
   "include": ["src", "tests"],
   "ignore": ["tests/conftest.py"],
   "venvPath": ".",
