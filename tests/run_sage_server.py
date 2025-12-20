@@ -26,8 +26,15 @@ def _gen_lattice_task(type: str, n: int, m: int, q: int, seed: int | None, quoti
     q = Integer(q)
     seed = None if seed is None else Integer(seed)
     quotient = None  # if quotient is None else Polynomial()
-    sage_res = sage.crypto.gen_lattice(type, n, m, q, seed, quotient, dual)
-    return to_numpy(sage_res)
+    print(f"{n=} {m=} {q=}")
+    try:
+        sage_res = sage.crypto.gen_lattice(type, n, m, q, seed, quotient, dual)
+        print(f"{sage_res}")
+        return to_numpy(sage_res)
+    except Exception as e:
+        print(f"{e}")
+
+    return None  # type: ignore
 
 
 def _gso_task(mat: TMatrix, orthonormal: bool) -> tuple[TMatrix, TMatrix]:

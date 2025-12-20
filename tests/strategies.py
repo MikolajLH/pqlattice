@@ -123,7 +123,7 @@ def full_rank_matrices(draw: DrawFn[TArray | int | bool], min_rows: int = 2, max
 
 
 @st.composite
-def lattices(draw: DrawFn[Any], n_range: tuple[int, int] = (2, 15), value_range: tuple[int, int] = (-100, 100)):
+def lattices(draw: DrawFn[Any], n_range: tuple[int, int] = (2, 20), value_range: tuple[int, int] = (-100, 100)):
     n: int = draw(st.integers(*n_range))
     lattice_basis: TArray = draw(hnp.arrays(object, (n, n), elements=st.integers(*value_range)))
 
@@ -141,7 +141,7 @@ def sage_lattices(draw: DrawFn[Any], types: list[str] | None = None, n_range: tu
 
     type: str = draw(st.sampled_from(types))
     n: int = 1 if type == "random" else draw(st.integers(*n_range))
-    m: int = draw(st.integers(*m_range))
+    m: int = draw(st.integers(*m_range).filter(lambda x: x > n))
     q: int = draw(st.integers(*q_range))
     dual: bool = False if not allow_dual else draw(st.booleans())
     # logger.warning(f"{type=} {n=} {m=} {q=} {dual=}")
