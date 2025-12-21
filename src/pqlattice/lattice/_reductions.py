@@ -3,14 +3,14 @@ from fractions import Fraction
 import numpy as np
 
 from .._utils import as_integer
-from ..typing import SquareMatrix, validate_aliases
+from ..typing import Matrix, SquareMatrix, validate_aliases
 from ._gso import gso, project_coeffs
 
 
 @validate_aliases
-def lll(lattice_basis: SquareMatrix, delta: float = 0.99) -> SquareMatrix:
+def lll(lattice_basis: Matrix, delta: float = 0.99) -> Matrix:
     rows, _ = lattice_basis.shape
-    B = as_integer(lattice_basis)
+    B: Matrix = as_integer(lattice_basis)
     while True:
         B_star, _ = gso(B)
         # Reduction Step

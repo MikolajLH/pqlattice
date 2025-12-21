@@ -8,6 +8,9 @@ from ..typing import Matrix, SquareMatrix, Vector, validate_aliases
 
 @validate_aliases
 def project_coeffs(q: Vector, b: Vector) -> Fraction:
+    if np.dot(q, q) == 0:
+        return Fraction(0, 1)
+
     return np.dot(b, q) / np.dot(q, q)
 
 
