@@ -3,7 +3,7 @@ from hypothesis import given, settings
 from tests import oracle
 from tests.strategies import lattices, sage_lattices
 
-from pqlattice.lattice._reductions import lll  # , is_lll_reduced
+from pqlattice.lattice._lll import lll  # , is_lll_reduced
 from pqlattice.typing import SquareMatrix
 
 # class TestIsLLLreduced:
