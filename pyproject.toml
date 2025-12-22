@@ -38,6 +38,7 @@ tests = [
 ]
 
 [tool.pytest.ini_options]
+pythonpath = "."
 testpaths = 'tests'
 addopts = [
     "--import-mode=importlib",

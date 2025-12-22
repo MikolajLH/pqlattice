@@ -6,8 +6,8 @@ import hypothesis.strategies as st
 import numpy as np
 from hypothesis import assume
 from hypothesis.extra import numpy as hnp
+from sagemath.sage_interface import TArray
 from tests import oracle
-from tests.sage_interface import TArray
 
 type DrawFn[T] = Callable[[st.SearchStrategy[T]], T]
 

@@ -4,7 +4,7 @@
   "reportMissingTypeStubs": false,
   "reportUnusedImport": false,
   "reportConstantRedefinition": false,
-  "include": ["src", "tests"],
+  "include": ["src", "tests", "sagemath"],
   "ignore": ["tests/conftest.py"],
   "venvPath": ".",
   "venv": ".venv"

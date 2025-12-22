@@ -3,7 +3,7 @@ import math
 
 import gmpy2
 import pytest
-from tests.sage_interface import SageEngineInterface, TMatrix, TVector
+from sagemath.sage_interface import SageEngineInterface, TMatrix, TVector
 
 
 def gcd(a: int, b: int) -> int:

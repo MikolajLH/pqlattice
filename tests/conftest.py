@@ -1,20 +1,10 @@
-from multiprocessing.managers import BaseManager
-from typing import cast
-
 import pytest
 from hypothesis import settings
+from sagemath import sage_client
 from tests import oracle
-from tests.sage_interface import DEFAULT_AUTHKEY, DEFAULT_PORT, SageEngineInterface
 
 settings.register_profile("default", deadline=None)
 settings.load_profile("default")
-
-
-class SageManager(BaseManager):
-    pass
-
-
-SageManager.register("get_engine")
 
 
 def pytest_addoption(parser):
@@ -26,13 +16,10 @@ def initialize_sage_oracle(request):
     should_run_sage = request.config.getoption("--sage")
 
     if should_run_sage:
-        manager = SageManager(address=("localhost", DEFAULT_PORT), authkey=DEFAULT_AUTHKEY)
         try:
-            manager.connect()
-            proxy = manager.get_engine()
-            oracle.Sage._engine = cast(SageEngineInterface, proxy)
+            oracle.Sage._engine = sage_client.connect()
         except ConnectionRefusedError:
-            pytest.fail(f"Could not connect to Sage server on port {DEFAULT_PORT}")
+            pytest.fail("Could not connect to Sage server")
 
     yield
     oracle.Sage._engine = None

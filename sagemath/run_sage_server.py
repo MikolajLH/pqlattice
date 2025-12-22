@@ -12,7 +12,6 @@ import numpy as np
 from sage.all import *
 from sage.modules.free_module_integer import IntegerLattice
 from sage.version import version
-
 from sage_interface import DEFAULT_AUTHKEY, DEFAULT_PORT, SageEngineInterface, TMatrix, TVector
 
 
