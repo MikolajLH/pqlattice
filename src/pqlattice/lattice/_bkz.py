@@ -1,7 +1,7 @@
 from .._utils import as_integer, as_rational
 from ..typing import Matrix, SquareMatrix, Vector
 from ._gso import gso
-from ._reductions import lll
+from ._lll import lll
 from ._svp import schnorr_euchner_svp
 
 

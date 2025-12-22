@@ -1,18 +1,13 @@
-import logging
 from fractions import Fraction
-
-import numpy as np
 
 from .._utils import as_integer, as_rational
 from ..typing import SquareMatrix, Vector, validate_aliases
-from ._gso import gso, project_coeffs
-from ._reductions import lll
-
-logger = logging.getLogger(__name__)
+from ._gso import gso
+from ._lll import lll
 
 
 @validate_aliases
-def schnorr_euchner_svp(mu: SquareMatrix, B: Vector):
+def schnorr_euchner_svp(mu: SquareMatrix, B: Vector) -> Vector:
     n = len(B)
     best_norm: Fraction = B[0]
     best_coeffs: Vector = as_integer([1] + [0] * (n - 1))
@@ -76,30 +71,7 @@ def schnorr_euchner_svp(mu: SquareMatrix, B: Vector):
 def shortest_vector(lattice_basis: SquareMatrix) -> Vector:
     B = lll(lattice_basis)
     B_star, U = gso(B)
-    B_norms2 = np.array([sum(x * x for x in v) for v in B_star], dtype=object)
+    B_norms2 = as_rational([sum(x * x for x in v) for v in B_star])
     mu = U.T
     coeffs = schnorr_euchner_svp(mu, B_norms2)
     return coeffs @ B
-
-
-@validate_aliases
-def closest_vector(lattice_basis: SquareMatrix, target_vector: Vector) -> Vector:
-    raise NotImplementedError()
-
-
-@validate_aliases
-def babai_nearest_plane(lattice_basis: SquareMatrix, target_vector: Vector) -> Vector:
-    n, _ = lattice_basis.shape
-    B = lll(lattice_basis)
-    b = as_rational(target_vector)
-    for j in range(n - 1, -1, -1):
-        B_star, _ = gso(B)
-        cj = round(project_coeffs(B_star[j], b))
-        b -= cj * B[j]
-
-    return as_integer(as_rational(target_vector) - b)
-
-
-@validate_aliases
-def babai_closest_vector(lattice_basis: SquareMatrix, target_vector: Vector) -> Vector:
-    return as_integer(np.rint(target_vector @ np.linalg.inv(lattice_basis.astype(float))))
