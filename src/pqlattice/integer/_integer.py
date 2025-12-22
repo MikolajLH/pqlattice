@@ -1,7 +1,6 @@
 from typing import cast, overload
 
-import numpy as np
-
+from .._utils import as_integer
 from ..typing import Array
 
 
@@ -46,7 +45,7 @@ def eea(a: int | Array, b: int) -> tuple[int, int, int] | tuple[Array, Array, Ar
     if isinstance(a, int):
         return _eea(a, b)
     else:
-        return tuple(np.array([_eea(cast(int, el), b) for el in a], dtype=object).T)
+        return tuple(as_integer([_eea(cast(int, el), b) for el in a]).T)
 
 
 def _eea(a: int, b: int) -> tuple[int, int, int]:

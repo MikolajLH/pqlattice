@@ -3,6 +3,7 @@ from functools import reduce
 
 import numpy as np
 
+from .._utils import as_integer
 from ..linalg._linalg import det
 from ..linalg._utils import norm2, per_row_norm
 from ..typing import SquareMatrix, Vector, validate_aliases
@@ -51,9 +52,9 @@ def glr_2dim(lattice_basis: SquareMatrix) -> SquareMatrix:
     while norm2(v2) > norm2(v1):
         m = np.rint(np.dot(v1, v2) / np.dot(v1, v1))
         if m == 0:
-            return np.array([v1, v2], dtype=object)
+            return as_integer([v1, v2])
         v2 = v2 - m * v1
         if norm2(v1) > norm2(v2):
             v1, v2 = v2, v1
 
-    return np.array([v1, v2], dtype=object)
+    return np.array([v1, v2])
