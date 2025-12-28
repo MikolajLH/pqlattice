@@ -35,7 +35,7 @@ jobs:
           - name: Start sage server
             shell: bash
             run: |
-              SERVER_CMD="micromamba run -n sage-env python ./tests/run_sage_server.py"
+              SERVER_CMD="micromamba run -n sage-env python ./sagemath/run_sage_server.py"
               echo "Starting sage server..."
               $SERVER_CMD > sage_server.log 2>&1 &
               echo $! > sage_pid.txt
