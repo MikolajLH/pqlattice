@@ -1,7 +1,7 @@
 from typing import overload
 
 from ..typing import Array
-from . import _modring as mr
+from ._modring import cmodl, cmodr, mod, modinv, modpow
 
 
 class ModIntRing:
@@ -58,7 +58,7 @@ class ModIntRing:
         _type_
             _description_
         """
-        return mr.mod(a, self.q)
+        return mod(a, self.q)
 
     @overload
     def pow(self, a: int, r: int) -> int: ...
@@ -82,7 +82,7 @@ class ModIntRing:
         _type_
             _description_
         """
-        return self.mod(mr.modpow(a, r, self.q))
+        return self.mod(modpow(a, r, self.q))
 
     @overload
     def inv(self, a: int) -> int: ...
@@ -104,7 +104,7 @@ class ModIntRing:
         _type_
             _description_
         """
-        return self.mod(mr.modinv(a, self.q))
+        return self.mod(modinv(a, self.q))
 
     @overload
     def neg(self, a: int) -> int: ...
@@ -215,7 +215,7 @@ class ModIntRing:
         _type_
             _description_
         """
-        return mr.mod(a, self.q)
+        return mod(a, self.q)
 
     @overload
     def cmodl(self, a: int) -> int: ...
@@ -237,7 +237,7 @@ class ModIntRing:
         _type_
             _description_
         """
-        return mr.cmodl(a, self.q)
+        return cmodl(a, self.q)
 
     @overload
     def cmodr(self, a: int) -> int: ...
@@ -259,4 +259,4 @@ class ModIntRing:
         _type_
             _description_
         """
-        return mr.cmodr(a, self.q)
+        return cmodr(a, self.q)

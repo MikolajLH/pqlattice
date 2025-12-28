@@ -5,11 +5,11 @@ from ..typing import Array
 
 
 @overload
-def eea(a: Array, b: int) -> tuple[Array, Array, Array]: ...
+def eea(a: int, b: int) -> tuple[int, int, int]: ...
 
 
 @overload
-def eea(a: int, b: int) -> tuple[int, int, int]: ...
+def eea(a: Array, b: int) -> tuple[Array, Array, Array]: ...
 
 
 def eea(a: int | Array, b: int) -> tuple[int, int, int] | tuple[Array, Array, Array]:
