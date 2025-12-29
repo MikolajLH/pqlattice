@@ -175,7 +175,6 @@ class SageEngine(SageEngineInterface):
     def gen_lattice(self, type: str = "modular", n: int = 4, m: int = 8, q: int = 11, seed: int | None = None, quotient: TVector | None = None, dual: bool = False) -> TMatrix:
         """
         https://doc.sagemath.org/html/en/reference/cryptography/sage/crypto/lattice.html
-        TODO: enable quotient
         """
         print("call gen_lattice")
         future = self.pool.submit(_gen_lattice_task, type, n, m, q, seed, quotient, dual)

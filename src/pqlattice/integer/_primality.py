@@ -9,23 +9,6 @@ logger = logging.getLogger(__name__)
 
 
 def fermat_primality_test(p: int, s: int, int_gen: Callable[[int, int], int] | None = None) -> bool:
-    """
-    TODO: write docstring
-
-    Parameters
-    ----------
-    p : int
-        _description_
-    s : int
-        _description_
-    int_gen : Callable[[int, int], int] | None, optional
-        _description_, by default None
-
-    Returns
-    -------
-    _type_
-        _description_
-    """
     if p <= 1:
         return False
 
@@ -40,24 +23,6 @@ def fermat_primality_test(p: int, s: int, int_gen: Callable[[int, int], int] | N
 
 
 def miller_rabin_primality_test(n: int, s: int, int_gen: Callable[[int, int], int] | None = None) -> bool:
-    """
-    TODO: write docstring
-    Hoffstein - An Introduction to Mathematical Cryptography p. 131
-    Understanding Cryptography p. 191
-    https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test
-
-    Parameters
-    ----------
-    n : int
-        _description_
-    a : int
-        _description_
-
-    Returns
-    -------
-    bool
-        _description_
-    """
     if int_gen is None:
         int_gen = lambda a, b: random.randint(a, b)
 
@@ -88,27 +53,6 @@ def miller_rabin_primality_test(n: int, s: int, int_gen: Callable[[int, int], in
 
 
 def is_prime(p: int) -> bool:
-    """
-    Checks if a given integer is a prime number using Miller-Rabin primality test.
-
-    Parameters
-    ----------
-    p : `int`
-        Integer to test the primality of.
-
-    Returns
-    -------
-    bool
-        False if p is composite,
-        True if p passed Miller-Rabin test 20 times
-
-    Examples
-    --------
-    >>> is_prime(7)
-    True
-    >>> is_prime(2**20)
-    False
-    """
     if p <= 1:
         return False
 

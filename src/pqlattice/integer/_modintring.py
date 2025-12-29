@@ -5,19 +5,7 @@ from ._modring import cmodl, cmodr, mod, modinv, modpow
 
 
 class ModIntRing:
-    """
-    TODO: write docstring
-    """
-
     def __init__(self, modulus: int):
-        """
-        TODO: write docstring
-
-        Parameters
-        ----------
-        modulus : int
-            _description_
-        """
         if abs(modulus) < 2:
             raise ValueError(f"absolute value of modulus has to greater than one, given modulus: {modulus}")
 
@@ -25,18 +13,10 @@ class ModIntRing:
 
     @property
     def q(self):
-        """
-        TODO: write docstring
-
-        Returns
-        -------
-        _type_
-            _description_
-        """
         return self._modulus
 
     def is_zero(self, a: int) -> bool:
-        return self.pmod(a) == 0
+        return self.mod(a) == 0
 
     @overload
     def mod(self, a: int) -> int: ...
@@ -45,19 +25,6 @@ class ModIntRing:
     def mod(self, a: Array) -> Array: ...
 
     def mod(self, a: int | Array) -> int | Array:
-        """
-        TODO: write docstring
-
-        Parameters
-        ----------
-        a : int
-            _description_
-
-        Returns
-        -------
-        _type_
-            _description_
-        """
         return mod(a, self.q)
 
     @overload
@@ -67,21 +34,6 @@ class ModIntRing:
     def pow(self, a: Array, r: int) -> Array: ...
 
     def pow(self, a: int | Array, r: int) -> int | Array:
-        """
-        TODO: write docstring
-
-        Parameters
-        ----------
-        a : int
-            _description_
-        r : int
-            _description_
-
-        Returns
-        -------
-        _type_
-            _description_
-        """
         return self.mod(modpow(a, r, self.q))
 
     @overload
@@ -91,19 +43,6 @@ class ModIntRing:
     def inv(self, a: Array) -> Array: ...
 
     def inv(self, a: int | Array) -> int | Array:
-        """
-        TODO: write docstring
-
-        Parameters
-        ----------
-        a : int
-            _description_
-
-        Returns
-        -------
-        _type_
-            _description_
-        """
         return self.mod(modinv(a, self.q))
 
     @overload
@@ -113,109 +52,19 @@ class ModIntRing:
     def neg(self, a: Array) -> Array: ...
 
     def neg(self, a: int | Array) -> int | Array:
-        """
-        TODO: write docstring
-
-        Parameters
-        ----------
-        a : int
-            _description_
-        """
         return self.mod(-a)
 
     def add(self, a: int, b: int) -> int:
-        """
-        TODO: write docstring
-
-        Parameters
-        ----------
-        a : int
-            _description_
-        b : int
-            _description_
-
-        Returns
-        -------
-        _type_
-            _description_
-        """
         return self.mod(a + b)
 
     def mul(self, a: int, b: int) -> int:
-        """
-        TODO: write docstring
-
-        Parameters
-        ----------
-        a : int
-            _description_
-        b : int
-            _description_
-
-        Returns
-        -------
-        _type_
-            _description_
-        """
         return self.mod(a * b)
 
     def div(self, a: int, b: int) -> int:
-        """
-        TODO: write docstring
-
-        Parameters
-        ----------
-        a : int
-            _description_
-        b : int
-            _description_
-
-        Returns
-        -------
-        _type_
-            _description_
-        """
         return self.mul(a, self.inv(b))
 
     def sub(self, a: int, b: int) -> int:
-        """
-        TODO: write docstring
-
-        Parameters
-        ----------
-        a : int
-            _description_
-        b : int
-            _description_
-
-        Returns
-        -------
-        _type_
-            _description_
-        """
         return self.mod(a - b)
-
-    @overload
-    def pmod(self, a: int) -> int: ...
-
-    @overload
-    def pmod(self, a: Array) -> Array: ...
-
-    def pmod(self, a: int | Array) -> int | Array:
-        """
-        TODO: write docstring
-
-        Parameters
-        ----------
-        a : int
-            _description_
-
-        Returns
-        -------
-        _type_
-            _description_
-        """
-        return mod(a, self.q)
 
     @overload
     def cmodl(self, a: int) -> int: ...
@@ -224,19 +73,6 @@ class ModIntRing:
     def cmodl(self, a: Array) -> Array: ...
 
     def cmodl(self, a: int | Array) -> int | Array:
-        """
-        TODO: write docstring
-
-        Parameters
-        ----------
-        a : int
-            _description_
-
-        Returns
-        -------
-        _type_
-            _description_
-        """
         return cmodl(a, self.q)
 
     @overload
@@ -246,17 +82,4 @@ class ModIntRing:
     def cmodr(self, a: Array) -> Array: ...
 
     def cmodr(self, a: int | Array) -> int | Array:
-        """
-        TODO: write docstring
-
-        Parameters
-        ----------
-        a : int
-            _description_
-
-        Returns
-        -------
-        _type_
-            _description_
-        """
         return cmodr(a, self.q)

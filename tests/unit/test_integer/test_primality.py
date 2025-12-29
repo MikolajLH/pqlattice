@@ -7,12 +7,10 @@ from pqlattice.integer._primality import is_prime
 
 
 class TestFermatPrimalityTest:
-    # TODO: implement
     pass
 
 
 class TestMillerRabinPrimalityTest:
-    # TODO: implement
     pass
 
 

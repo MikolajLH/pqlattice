@@ -28,19 +28,6 @@ def _is_SquareMatrix(obj: Any) -> TypeGuard[SquareMatrix]:
 
 
 def _get_predicate_for_alias[T: TypeAliasType](type_name: T) -> Callable[[T], bool] | None:
-    """
-    TODO: write docstring
-
-    Parameters
-    ----------
-    type_name : T
-        _description_
-
-    Returns
-    -------
-    Callable[[T], bool] | None
-        _description_
-    """
     # Bare
     if type_name == Vector:
         return _is_Vector
@@ -55,22 +42,7 @@ def _get_predicate_for_alias[T: TypeAliasType](type_name: T) -> Callable[[T], bo
 
 
 def validate_aliases[**P, T](func: Callable[P, T]) -> Callable[P, T]:
-    """
-    TODO: write docstring
-
-    Parameters
-    ----------
-    func : Callable[P, T]
-        _description_
-
-    Returns
-    -------
-    Callable[P, T]
-        _description_
-    """
-
     def wrapper(*args: P.args, **kwds: P.kwargs) -> T:
-        # TODO: Is it possible to add memoization?
         sig = signature(func)
         bounded_args = sig.bind(*args, **kwds)
         bounded_args.apply_defaults()

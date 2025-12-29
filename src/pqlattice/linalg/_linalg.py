@@ -6,6 +6,7 @@ from ..typing import Matrix, SquareMatrix, Vector, validate_aliases
 from ._utils import row_add, row_scale, row_swap
 
 
+@validate_aliases
 def hnf(A: Matrix) -> tuple[Matrix, SquareMatrix]:
     H, U, _ = _hnf(A)
     return H, U
@@ -13,19 +14,6 @@ def hnf(A: Matrix) -> tuple[Matrix, SquareMatrix]:
 
 @validate_aliases
 def _hnf(a: Matrix) -> tuple[Matrix, SquareMatrix, int]:
-    """
-    TODO: write docstring
-
-    Parameters
-    ----------
-    a : Matrix
-        _description_
-
-    Returns
-    -------
-    tuple[Matrix, SquareMatrix]
-        _description_
-    """
     H = np.array(a, dtype=object)
     m, n = H.shape
     U = np.eye(m, dtype=object)  # The transformation matrix
@@ -80,27 +68,11 @@ def _hnf(a: Matrix) -> tuple[Matrix, SquareMatrix, int]:
 
 @validate_aliases
 def left_kernel(a: Matrix):
-    """
-    TODO: write docstring
-
-    Parameters
-    ----------
-    A : Matrix
-        _description_
-    """
     return right_kernel(a.T)
 
 
 @validate_aliases
 def right_kernel(a: Matrix) -> Matrix:
-    """
-    TODO: write docstring
-
-    Parameters
-    ----------
-    A : Matrix
-        _description_
-    """
     H, U = hnf(a.T)
     kernel_basis: list[Vector] = []
 
@@ -114,56 +86,17 @@ def right_kernel(a: Matrix) -> Matrix:
 
 @validate_aliases
 def left_nullity(a: Matrix) -> int:
-    """
-    TODO: write docstring
-
-    Parameters
-    ----------
-    a : Matrix
-        _description_
-
-    Returns
-    -------
-    int
-        _description_
-    """
     kernel = left_kernel(a)
     return kernel.shape[0]
 
 
 @validate_aliases
 def right_nullity(a: Matrix) -> int:
-    """
-    TODO: write docstring
-
-    Parameters
-    ----------
-    a : Matrix
-        _description_
-
-    Returns
-    -------
-    int
-        _description_
-    """
     kernel = right_kernel(a)
     return kernel.shape[0]
 
 
 def rank(a: Matrix) -> int:
-    """
-    TODO: write docstring
-
-    Parameters
-    ----------
-    a : Matrix
-        _description_
-
-    Returns
-    -------
-    int
-        _description_
-    """
     m, n = a.shape
     l_rank = m - left_nullity(a)
     r_rank = n - right_nullity(a)
@@ -180,48 +113,16 @@ def det(A: SquareMatrix) -> int:
 
 @validate_aliases
 def minor(A: SquareMatrix, i: int, j: int) -> int:
-    """
-    TODO: write docstring
-
-    Parameters
-    ----------
-    A : SquareMatrix
-        _description_
-    i : int
-        _description_
-    j : int
-        _description_
-    """
     return det(np.delete(np.delete(A, i, axis=0), j, axis=1))
 
 
 @validate_aliases
 def cofactor(A: SquareMatrix, i: int, j: int) -> int:
-    """
-    TODO: write docstring
-
-    Parameters
-    ----------
-    A : SquareMatrix
-        _description_
-    i : int
-        _description_
-    j : int
-        _description_
-    """
     return minor(A, i, j) * ((-1) ** (i + 1 + j + 1))
 
 
 @validate_aliases
 def cofactor_matrix(A: SquareMatrix) -> SquareMatrix:
-    """
-    TODO: write docstring
-
-    Parameters
-    ----------
-    A : SquareMatrix
-        _description_
-    """
     n = A.shape[0]
     C = np.zeros((n, n), dtype=object)
     for i in range(n):
