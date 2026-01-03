@@ -18,8 +18,6 @@ class TestEea:
         s: int
         t: int
 
-        label: str = ""
-
     KNOWN_CASES = [
         Case(0, 8, gcd=8, s=0, t=1),
         Case(8, 0, gcd=8, s=1, t=0),

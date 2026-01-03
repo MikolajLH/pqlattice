@@ -1,10 +1,11 @@
 from .._utils import as_integer, as_rational
-from ..typing import Matrix, SquareMatrix, Vector
+from ..typing import Matrix, SquareMatrix, Vector, validate_aliases
 from ._gso import gso
 from ._lll import lll
 from ._svp import schnorr_euchner_svp
 
 
+@validate_aliases
 def update_block(lattice_basis: SquareMatrix, new_vector: Vector, start_index: int, block_size: int) -> SquareMatrix:
     B = as_integer(lattice_basis)
     local_basis = as_integer([new_vector] + B[start_index : start_index + block_size].tolist())
@@ -22,7 +23,8 @@ def update_block(lattice_basis: SquareMatrix, new_vector: Vector, start_index: i
     return B
 
 
-def bkz(lattice_basis: SquareMatrix, block_size: int) -> SquareMatrix:
+@validate_aliases
+def bkz(lattice_basis: SquareMatrix, block_size: int = 10) -> SquareMatrix:
     n, m = lattice_basis.shape
 
     B = lll(lattice_basis)

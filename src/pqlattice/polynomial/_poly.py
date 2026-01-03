@@ -29,7 +29,8 @@ def deg(p: Vector) -> int:
         raise ValueError("Empty coefficient array is not a proper polynomial")
     nonzeros = np.nonzero(p)[0]
     if len(nonzeros) == 0:
-        raise ValueError("Degree of zero polynomial is undefined")
+        return -1
+        # raise ValueError("Degree of zero polynomial is undefined")
     else:
         return nonzeros[-1]
 

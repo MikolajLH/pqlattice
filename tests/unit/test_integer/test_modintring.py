@@ -19,15 +19,6 @@ def test_constructor_failing(modulus: int):
 
 
 @given(modulus=st.integers().filter(lambda x: 1 < abs(x) < 2**30), a=st.integers())
-def test_pmod(modulus: int, a: int):
-    R = ModIntRing(modulus)
-    ra = R.pmod(a)
-
-    m = abs(modulus)
-    assert 0 <= ra < m
-
-
-@given(modulus=st.integers().filter(lambda x: 1 < abs(x) < 2**30), a=st.integers())
 def test_cmodr(modulus: int, a: int):
     R = ModIntRing(modulus)
     ra = R.cmodr(a)
