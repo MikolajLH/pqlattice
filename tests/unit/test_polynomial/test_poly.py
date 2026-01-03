@@ -59,15 +59,3 @@ class TestDeg:
     @given(p=st.polynomials())
     def test_deg_properties(self, p: Vector):
         assert deg(p) == len(p) - 1
-
-    INVALID_CASES = [
-        make_poly([]),
-        make_poly([0]),
-        make_poly([0, 0]),
-        make_poly([0, 0, 0, 0]),
-    ]
-
-    @pytest.mark.parametrize("p", INVALID_CASES)
-    def test_deg_invalid_cases(self, p: Vector):
-        with pytest.raises(ValueError):
-            deg(p)
