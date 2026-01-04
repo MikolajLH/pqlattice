@@ -69,6 +69,18 @@ def schnorr_euchner_svp(mu: SquareMatrix, B: Vector) -> Vector:
 
 @validate_aliases
 def shortest_vector(lattice_basis: SquareMatrix) -> Vector:
+    """_summary_
+
+    Parameters
+    ----------
+    lattice_basis : SquareMatrix
+        _description_
+
+    Returns
+    -------
+    Vector
+        _description_
+    """
     B = lll(lattice_basis)
     B_star, U = gso(B)
     B_norms2 = as_rational([sum(x * x for x in v) for v in B_star])

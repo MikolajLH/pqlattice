@@ -11,33 +11,110 @@ from ..typing import SquareMatrix, Vector, validate_aliases
 
 @validate_aliases
 def volume(lattice_basis: SquareMatrix) -> int:
+    """_summary_
+
+    Parameters
+    ----------
+    lattice_basis : SquareMatrix
+        _description_
+
+    Returns
+    -------
+    int
+        _description_
+    """
     return abs(det(lattice_basis))
 
 
 @validate_aliases
 def rank(lattice_basis: SquareMatrix) -> int:
+    """_summary_
+
+    Parameters
+    ----------
+    lattice_basis : SquareMatrix
+        _description_
+
+    Returns
+    -------
+    int
+        _description_
+    """
     return lattice_basis.shape[0]
 
 
 @validate_aliases
 def discriminant(lattice_basis: SquareMatrix) -> int:
+    """_summary_
+
+    Parameters
+    ----------
+    lattice_basis : SquareMatrix
+        _description_
+
+    Returns
+    -------
+    int
+        _description_
+    """
     v = volume(lattice_basis)
     return v * v
 
 
 @validate_aliases
 def hadamard_ratio(lattice_basis: SquareMatrix) -> float:
+    """_summary_
+
+    Parameters
+    ----------
+    lattice_basis : SquareMatrix
+        _description_
+
+    Returns
+    -------
+    float
+        _description_
+    """
     return (volume(lattice_basis) / reduce(lambda a, b: a * b, per_row_norm(lattice_basis))) ** (1 / rank(lattice_basis))
 
 
 @validate_aliases
 def gaussian_heuristic(lattice_basis: SquareMatrix) -> float:
+    """_summary_
+
+    Parameters
+    ----------
+    lattice_basis : SquareMatrix
+        _description_
+
+    Returns
+    -------
+    float
+        _description_
+    """
     n = rank(lattice_basis)
     return math.sqrt(n / (2 * math.pi * math.e)) * (volume(lattice_basis) ** (1 / n))
 
 
 @validate_aliases
 def glr_2dim(lattice_basis: SquareMatrix) -> SquareMatrix:
+    """_summary_
+
+    Parameters
+    ----------
+    lattice_basis : SquareMatrix
+        _description_
+
+    Returns
+    -------
+    SquareMatrix
+        _description_
+
+    Raises
+    ------
+    ValueError
+        _description_
+    """
     if lattice_basis.shape != (2, 2):
         raise ValueError("Lattice has to have rank 2 for gaussian reduction")
 

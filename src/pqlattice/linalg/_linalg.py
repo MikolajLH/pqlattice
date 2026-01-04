@@ -8,6 +8,18 @@ from ._utils import row_add, row_scale, row_swap
 
 @validate_aliases
 def hnf(A: Matrix) -> tuple[Matrix, SquareMatrix]:
+    """_summary_
+
+    Parameters
+    ----------
+    A : Matrix
+        _description_
+
+    Returns
+    -------
+    tuple[Matrix, SquareMatrix]
+        _description_
+    """
     H, U, _ = _hnf(A)
     return H, U
 
@@ -68,11 +80,35 @@ def _hnf(a: Matrix) -> tuple[Matrix, SquareMatrix, int]:
 
 @validate_aliases
 def left_kernel(a: Matrix):
+    """_summary_
+
+    Parameters
+    ----------
+    a : Matrix
+        _description_
+
+    Returns
+    -------
+    _type_
+        _description_
+    """
     return right_kernel(a.T)
 
 
 @validate_aliases
 def right_kernel(a: Matrix) -> Matrix:
+    """_summary_
+
+    Parameters
+    ----------
+    a : Matrix
+        _description_
+
+    Returns
+    -------
+    Matrix
+        _description_
+    """
     H, U = hnf(a.T)
     kernel_basis: list[Vector] = []
 
@@ -86,17 +122,53 @@ def right_kernel(a: Matrix) -> Matrix:
 
 @validate_aliases
 def left_nullity(a: Matrix) -> int:
+    """_summary_
+
+    Parameters
+    ----------
+    a : Matrix
+        _description_
+
+    Returns
+    -------
+    int
+        _description_
+    """
     kernel = left_kernel(a)
     return kernel.shape[0]
 
 
 @validate_aliases
 def right_nullity(a: Matrix) -> int:
+    """_summary_
+
+    Parameters
+    ----------
+    a : Matrix
+        _description_
+
+    Returns
+    -------
+    int
+        _description_
+    """
     kernel = right_kernel(a)
     return kernel.shape[0]
 
 
 def rank(a: Matrix) -> int:
+    """_summary_
+
+    Parameters
+    ----------
+    a : Matrix
+        _description_
+
+    Returns
+    -------
+    int
+        _description_
+    """
     m, n = a.shape
     l_rank = m - left_nullity(a)
     r_rank = n - right_nullity(a)
@@ -106,6 +178,18 @@ def rank(a: Matrix) -> int:
 
 @validate_aliases
 def det(A: SquareMatrix) -> int:
+    """_summary_
+
+    Parameters
+    ----------
+    A : SquareMatrix
+        _description_
+
+    Returns
+    -------
+    int
+        _description_
+    """
     H, _, det_U = _hnf(A)
 
     return reduce(lambda a, b: a * b, np.diagonal(H), 1) * det_U
@@ -113,16 +197,60 @@ def det(A: SquareMatrix) -> int:
 
 @validate_aliases
 def minor(A: SquareMatrix, i: int, j: int) -> int:
+    """_summary_
+
+    Parameters
+    ----------
+    A : SquareMatrix
+        _description_
+    i : int
+        _description_
+    j : int
+        _description_
+
+    Returns
+    -------
+    int
+        _description_
+    """
     return det(np.delete(np.delete(A, i, axis=0), j, axis=1))
 
 
 @validate_aliases
 def cofactor(A: SquareMatrix, i: int, j: int) -> int:
+    """_summary_
+
+    Parameters
+    ----------
+    A : SquareMatrix
+        _description_
+    i : int
+        _description_
+    j : int
+        _description_
+
+    Returns
+    -------
+    int
+        _description_
+    """
     return minor(A, i, j) * ((-1) ** (i + 1 + j + 1))
 
 
 @validate_aliases
 def cofactor_matrix(A: SquareMatrix) -> SquareMatrix:
+    """_summary_
+
+    Parameters
+    ----------
+    A : SquareMatrix
+        _description_
+
+    Returns
+    -------
+    SquareMatrix
+        _description_
+    """
     n = A.shape[0]
     C = np.zeros((n, n), dtype=object)
     for i in range(n):

@@ -16,6 +16,18 @@ def project_coeffs(q: Vector, b: Vector) -> Fraction:
 
 @validate_aliases
 def gso(B: Matrix) -> tuple[Matrix, SquareMatrix]:
+    """_summary_
+
+    Parameters
+    ----------
+    B : Matrix
+        _description_
+
+    Returns
+    -------
+    tuple[Matrix, SquareMatrix]
+        _description_
+    """
     rows, _ = B.shape
 
     B_star: Matrix = as_rational(B)

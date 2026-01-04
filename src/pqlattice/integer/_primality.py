@@ -53,6 +53,18 @@ def miller_rabin_primality_test(n: int, s: int, int_gen: Callable[[int, int], in
 
 
 def is_prime(p: int) -> bool:
+    """_summary_
+
+    Parameters
+    ----------
+    p : int
+        _description_
+
+    Returns
+    -------
+    bool
+        _description_
+    """
     if p <= 1:
         return False
 

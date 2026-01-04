@@ -9,6 +9,20 @@ from ._utils import row_add, row_scale, row_swap
 
 @validate_aliases
 def mod_ref(A: Matrix, modulus: int) -> tuple[Matrix, SquareMatrix]:
+    """_summary_
+
+    Parameters
+    ----------
+    A : Matrix
+        _description_
+    modulus : int
+        _description_
+
+    Returns
+    -------
+    tuple[Matrix, SquareMatrix]
+        _description_
+    """
     R = ModIntRing(modulus)
     m, n = A.shape
 
@@ -47,6 +61,20 @@ def mod_ref(A: Matrix, modulus: int) -> tuple[Matrix, SquareMatrix]:
 
 @validate_aliases
 def mod_rref(A: Matrix, modulus: int) -> tuple[Matrix, SquareMatrix]:
+    """_summary_
+
+    Parameters
+    ----------
+    A : Matrix
+        _description_
+    modulus : int
+        _description_
+
+    Returns
+    -------
+    tuple[Matrix, SquareMatrix]
+        _description_
+    """
     R = ModIntRing(modulus)
     m, n = A.shape
     M, U = mod_ref(A, modulus)
@@ -74,11 +102,39 @@ def mod_rref(A: Matrix, modulus: int) -> tuple[Matrix, SquareMatrix]:
 
 @validate_aliases
 def mod_left_kernel(A: Matrix, modulus: int) -> Matrix:
+    """_summary_
+
+    Parameters
+    ----------
+    A : Matrix
+        _description_
+    modulus : int
+        _description_
+
+    Returns
+    -------
+    Matrix
+        _description_
+    """
     return mod_right_kernel(A.T, modulus)
 
 
 @validate_aliases
 def mod_right_kernel(A: Matrix, modulus: int) -> Matrix:
+    """_summary_
+
+    Parameters
+    ----------
+    A : Matrix
+        _description_
+    modulus : int
+        _description_
+
+    Returns
+    -------
+    Matrix
+        _description_
+    """
     M, U = mod_rref(A.T, modulus)
     kernel_basis: list[Vector] = []
 
@@ -92,17 +148,59 @@ def mod_right_kernel(A: Matrix, modulus: int) -> Matrix:
 
 @validate_aliases
 def mod_left_nullity(A: Matrix, modulus: int) -> int:
+    """_summary_
+
+    Parameters
+    ----------
+    A : Matrix
+        _description_
+    modulus : int
+        _description_
+
+    Returns
+    -------
+    int
+        _description_
+    """
     kernel = mod_left_kernel(A, modulus)
     return kernel.shape[0]
 
 
 @validate_aliases
 def mod_right_nullity(A: Matrix, modulus: int) -> int:
+    """_summary_
+
+    Parameters
+    ----------
+    A : Matrix
+        _description_
+    modulus : int
+        _description_
+
+    Returns
+    -------
+    int
+        _description_
+    """
     kernel = mod_right_kernel(A, modulus)
     return kernel.shape[0]
 
 
 def mod_matinv(A: SquareMatrix, modulus: int) -> SquareMatrix:
+    """_summary_
+
+    Parameters
+    ----------
+    A : SquareMatrix
+        _description_
+    modulus : int
+        _description_
+
+    Returns
+    -------
+    SquareMatrix
+        _description_
+    """
     R = ModIntRing(modulus)
     C = R.mod(cofactor_matrix(A))
     det_inv = R.inv(det(A))

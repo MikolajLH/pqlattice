@@ -9,6 +9,20 @@ from ._gso import gso, project_coeffs
 
 @validate_aliases
 def lll(lattice_basis: Matrix, delta: float = 0.99) -> Matrix:
+    """_summary_
+
+    Parameters
+    ----------
+    lattice_basis : Matrix
+        _description_
+    delta : float, optional
+        _description_, by default 0.99
+
+    Returns
+    -------
+    Matrix
+        _description_
+    """
     rows, _ = lattice_basis.shape
     B: Matrix = as_integer(lattice_basis)
     while True:
@@ -35,6 +49,18 @@ def lll(lattice_basis: Matrix, delta: float = 0.99) -> Matrix:
 
 @validate_aliases
 def is_size_reduced(lattice_basis: SquareMatrix) -> bool:
+    """_summary_
+
+    Parameters
+    ----------
+    lattice_basis : SquareMatrix
+        _description_
+
+    Returns
+    -------
+    bool
+        _description_
+    """
     _, U = gso(lattice_basis)
     return bool(np.all(np.triu(U, 1) <= Fraction(1, 2)))
 
@@ -50,4 +76,18 @@ def lovasz_condition(lattice_basis: SquareMatrix, delta: float) -> bool:
 
 @validate_aliases
 def is_lll_reduced(lattice_basis: SquareMatrix, delta: float = 0.99) -> bool:
+    """_summary_
+
+    Parameters
+    ----------
+    lattice_basis : SquareMatrix
+        _description_
+    delta : float, optional
+        _description_, by default 0.99
+
+    Returns
+    -------
+    bool
+        _description_
+    """
     return is_size_reduced(lattice_basis) and lovasz_condition(lattice_basis, delta)

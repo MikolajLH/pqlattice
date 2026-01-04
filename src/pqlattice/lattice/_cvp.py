@@ -18,6 +18,20 @@ def closest_vector(lattice_basis: SquareMatrix, target_vector: Vector) -> Vector
 
 @validate_aliases
 def babai_nearest_plane(lattice_basis: SquareMatrix, target_vector: Vector) -> Vector:
+    """_summary_
+
+    Parameters
+    ----------
+    lattice_basis : SquareMatrix
+        _description_
+    target_vector : Vector
+        _description_
+
+    Returns
+    -------
+    Vector
+        _description_
+    """
     n, _ = lattice_basis.shape
     B = lll(lattice_basis)
     b = as_rational(target_vector)
@@ -31,4 +45,18 @@ def babai_nearest_plane(lattice_basis: SquareMatrix, target_vector: Vector) -> V
 
 @validate_aliases
 def babai_closest_vector(lattice_basis: SquareMatrix, target_vector: Vector) -> Vector:
+    """_summary_
+
+    Parameters
+    ----------
+    lattice_basis : SquareMatrix
+        _description_
+    target_vector : Vector
+        _description_
+
+    Returns
+    -------
+    Vector
+        _description_
+    """
     return as_integer(np.rint(target_vector @ np.linalg.inv(lattice_basis.astype(float))))

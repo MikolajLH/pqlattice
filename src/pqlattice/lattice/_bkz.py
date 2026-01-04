@@ -25,6 +25,20 @@ def update_block(lattice_basis: SquareMatrix, new_vector: Vector, start_index: i
 
 @validate_aliases
 def bkz(lattice_basis: SquareMatrix, block_size: int = 10) -> SquareMatrix:
+    """_summary_
+
+    Parameters
+    ----------
+    lattice_basis : SquareMatrix
+        _description_
+    block_size : int, optional
+        _description_, by default 10
+
+    Returns
+    -------
+    SquareMatrix
+        _description_
+    """
     n, m = lattice_basis.shape
 
     B = lll(lattice_basis)

@@ -13,6 +13,20 @@ def eea(a: Array, b: int) -> tuple[Array, Array, Array]: ...
 
 
 def eea(a: int | Array, b: int) -> tuple[int, int, int] | tuple[Array, Array, Array]:
+    """_summary_
+
+    Parameters
+    ----------
+    a : int | Array
+        _description_
+    b : int
+        _description_
+
+    Returns
+    -------
+    tuple[int, int, int] | tuple[Array, Array, Array]
+        _description_
+    """
     if isinstance(a, int):
         return _eea(a, b)
     else:

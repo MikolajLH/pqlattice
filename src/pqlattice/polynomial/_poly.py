@@ -7,6 +7,23 @@ from ..typing import Vector, validate_aliases
 
 @validate_aliases
 def make_poly(data: Iterable[int | float]) -> Vector:
+    """_summary_
+
+    Parameters
+    ----------
+    data : Iterable[int  |  float]
+        _description_
+
+    Returns
+    -------
+    Vector
+        _description_
+
+    Raises
+    ------
+    ValueError
+        _description_
+    """
     arr = np.array(data, dtype=object)
 
     if arr.ndim != 1:
@@ -17,6 +34,23 @@ def make_poly(data: Iterable[int | float]) -> Vector:
 
 @validate_aliases
 def is_zero_poly(p: Vector) -> bool:
+    """_summary_
+
+    Parameters
+    ----------
+    p : Vector
+        _description_
+
+    Returns
+    -------
+    bool
+        _description_
+
+    Raises
+    ------
+    ValueError
+        _description_
+    """
     if len(p) == 0:
         raise ValueError("Empty coefficient array is not a proper polynomial")
 
@@ -25,6 +59,23 @@ def is_zero_poly(p: Vector) -> bool:
 
 @validate_aliases
 def deg(p: Vector) -> int:
+    """_summary_
+
+    Parameters
+    ----------
+    p : Vector
+        _description_
+
+    Returns
+    -------
+    int
+        _description_
+
+    Raises
+    ------
+    ValueError
+        _description_
+    """
     if len(p) == 0:
         raise ValueError("Empty coefficient array is not a proper polynomial")
     nonzeros = np.nonzero(p)[0]
@@ -37,6 +88,25 @@ def deg(p: Vector) -> int:
 
 @validate_aliases
 def pad(p: Vector, max_deg: int) -> Vector:
+    """_summary_
+
+    Parameters
+    ----------
+    p : Vector
+        _description_
+    max_deg : int
+        _description_
+
+    Returns
+    -------
+    Vector
+        _description_
+
+    Raises
+    ------
+    ValueError
+        _description_
+    """
     if is_zero_poly(p):
         return zero_poly(max_deg)
 
@@ -49,6 +119,18 @@ def pad(p: Vector, max_deg: int) -> Vector:
 
 @validate_aliases
 def trim(p: Vector) -> Vector:
+    """_summary_
+
+    Parameters
+    ----------
+    p : Vector
+        _description_
+
+    Returns
+    -------
+    Vector
+        _description_
+    """
     if is_zero_poly(p):
         return np.zeros(1, dtype=object)
 
@@ -57,23 +139,84 @@ def trim(p: Vector) -> Vector:
 
 @validate_aliases
 def add(p: Vector, q: Vector) -> Vector:
+    """_summary_
+
+    Parameters
+    ----------
+    p : Vector
+        _description_
+    q : Vector
+        _description_
+
+    Returns
+    -------
+    Vector
+        _description_
+    """
     max_deg = max(deg(p), deg(q), 0)
     return trim(pad(p, max_deg) + pad(q, max_deg))
 
 
 @validate_aliases
 def sub(p: Vector, q: Vector) -> Vector:
+    """_summary_
+
+    Parameters
+    ----------
+    p : Vector
+        _description_
+    q : Vector
+        _description_
+
+    Returns
+    -------
+    Vector
+        _description_
+    """
     max_deg = max(deg(p), deg(q), 0)
     return trim(pad(p, max_deg) - pad(q, max_deg))
 
 
 @validate_aliases
 def mul(p: Vector, q: Vector) -> Vector:
+    """_summary_
+
+    Parameters
+    ----------
+    p : Vector
+        _description_
+    q : Vector
+        _description_
+
+    Returns
+    -------
+    Vector
+        _description_
+    """
     return trim(np.polymul(p[::-1], q[::-1])[::-1])
 
 
 @validate_aliases
 def monomial(coeff: int, degree: int) -> Vector:
+    """_summary_
+
+    Parameters
+    ----------
+    coeff : int
+        _description_
+    degree : int
+        _description_
+
+    Returns
+    -------
+    Vector
+        _description_
+
+    Raises
+    ------
+    ValueError
+        _description_
+    """
     if degree < 0:
         raise ValueError("degree has to be non negative")
 
@@ -84,6 +227,23 @@ def monomial(coeff: int, degree: int) -> Vector:
 
 @validate_aliases
 def zero_poly(max_deg: int = 0) -> Vector:
+    """_summary_
+
+    Parameters
+    ----------
+    max_deg : int, optional
+        _description_, by default 0
+
+    Returns
+    -------
+    Vector
+        _description_
+
+    Raises
+    ------
+    ValueError
+        _description_
+    """
     if max_deg < 0:
         raise ValueError("degree has to be non negative")
 

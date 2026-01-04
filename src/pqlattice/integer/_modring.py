@@ -13,6 +13,20 @@ def mod(a: Array, modulus: int) -> Array: ...
 
 
 def mod(a: int | Array, modulus: int) -> int | Array:
+    """_summary_
+
+    Parameters
+    ----------
+    a : int | Array
+        _description_
+    modulus : int
+        _description_
+
+    Returns
+    -------
+    int | Array
+        _description_
+    """
     return a % abs(modulus)
 
 
@@ -25,6 +39,20 @@ def cmodl(a: Array, modulus: int) -> Array: ...
 
 
 def cmodl(a: int | Array, modulus: int) -> int | Array:
+    """_summary_
+
+    Parameters
+    ----------
+    a : int | Array
+        _description_
+    modulus : int
+        _description_
+
+    Returns
+    -------
+    int | Array
+        _description_
+    """
     return mod(a, modulus) - modulus // 2
 
 
@@ -37,6 +65,20 @@ def cmodr(a: Array, modulus: int) -> Array: ...
 
 
 def cmodr(a: int | Array, modulus: int) -> int | Array:
+    """_summary_
+
+    Parameters
+    ----------
+    a : int | Array
+        _description_
+    modulus : int
+        _description_
+
+    Returns
+    -------
+    int | Array
+        _description_
+    """
     return mod(a, modulus) - int(modulus / 2 - 0.1)
 
 
@@ -49,6 +91,27 @@ def modinv(a: Array, modulus: int) -> Array: ...
 
 
 def modinv(a: int | Array, modulus: int) -> int | Array:
+    """_summary_
+
+    Parameters
+    ----------
+    a : int | Array
+        _description_
+    modulus : int
+        _description_
+
+    Returns
+    -------
+    int | Array
+        _description_
+
+    Raises
+    ------
+    ValueError
+        _description_
+    ValueError
+        _description_
+    """
     if mod(a, modulus) == 0:
         raise ValueError(f"{a} mod {modulus} is zero; Modular inverse does not exist")
     gcd, a_inv, _ = eea(a, modulus)
@@ -67,6 +130,22 @@ def modpow(a: int, r: int, modulus: int) -> int: ...
 
 
 def modpow(a: int | Array, r: int, modulus: int) -> int | Array:
+    """_summary_
+
+    Parameters
+    ----------
+    a : int | Array
+        _description_
+    r : int
+        _description_
+    modulus : int
+        _description_
+
+    Returns
+    -------
+    int | Array
+        _description_
+    """
     if r < 0:
         return modpow(modinv(a, modulus), -r, modulus)
 

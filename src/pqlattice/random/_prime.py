@@ -32,6 +32,20 @@ def _randprime(a: int, b: int, seed: int | None = None) -> int:
 
 
 def randprime(kbits: int, seed: int | None = None) -> int:
+    """_summary_
+
+    Parameters
+    ----------
+    kbits : int
+        _description_
+    seed : int | None, optional
+        _description_, by default None
+
+    Returns
+    -------
+    int
+        _description_
+    """
     a = 2 ** (kbits - 1)
     b = 2**kbits
     return _randprime(a, b, seed=seed)
