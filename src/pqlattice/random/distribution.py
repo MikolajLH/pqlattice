@@ -1,3 +1,3 @@
-from ._distribution import DiscreteGaussian, Distribution, RoundedGaussian, Uniform
+from ._distribution import DiscreteGaussian, Uniform
 
-__all__ = ["Distribution", "Uniform", "DiscreteGaussian", "RoundedGaussian"]
+__all__ = ["Uniform", "DiscreteGaussian"]

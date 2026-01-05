@@ -15,28 +15,28 @@ def _is_nparray(obj: Any) -> TypeGuard[NDArray[Any]]:
     return isinstance(obj, np.ndarray)
 
 
-def _is_Vector(obj: Any) -> TypeGuard[Vector]:
+def is_Vector(obj: Any) -> TypeGuard[Vector]:
     return _is_nparray(obj) and len(obj.shape) == 1
 
 
-def _is_Matrix(obj: Any) -> TypeGuard[Matrix]:
+def is_Matrix(obj: Any) -> TypeGuard[Matrix]:
     return _is_nparray(obj) and len(obj.shape) == 2
 
 
-def _is_SquareMatrix(obj: Any) -> TypeGuard[SquareMatrix]:
-    return _is_Matrix(obj) and obj.shape[0] == obj.shape[1]
+def is_SquareMatrix(obj: Any) -> TypeGuard[SquareMatrix]:
+    return is_Matrix(obj) and obj.shape[0] == obj.shape[1]
 
 
 def _get_predicate_for_alias[T: TypeAliasType](type_name: T) -> Callable[[T], bool] | None:
     # Bare
     if type_name == Vector:
-        return _is_Vector
+        return is_Vector
 
     if type_name == Matrix:
-        return _is_Matrix
+        return is_Matrix
 
     if type_name == SquareMatrix:
-        return _is_SquareMatrix
+        return is_SquareMatrix
 
     return None
 
