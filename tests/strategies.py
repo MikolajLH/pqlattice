@@ -4,7 +4,6 @@ from typing import Any, cast
 
 import hypothesis.strategies as st
 import numpy as np
-from hypothesis import assume
 from hypothesis.extra import numpy as hnp
 from sagemath.sage_interface import TArray
 from tests import oracle
@@ -125,13 +124,7 @@ def full_rank_matrices(draw: DrawFn[TArray | int | bool], min_rows: int = 2, max
 @st.composite
 def lattices(draw: DrawFn[Any], n_range: tuple[int, int] = (2, 20), value_range: tuple[int, int] = (-100, 100)):
     n: int = draw(st.integers(*n_range))
-    lattice_basis: TArray = draw(hnp.arrays(object, (n, n), elements=st.integers(*value_range)))
-
-    det = oracle.Sage.det(lattice_basis)
-
-    assume(det != 0)
-
-    return lattice_basis
+    return draw(full_rank_matrices(n, n, n, n, *value_range, True))
 
 
 @st.composite
