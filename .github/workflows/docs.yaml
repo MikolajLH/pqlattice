@@ -1,9 +1,4 @@
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'docs/**'
-      - 'mkdocs.yaml'
   workflow_dispatch:
 
 jobs:
