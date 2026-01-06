@@ -1,6 +1,100 @@
 site_name: pqlattice - docs
 repo_url: https://github.com/mikolajlh/pqlattice/
-site_description: "Documentation for Python library for lattice based cryptography and cryptoanalysis"
+edit_uri: blob/main/docs/
+site_description: "Documentation for pqlattice - a Python library for lattice based cryptography and cryptoanalysis"
 site_author: "Mikołaj Leonhardt"
+
+plugins:
+  - search
+  - coverage:
+      page_path: testing.md
+  - mkdocs-jupyter:
+      execute: false
+      include_source: true
+      ignore_h1_titles: true
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [src]
+          options:
+            docstring_section_style: table
+            show_submodules: true
+            separate_signature: true
+            show_root_heading: true
+            show_source: false
+            heading_level: 3
+
+
 theme:
   name: material
+  icon:
+    logo: material/shield-key
+    repo: fontawesome/brands/github
+  font:
+    text: Lato
+    code: Roboto Mono
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.indexes
+    - navigation.top
+    - content.code.copy
+    - content.action.edit
+  palette:
+   # Light Mode
+    - scheme: default
+      primary: white
+      accent: deep purple
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    # Dark Mode
+    - scheme: slate
+      primary: black
+      accent: deep purple
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.arithmatex:
+      generic: true
+  - toc:
+      permalink: true
+      toc_depth: 4
+
+extra_javascript:
+  - javascripts/katex.js
+  - https://unpkg.com/katex@0/dist/katex.min.js
+  - https://unpkg.com/katex@0/dist/contrib/auto-render.min.js
+
+extra_css:
+  - https://unpkg.com/katex@0/dist/katex.min.css
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started/quickstart.md
+  - API Reference:
+      - Overview: api/index.md
+      - pqlattice: api/pqlattice.md
+      - integer: api/integer.md
+      - lattice: api/lattice.md
+      - linalg: api/linalg.md
+      - polynomial: api/polynomial.md
+      - random: api/random.md
+      - typing: api/typing.md
+  - Examples:
+      - Congruential PKC: examples/attacking_congruential_pkc.ipynb
+      - Subset sum PKC: examples/attacking_discrete_knapsack_pkc.ipynb
+      - GGH PKC: examples/constructing_and_attacking_GGH_pkc.ipynb
+      - NTRU PKC: examples/constructing_and_attacking_NTRU_pkc.ipynb
+      - LWE primary attack: examples/LWE_primary_attack.ipynb
+  - Testing: testing.md
