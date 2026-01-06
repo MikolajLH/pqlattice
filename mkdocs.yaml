@@ -7,7 +7,8 @@ site_author: "Mikołaj Leonhardt"
 plugins:
   - search
   - coverage:
-      page_path: testing.md
+      page_path: development/coverage
+      html_report_dir: docs/html/htmlcov
   - mkdocs-jupyter:
       execute: false
       include_source: true
@@ -97,4 +98,6 @@ nav:
       - GGH PKC: examples/constructing_and_attacking_GGH_pkc.ipynb
       - NTRU PKC: examples/constructing_and_attacking_NTRU_pkc.ipynb
       - LWE primary attack: examples/LWE_primary_attack.ipynb
-  - Testing: testing.md
+  - Development:
+      - Testing: development/testing.md
+      - Coverage: development/coverage.md
