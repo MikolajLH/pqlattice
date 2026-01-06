@@ -1,6 +1,3 @@
-```
-pytest --cov=pqlattice
-pytest --cov=pqlattice --cov-report=html
-pytest --hypothesis-show-statistics
-pytest --sage
-```
+# PQLATTICE - Python library for lattice based cryptography and cryptoanalysis
+
+[docs](https://mikolajlh.github.io/pqlattice/)
