@@ -6,15 +6,15 @@
 
 ### Installing the Library
 
-`pqlattice` is available on PyPI
+`pqlattice` is available on PyPI - https://pypi.org/project/pqlattice/
 
 === "pip"
     ```bash
-    pip install zxcv
+    pip install pqlattice
     ```
 === "uv"
     ```bash
-    uv add zxcv
+    uv add pqlattice
     ```
 
 # Basis usage
