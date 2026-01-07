@@ -112,11 +112,18 @@ def modinv(a: int | Array, modulus: int) -> int | Array:
     ValueError
         _description_
     """
-    if mod(a, modulus) == 0:
-        raise ValueError(f"{a} mod {modulus} is zero; Modular inverse does not exist")
-    gcd, a_inv, _ = eea(a, modulus)
-    if gcd != 1:
-        raise ValueError(f"Modular inverse of {a} mod {modulus} does not exist; gcd is equal to {gcd}")
+    if isinstance(a, int):
+        if mod(a, modulus) == 0:
+            raise ValueError(f"{a} mod {modulus} is zero; Modular inverse does not exist")
+        gcd, a_inv, _ = eea(a, modulus)
+        if gcd != 1:
+            raise ValueError(f"Modular inverse of {a} mod {modulus} does not exist; gcd is equal to {gcd}")
+    else:
+        if (mod(a, modulus) == 0).all():
+            raise ValueError(f"{a} mod {modulus} is zero; Modular inverse does not exist")
+        gcd, a_inv, _ = eea(a, modulus)
+        if (gcd != 1).any():
+            raise ValueError(f"Modular inverse of {a} mod {modulus} does not exist; gcd is equal to {gcd}")
 
     return mod(a_inv, modulus)
 

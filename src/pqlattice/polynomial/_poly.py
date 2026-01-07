@@ -2,6 +2,7 @@ from collections.abc import Iterable
 
 import numpy as np
 
+from .._utils import as_integer
 from ..typing import Vector, validate_aliases
 
 
@@ -24,7 +25,7 @@ def make_poly(data: Iterable[int | float]) -> Vector:
     ValueError
         _description_
     """
-    arr = np.array(data, dtype=object)
+    arr = as_integer(data)
 
     if arr.ndim != 1:
         raise ValueError(f"Expected 1D iterable, got {arr.ndim}D")
@@ -114,7 +115,7 @@ def pad(p: Vector, max_deg: int) -> Vector:
     if max_deg < d:
         raise ValueError("max_deg has to be greater or equal to the degree of a given polynomial p")
 
-    return np.pad(trim(p), (0, max_deg - d))
+    return as_integer(np.pad(trim(p), (0, max_deg - d)))
 
 
 @validate_aliases
@@ -132,7 +133,7 @@ def trim(p: Vector) -> Vector:
         _description_
     """
     if is_zero_poly(p):
-        return np.zeros(1, dtype=object)
+        return as_integer([0])
 
     return p[: deg(p) + 1].copy()
 
@@ -220,7 +221,7 @@ def monomial(coeff: int, degree: int) -> Vector:
     if degree < 0:
         raise ValueError("degree has to be non negative")
 
-    p = np.zeros(degree + 1, dtype=object)
+    p = as_integer([0] * (degree + 1))
     p[degree] = coeff
     return p
 
@@ -247,4 +248,4 @@ def zero_poly(max_deg: int = 0) -> Vector:
     if max_deg < 0:
         raise ValueError("degree has to be non negative")
 
-    return np.zeros(max_deg + 1, dtype=object)
+    return as_integer([0] * (max_deg + 1))
