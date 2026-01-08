@@ -19,11 +19,11 @@ class Uniform:
         self.set_seed(seed)
         return as_integer([self.sample_int() for _ in range(n)])
 
-    def sample_matrix(self, m: int, n: int | None = None, seed: int | None = None) -> Matrix:
+    def sample_matrix(self, rows: int, cols: int | None = None, seed: int | None = None) -> Matrix:
         self.set_seed(seed)
-        if n is None:
-            n = m
-        return as_integer([[self.sample_int() for _ in range(m)] for _ in range(n)])
+        if cols is None:
+            cols = rows
+        return as_integer([[self.sample_int() for _ in range(cols)] for _ in range(rows)])
 
     def set_seed(self, seed: int | None) -> None:
         if seed is not None:
