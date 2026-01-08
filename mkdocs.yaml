@@ -19,6 +19,9 @@ plugins:
         python:
           paths: [src]
           options:
+            docstring_style: numpy
+            merge_init_into_class: true
+            show_signature_annotations: true
             docstring_section_style: table
             show_submodules: true
             separate_signature: true
