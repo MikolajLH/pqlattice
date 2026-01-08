@@ -1,40 +1,58 @@
-from collections.abc import Iterable
 from fractions import Fraction
 from typing import Any
 
 import numpy as np
+from numpy.typing import ArrayLike
 
 from .typing import Array, is_integer, is_Matrix, is_rational, is_Vector, validate_aliases
 
 
-def as_integer(a: Iterable[Any]) -> Array:
-    """_summary_
-
-    Parameters
-    ----------
-    a : Iterable[Any]
-        _description_
-
-    Returns
-    -------
-    Array
-        _description_
+def as_integer(obj: ArrayLike) -> Array:
     """
-    return (np.vectorize(int)(np.array(a, dtype=object))).astype(object)
-
-
-def as_rational(a: Iterable[Any]) -> Array:
-    """_summary_
+    Helper function that converts given obj to numpy's array of python's ints allowing arbitrary large elements
 
     Parameters
     ----------
-    a : Iterable[Any]
-        _description_
+    obj : ArrayLike
+        object to be converted to numpy's array
 
     Returns
     -------
     Array
-        _description_
+        numpy's array with dtype=object and elements converted to int
+
+    Examples
+    --------
+    >>> import pqlattice as pq
+    >>> pq.as_integer([3**100, 2**100, 5**50])
+    array([515377520732011331036461129765621272702107522001,
+       1267650600228229401496703205376,
+       88817841970012523233890533447265625], dtype=object)
+    """
+    return (np.vectorize(int)(np.array(obj, dtype=object))).astype(object)
+
+
+def as_rational(a: ArrayLike) -> Array:
+    """
+    Helper function that converts given obj to numpy's array of python's fractions.Fraction allowing arbitrary big rational elements
+
+    Parameters
+    ----------
+    obj : ArrayLike
+        object to be converted to numpy's array
+
+    Returns
+    -------
+    Array
+        numpy's array with dtype=object and elements converted to fractions.Fraction
+
+    Examples
+    --------
+    >>> import pqlattice as pq
+    >>> pq.as_integer([3**100, 2**100, 5**50])
+    array([Fraction(515377520732011331036461129765621272702107522001, 1),
+       Fraction(1267650600228229401496703205376, 1),
+       Fraction(88817841970012523233890533447265625, 1)], dtype=object)
     """
     return (np.vectorize(Fraction)(np.array(a, dtype=object))).astype(object)
 
