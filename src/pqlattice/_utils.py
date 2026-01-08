@@ -49,7 +49,7 @@ def as_rational(a: ArrayLike) -> Array:
     Examples
     --------
     >>> import pqlattice as pq
-    >>> pq.as_integer([3**100, 2**100, 5**50])
+    >>> pq.as_rational([3**100, 2**100, 5**50])
     array([Fraction(515377520732011331036461129765621272702107522001, 1),
        Fraction(1267650600228229401496703205376, 1),
        Fraction(88817841970012523233890533447265625, 1)], dtype=object)
