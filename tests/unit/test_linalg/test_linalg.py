@@ -6,7 +6,7 @@ from hypothesis import given
 from tests import oracle
 from tests.strategies import full_rank_matrices, low_rank_matrices, matrices
 
-from pqlattice.linalg._linalg import hnf, rank
+from pqlattice.linalg._linalg import hnf, left_kernel, left_nullity, rank, right_kernel, right_nullity
 from pqlattice.typing import Matrix
 
 
@@ -61,7 +61,49 @@ class TestHnf:
         np.testing.assert_array_equal(H, sage_H, f"hnf missmatch for \n{m}\nexpected:\n{sage_H}\ngot\n{H}")
 
 
-class TestKernelAndRank:
+class TestKernelAndImage:
+    @given(m=matrices())
+    def test_left_kernel(self, m: Matrix):
+        K = left_kernel(m)
+        if len(K) > 0:
+            assert np.all(K @ m == 0)
+
+        null = left_nullity(m)
+
+        assert null == oracle.Sage.left_nullity(m)
+
+    @given(m=low_rank_matrices())
+    def test_left_kernel_with_low_rank_matrices(self, m: Matrix):
+        K = left_kernel(m)
+        if len(K) > 0:
+            assert np.all(K @ m == 0)
+
+        null = left_nullity(m)
+
+        assert null == oracle.Sage.left_nullity(m)
+
+    @given(m=matrices())
+    def test_right_kernel(self, m: Matrix):
+        K = right_kernel(m)
+        if len(K) > 0:
+            assert np.all(K @ m == 0)
+
+        null = right_nullity(m)
+
+        assert null == oracle.Sage.right_nullity(m)
+
+    @given(m=low_rank_matrices())
+    def test_right_kernel_with_low_rank_matrices(self, m: Matrix):
+        K = right_kernel(m)
+        if len(K) > 0:
+            assert np.all(K @ m == 0)
+
+        null = right_nullity(m)
+
+        assert null == oracle.Sage.right_nullity(m)
+
+
+class TestRank:
     @given(m=matrices())
     def test_rank_with_oracle_general(self, m: Matrix):
         sage_rank = oracle.Sage.rank(m)
