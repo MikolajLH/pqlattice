@@ -6,7 +6,7 @@ from ._distribution import DiscreteGaussian, Uniform
 
 
 class LWE:
-    def __init__(self, n: int, q: int, sigma: int, seed: int):
+    def __init__(self, n: int, q: int, sigma: float, seed: int):
         """
         Creates LWE sampler with DiscreteGuassianDistribution centered at 0 as noise sampler
 
@@ -16,7 +16,7 @@ class LWE:
             length of secret vector
         q : int
             modulus
-        sigma : int
+        sigma : float
             sigma value for DiscreteGaussianDistribution
         seed : int
             seed for random number generator
