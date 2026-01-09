@@ -19,8 +19,7 @@ def _gen_unimodular(n: int, rounds: int, rng: random.Random) -> SquareMatrix:
 
 def randlattice(n: int, det_upper_bound: int | None = None, seed: int | None = None) -> SquareMatrix:
     """
-    Generates hard lattice basis by using Goldstein-Mayer algorithm,
-    which first generates random matrix in Hermite normal form and then transforms it using random unimodular matrix.
+    Generates lattice basis by, first generating random square matrix in Hermite normal form and then by transforming it using random unimodular matrix.
 
     Parameters
     ----------

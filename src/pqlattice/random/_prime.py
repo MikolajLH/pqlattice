@@ -32,19 +32,21 @@ def _randprime(a: int, b: int, seed: int | None = None) -> int:
 
 
 def randprime(kbits: int, seed: int | None = None) -> int:
-    """_summary_
+    """
+    Generates random prime number from range [2 ** (kbits - 1); 2 ** (kbist)].
+    Uses Miller-Rabin primality test.
 
     Parameters
     ----------
     kbits : int
-        _description_
+        number of bits the prime number should have
     seed : int | None, optional
-        _description_, by default None
+        seed for random number generator, by default None
 
     Returns
     -------
     int
-        _description_
+        prime number
     """
     a = 2 ** (kbits - 1)
     b = 2**kbits
