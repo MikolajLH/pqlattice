@@ -1,14 +1,26 @@
+import numpy as np
+
+from .._utils import as_integer
+from ..linalg import hnf
 from ..typing import Matrix, SquareMatrix, Vector, validate_aliases
 
 
-@validate_aliases
-def q_ary_lattice_basis(A: Matrix, modulus: int) -> SquareMatrix:
-    raise NotImplementedError()
+def lwe_basis(A: Matrix, q: int) -> SquareMatrix:
+    # lattice: L = { x | Ax = 0 mod q }
+    m, _ = A.shape
+    Im = q * as_integer(np.identity(m))
+    G = np.vstack((A.T, Im))
+    H, _ = hnf(G)
+
+    return H[:m]
 
 
-@validate_aliases
-def dual_q_ary_lattice_basis(A: Matrix, modulus: int) -> SquareMatrix:
-    raise NotImplementedError()
+def sis_basis(A: Matrix, q: int) -> SquareMatrix:
+    # lattice: L = { y | y = xA mod q }
+    B_p = lwe_basis(A, q)
+    B_inv = np.linalg.inv(B_p.astype(float))
+    B_dual = np.round(q * B_inv.T).astype(int)
+    return B_dual
 
 
 @validate_aliases
@@ -17,7 +29,11 @@ def bai_galbraith(A: Matrix, b: Vector, q: int) -> SquareMatrix:
 
 
 @validate_aliases
-def kannan(lattice_basis: SquareMatrix, target_vector: Vector, M: int) -> SquareMatrix:
+def kannan(A: Matrix, b: Vector, q: int, M: int = 1) -> SquareMatrix:
+    # m, n = A.shape
+    # Im = q *as_integer(np.identity(m))
+    # In = as_integer(np.identity(n))
+
     raise NotImplementedError()
 
 

@@ -1,8 +1,12 @@
+import logging
+
 from .._utils import as_integer, as_rational
 from ..typing import Matrix, SquareMatrix, Vector, validate_aliases
 from ._gso import gso
 from ._lll import lll
 from ._svp import schnorr_euchner_svp
+
+logger = logging.getLogger("BKZ")
 
 
 @validate_aliases
@@ -44,12 +48,16 @@ def bkz(lattice_basis: SquareMatrix, block_size: int = 10) -> SquareMatrix:
     B = lll(lattice_basis)
 
     is_changed = True
+    # iteration = 0
+    # logger.info("starting bkz loop")
     while is_changed:
         is_changed = False
+        # iteration += 1
+        # logger.info(f"iter {iteration}")
         for k in range(n - 1):
             h = min(block_size, n - k)
             local_basis: Matrix = B[k : k + h]
-
+            # logger.info(f"block {local_basis}")
             B_star, U = gso(local_basis)
             B_norms2 = as_rational([sum(x * x for x in v) for v in B_star])
             mu = U.T
@@ -66,6 +74,7 @@ def bkz(lattice_basis: SquareMatrix, block_size: int = 10) -> SquareMatrix:
             if is_trivial:
                 continue
 
+            # logger.info(f"shortest vector in block norm: {norm(coeffs @ local_basis)}")
             new_vector = as_integer([0] * m)
             for i in range(h):
                 if coeffs[i] == 0:
