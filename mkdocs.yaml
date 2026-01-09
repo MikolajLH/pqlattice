@@ -100,6 +100,7 @@ nav:
       - GGH PKC: examples/constructing_and_attacking_GGH_pkc.ipynb
       - NTRU PKC: examples/constructing_and_attacking_NTRU_pkc.ipynb
       - LWE primary attack: examples/LWE_primary_attack.ipynb
+      - LWE dual attack: examples/LWE_dual_attack.ipynb
   - Development:
       - Testing: development/testing.md
       - Coverage: development/coverage.md
