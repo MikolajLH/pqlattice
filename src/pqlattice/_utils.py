@@ -4,7 +4,7 @@ from typing import Any
 import numpy as np
 from numpy.typing import ArrayLike
 
-from .typing import Array, is_integer, is_Matrix, is_rational, is_Vector, validate_aliases
+from .typing import Array, Matrix, Vector, is_integer, is_Matrix, is_rational, is_Vector, validate_aliases
 
 
 def as_integer(obj: ArrayLike) -> Array:
@@ -55,6 +55,16 @@ def as_rational(a: ArrayLike) -> Array:
        Fraction(88817841970012523233890533447265625, 1)], dtype=object)
     """
     return (np.vectorize(Fraction)(np.array(a, dtype=object))).astype(object)
+
+
+def zeros_vec(n: int) -> Vector:
+    return as_integer(np.zeros((n,)))
+
+
+def zeros_mat(rows: int, cols: int | None = None) -> Matrix:
+    if cols is None:
+        cols = rows
+    return as_integer(np.zeros((rows, cols)))
 
 
 @validate_aliases
