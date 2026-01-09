@@ -1,12 +1,12 @@
 import numpy as np
 
-from ..integer._modring import mod
+from ..integer._modring import cmodl, mod
 from ..typing import Matrix, Vector
 from ._distribution import DiscreteGaussian, Uniform
 
 
 class LWE:
-    def __init__(self, n: int, q: int, sigma: float, seed: int):
+    def __init__(self, n: int, q: int, sigma: float, secret_distribution: str, seed: int):
         """
         Creates LWE sampler with DiscreteGuassianDistribution centered at 0 as noise sampler
 
@@ -26,7 +26,15 @@ class LWE:
         self.U = Uniform(0, q - 1, seed=seed)
         self.D = DiscreteGaussian(sigma, seed=seed)
 
-        self._secret = self.U.sample_vector(n)
+        secret = self.U.sample_vector(n)
+        if secret_distribution == "uniform":
+            self._secret = secret
+        elif secret_distribution == "binary":
+            self._secret = mod(secret, 2)
+        elif secret_distribution == "ternary":
+            self._secret = cmodl(secret, 3)
+        else:
+            raise ValueError(f"Unknown distribution {secret_distribution}, expected uniform|binary|ternary")
 
     @property
     def secret(self) -> Vector:
