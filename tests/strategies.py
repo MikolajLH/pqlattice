@@ -1,4 +1,5 @@
 import logging
+import random
 from collections.abc import Callable
 from typing import Any, cast
 
@@ -40,24 +41,6 @@ def matrices(draw: DrawFn[int | TArray], min_rows: int = 1, max_rows: int = 10, 
     matrix = cast(TArray, draw(hnp.arrays(object, (rows, cols), elements=st.integers(min_value, max_value))))
 
     return matrix
-
-
-@st.composite
-def unimodular_matrices(draw: DrawFn[int | TArray], min_n: int = 1, max_n: int = 10):
-    n = cast(int, draw(st.integers(min_n, max_n)))
-    min_v = -10
-    max_v = 10
-    part_L = cast(TArray, draw(hnp.arrays(object, (n, n), elements=st.integers(min_v, max_v))))
-    part_R = cast(TArray, draw(hnp.arrays(object, (n, n), elements=st.integers(min_v, max_v))))
-
-    diag_L = cast(TArray, draw(hnp.arrays(object, n, elements=st.sampled_from([-1, 1]))))
-
-    diag_R = cast(TArray, draw(hnp.arrays(object, n, elements=st.sampled_from([-1, 1]))))
-
-    L = part_L + np.diag(diag_L)
-    R = part_R + np.diag(diag_R)
-
-    return L @ R
 
 
 @st.composite
@@ -122,9 +105,33 @@ def full_rank_matrices(draw: DrawFn[TArray | int | bool], min_rows: int = 2, max
 
 
 @st.composite
-def lattices(draw: DrawFn[Any], n_range: tuple[int, int] = (2, 20), value_range: tuple[int, int] = (-100, 100)):
+def lattices(draw: DrawFn[Any], n_range: tuple[int, int] = (2, 20), volume_ub: int | None = None):
+    def _gen_unimodular(n: int, rounds: int, rng: random.Random) -> TArray:
+        U = np.eye(n, dtype=object)
+        for _ in range(rounds):
+            i, j = rng.sample(range(n), 2)
+            coeff = rng.sample([-1, 1], 1)
+
+            U[i] += coeff * U[j]
+
+        return U
+
     n: int = draw(st.integers(*n_range))
-    return draw(full_rank_matrices(n, n, n, n, *value_range, True))
+    det_ub: int = 2**n if volume_ub is None else volume_ub
+    diagonals = [draw(st.integers(1, det_ub)) for _ in range(n)]
+
+    H = np.zeros((n, n), dtype=object)
+    for i in range(n):
+        H[i, i] = diagonals[i]
+        modulus = H[i, i]
+        for j in range(i, n):
+            H[i, j] = draw(st.integers(0, modulus - 1))
+
+    seed = draw(st.integers())
+    rng = random.Random(seed)
+    U = _gen_unimodular(n, n * 5, rng)
+
+    return U @ H
 
 
 @st.composite
