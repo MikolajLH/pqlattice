@@ -84,8 +84,7 @@ extra_css:
   - https://unpkg.com/katex@0/dist/katex.min.css
 
 nav:
-  - Home: index.md
-  - Getting Started: getting-started/quickstart.md
+  - Getting Started: index.md
   - API Reference:
       - Overview: api/index.md
       - pqlattice: api/pqlattice.md
