@@ -32,7 +32,7 @@ def as_integer(obj: ArrayLike) -> Array:
     return (np.vectorize(int)(np.array(obj, dtype=object))).astype(object)
 
 
-def as_rational(a: ArrayLike) -> Array:
+def as_rational(obj: ArrayLike) -> Array:
     """
     Helper function that converts given obj to numpy's array of python's fractions.Fraction allowing arbitrary big rational elements
 
@@ -54,7 +54,7 @@ def as_rational(a: ArrayLike) -> Array:
        Fraction(1267650600228229401496703205376, 1),
        Fraction(88817841970012523233890533447265625, 1)], dtype=object)
     """
-    return (np.vectorize(Fraction)(np.array(a, dtype=object))).astype(object)
+    return (np.vectorize(Fraction)(np.array(obj, dtype=object))).astype(object)
 
 
 def zeros_vec(n: int) -> Vector:

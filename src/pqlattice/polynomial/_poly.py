@@ -1,13 +1,12 @@
-from collections.abc import Iterable
-
 import numpy as np
+from numpy.typing import ArrayLike
 
 from .._utils import as_integer
 from ..typing import Vector, validate_aliases
 
 
 @validate_aliases
-def make_poly(data: Iterable[int | float]) -> Vector:
+def make_poly(data: ArrayLike) -> Vector:
     """_summary_
 
     Parameters

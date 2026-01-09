@@ -1,4 +1,4 @@
-from ..integer._modring import modinv
+from ..integer._modring import mod, modinv
 from ..typing import Vector, validate_aliases
 from ._modpolyring import ModIntPolyRing
 from ._poly import zero_poly
@@ -46,6 +46,23 @@ class ModIntPolyQuotientRing:
             _description_
         """
         return self.Zm.rem(polynomial, self.poly_modulus)
+
+    @validate_aliases
+    def center_lift(self, polynomial: Vector) -> Vector:
+        """
+        Hoffstein page. 414 - 415
+
+        Parameters
+        ----------
+        polynomial : Vector
+            _description_
+
+        Returns
+        -------
+        Vector
+            _description_
+        """
+        return mod(polynomial + self.int_modulus // 2, self.int_modulus) - self.int_modulus // 2
 
     @validate_aliases
     def add(self, polynomial_a: Vector, polynomial_b: Vector) -> Vector:
