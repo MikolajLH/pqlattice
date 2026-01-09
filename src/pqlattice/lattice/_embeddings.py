@@ -66,8 +66,6 @@ def kannan(A: Matrix, b: Vector, q: int) -> SquareMatrix:
         _description_
     q : int
         _description_
-    M : int
-        _description_
 
     Returns
     -------
