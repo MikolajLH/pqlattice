@@ -59,4 +59,4 @@ def babai_closest_vector(lattice_basis: SquareMatrix, target_vector: Vector) -> 
     Vector
         _description_
     """
-    return as_integer(np.rint(target_vector @ np.linalg.inv(lattice_basis.astype(float))))
+    return as_integer(np.rint(target_vector.astype(float) @ np.linalg.inv(lattice_basis.astype(float))))
