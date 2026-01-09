@@ -29,7 +29,11 @@ def as_integer(obj: ArrayLike) -> Array:
        1267650600228229401496703205376,
        88817841970012523233890533447265625], dtype=object)
     """
-    return (np.vectorize(int)(np.array(obj, dtype=object))).astype(object)
+    arr = np.array(obj, dtype=object)
+    if arr.size == 0:
+        return arr
+    else:
+        return (np.vectorize(int)(arr.flat).reshape(arr.shape)).astype(object)
 
 
 def as_rational(obj: ArrayLike) -> Array:
@@ -54,7 +58,11 @@ def as_rational(obj: ArrayLike) -> Array:
        Fraction(1267650600228229401496703205376, 1),
        Fraction(88817841970012523233890533447265625, 1)], dtype=object)
     """
-    return (np.vectorize(Fraction)(np.array(obj, dtype=object))).astype(object)
+    arr = np.array(obj, dtype=object)
+    if arr.size == 0:
+        return arr
+    else:
+        return (np.vectorize(Fraction)(arr.flat).reshape(arr.shape)).astype(object)
 
 
 def zeros_vec(n: int) -> Vector:
