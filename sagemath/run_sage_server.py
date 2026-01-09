@@ -16,7 +16,10 @@ from sage_interface import DEFAULT_AUTHKEY, DEFAULT_PORT, SageEngineInterface, T
 
 
 def to_numpy(sage_obj: Any) -> TMatrix | TVector:
-    return np.vectorize(int)(sage_obj.numpy(dtype=object)).astype(object)
+    arr = sage_obj.numpy(dtype=object)
+    if arr.size == 0:
+        return arr
+    return (np.vectorize(int)(arr.flat).reshape(arr.shape)).astype(object)
 
 
 def _gen_lattice_task(type: str, n: int, m: int, q: int, seed: int | None, quotient: TVector | None, dual: bool) -> TMatrix:
