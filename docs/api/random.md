@@ -13,6 +13,6 @@
 ---
 
 ## Miscellaneous
-::: pqlattice.random.randprime
-
 ::: pqlattice.random.randlattice
+
+::: pqlattice.random.randprime
