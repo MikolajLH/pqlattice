@@ -43,7 +43,12 @@
 ---
 
 ## Lattice embeddings
-::: pqlattice.lattice.embeddings
-    options:
-        show_root_heading: false
-        heading_level: 2
+::: pqlattice.lattice.embeddings.sis_basis
+
+::: pqlattice.lattice.embeddings.lwe_basis
+
+::: pqlattice.lattice.embeddings.kannan
+
+::: pqlattice.lattice.embeddings.bai_galbraith
+
+::: pqlattice.lattice.embeddings.subset_sum
