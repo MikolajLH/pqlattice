@@ -7,6 +7,11 @@
 
 ---
 
+## Learning with errors
+::: pqlattice.random.LWE
+
+---
+
 ## Miscellaneous
 ::: pqlattice.random.randprime
 
