@@ -3,7 +3,6 @@ import numpy as np
 from .._utils import as_integer
 from ..integer._modintring import ModIntRing
 from ..typing import Matrix, SquareMatrix, Vector, validate_aliases
-from ._linalg import cofactor_matrix, det
 from ._utils import row_add, row_scale, row_swap
 
 
@@ -33,7 +32,6 @@ def mod_ref(A: Matrix, modulus: int) -> tuple[Matrix, SquareMatrix]:
         col = M[:, j]
         nonzero = np.nonzero(col[j:])[0]
         if len(nonzero) == 0:
-            # no pivot, in this column
             continue
         pivot_i = nonzero[0] + j
 
@@ -81,20 +79,16 @@ def mod_rref(A: Matrix, modulus: int) -> tuple[Matrix, SquareMatrix]:
 
     h = m - 1
     for j in range(n - 1, -1, -1):
-        # check if current column is a pivot column
         if M[h, j] != 1:
-            # skip zero rows at the bottom
             if M[h, j] == 0:
                 h -= 1
             continue
 
-        # reduce column's entries below pivot
         for i in range(h - 1, -1, -1):
             coeff = M[i, j]
             row_add(M, i, h, -coeff)
             row_add(U, i, h, -coeff)
 
-        # move to the next row
         h -= 1
 
     return R.mod(M), R.mod(U)
@@ -144,6 +138,14 @@ def mod_right_kernel(A: Matrix, modulus: int) -> Matrix:
             kernel_basis.append(U[i])
 
     return as_integer(kernel_basis)
+
+
+def mod_left_image(A: Matrix, modulus: int) -> Matrix:
+    raise NotImplementedError()
+
+
+def mod_right_image(A: Matrix, modulus: int) -> Matrix:
+    raise NotImplementedError()
 
 
 @validate_aliases
@@ -201,7 +203,7 @@ def mod_matinv(A: SquareMatrix, modulus: int) -> SquareMatrix:
     SquareMatrix
         _description_
     """
-    R = ModIntRing(modulus)
-    C = R.mod(cofactor_matrix(A))
-    det_inv = R.inv(det(A))
-    return R.mod(det_inv * C.T)
+    n = A.shape[0]
+    AId = np.hstack((A, as_integer(np.identity(n))))
+    R, _ = mod_rref(AId, modulus)
+    return as_integer(R[:, n:])

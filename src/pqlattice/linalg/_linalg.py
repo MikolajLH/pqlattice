@@ -2,6 +2,7 @@ from functools import reduce
 
 import numpy as np
 
+from .._utils import as_integer
 from ..typing import Matrix, SquareMatrix, Vector, validate_aliases
 from ._utils import row_add, row_scale, row_swap
 
@@ -28,7 +29,7 @@ def hnf(A: Matrix) -> tuple[Matrix, SquareMatrix]:
 def _hnf(a: Matrix) -> tuple[Matrix, SquareMatrix, int]:
     H = np.array(a, dtype=object)
     m, n = H.shape
-    U = np.eye(m, dtype=object)  # The transformation matrix
+    U = np.eye(m, dtype=object)
     pivot_row = 0
     pivot_col = 0
     det_U = 1
@@ -66,7 +67,6 @@ def _hnf(a: Matrix) -> tuple[Matrix, SquareMatrix, int]:
 
         pivot_val = H[pivot_row, pivot_col]
 
-        # Reduce rows above pivot
         for i in range(pivot_row):
             factor = H[i, pivot_col] // pivot_val
             row_add(H, i, pivot_row, -factor)
@@ -79,29 +79,13 @@ def _hnf(a: Matrix) -> tuple[Matrix, SquareMatrix, int]:
 
 
 @validate_aliases
-def left_kernel(a: Matrix):
-    """_summary_
-
-    Parameters
-    ----------
-    a : Matrix
-        _description_
-
-    Returns
-    -------
-    _type_
-        _description_
+def right_image(A: Matrix) -> Matrix:
     """
-    return right_kernel(a.T)
-
-
-@validate_aliases
-def right_kernel(a: Matrix) -> Matrix:
-    """_summary_
+    _summary_
 
     Parameters
     ----------
-    a : Matrix
+    A : Matrix
         _description_
 
     Returns
@@ -109,7 +93,52 @@ def right_kernel(a: Matrix) -> Matrix:
     Matrix
         _description_
     """
-    H, U = hnf(a.T)
+    return left_image(A.T).T
+
+
+@validate_aliases
+def left_image(A: Matrix) -> Matrix:
+    """
+    _summary_
+
+    Parameters
+    ----------
+    A : Matrix
+        _description_
+
+    Returns
+    -------
+    Matrix
+        _description_
+    """
+    H, _ = hnf(A)
+
+    m, _ = H.shape
+    k = 0
+    for i in range(m):
+        if np.all(H[i] == 0):
+            k = i
+            break
+
+    return as_integer(H[:k])
+
+
+@validate_aliases
+def left_kernel(A: Matrix):
+    """
+    {x : xA = 0}
+
+    Parameters
+    ----------
+    A : Matrix
+        _description_
+
+    Returns
+    -------
+    _type_
+        _description_
+    """
+    H, U = hnf(A)
     kernel_basis: list[Vector] = []
 
     m, _ = H.shape
@@ -117,7 +146,25 @@ def right_kernel(a: Matrix) -> Matrix:
         if np.all(H[i] == 0):
             kernel_basis.append(U[i])
 
-    return np.array(kernel_basis, dtype=object)
+    return as_integer(kernel_basis)
+
+
+@validate_aliases
+def right_kernel(A: Matrix) -> Matrix:
+    """
+    {x : Ax = 0}
+
+    Parameters
+    ----------
+    A : Matrix
+        _description_
+
+    Returns
+    -------
+    Matrix
+        _description_
+    """
+    return left_kernel(A.T)
 
 
 @validate_aliases
