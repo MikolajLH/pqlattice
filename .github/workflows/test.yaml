@@ -58,4 +58,4 @@ jobs:
               exit 1
 
           - name: Run tests
-            run: uv run pytest --sage
+            run: uv run pytest tests/unit -n auto --sage --hypothesis-profile fast --hypothesis-show-statistics
