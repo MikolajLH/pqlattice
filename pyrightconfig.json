@@ -5,7 +5,7 @@
   "reportUnusedImport": false,
   "reportConstantRedefinition": false,
   "include": ["src", "tests", "sagemath"],
-  "ignore": ["tests/conftest.py"],
+  "ignore": ["tests/conftest.py", "src/pqlattice/_backends/_fast.py", "sagemath/run_sage_server.py"],
   "venvPath": ".",
-  "venv": ".venv"
+  "venv": ".venv",
 }

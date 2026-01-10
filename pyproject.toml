@@ -24,6 +24,13 @@ dependencies = [
 Repository = "https://github.com/MikolajLH/pqlattice.git"
 Documentation = "https://mikolajlh.github.io/pqlattice/"
 
+[project.optional-dependencies]
+fast = [
+    "cysignals>=1.12.6",
+    "fpylll>=0.6.4",
+    "python-flint>=0.8.0",
+]
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
