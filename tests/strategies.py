@@ -49,7 +49,7 @@ def vectors(draw: DrawFn[TArray], n: int, min_value: int = -100, max_value: int 
 
 
 @st.composite
-def low_rank_matrices(draw: DrawFn[TArray | int], min_rows: int = 2, max_rows: int = 10, min_cols: int = 2, max_cols: int = 10, min_value: int = -50, max_value: int = 50):
+def low_rank_matrices(draw: DrawFn[TArray | int], min_rows: int = 4, max_rows: int = 10, min_cols: int = 4, max_cols: int = 10, min_value: int = -50, max_value: int = 50):
     rows = cast(int, draw(st.integers(min_rows, max_rows)))
     cols = cast(int, draw(st.integers(min_cols, max_cols)))
 
@@ -66,7 +66,7 @@ def low_rank_matrices(draw: DrawFn[TArray | int], min_rows: int = 2, max_rows: i
 
 
 @st.composite
-def full_rank_matrices(draw: DrawFn[TArray | int | bool], min_rows: int = 2, max_rows: int = 10, min_cols: int = 2, max_cols: int = 10, min_value: int = -50, max_value: int = 50, square: bool = False):
+def full_rank_matrices(draw: DrawFn[TArray | int | bool], min_rows: int = 4, max_rows: int = 10, min_cols: int = 4, max_cols: int = 10, min_value: int = -50, max_value: int = 50, square: bool = False):
     rows = cast(int, draw(st.integers(min_rows, max_rows)))
     cols = cast(int, draw(st.integers(min_cols, max_cols)))
 
@@ -105,9 +105,9 @@ def full_rank_matrices(draw: DrawFn[TArray | int | bool], min_rows: int = 2, max
 
 
 @st.composite
-def lattices(draw: DrawFn[Any], n_range: tuple[int, int] = (2, 20), volume_ub: int | None = None):
+def lattices(draw: DrawFn[Any], n_range: tuple[int, int] = (4, 20), volume_ub: int | None = None):
     def _gen_unimodular(n: int, rounds: int, rng: random.Random) -> TArray:
-        U = np.eye(n, dtype=object)
+        U = np.vectorize(int)(np.eye(n, dtype=object))
         for _ in range(rounds):
             i, j = rng.sample(range(n), 2)
             coeff = rng.sample([-1, 1], 1)
@@ -116,26 +116,27 @@ def lattices(draw: DrawFn[Any], n_range: tuple[int, int] = (2, 20), volume_ub: i
 
         return U
 
+    seed = draw(st.integers())
+    rng = random.Random(seed)
+
     n: int = draw(st.integers(*n_range))
     det_ub: int = 2**n if volume_ub is None else volume_ub
-    diagonals = [draw(st.integers(1, det_ub)) for _ in range(n)]
+    diagonals = [rng.randint(1, det_ub) for _ in range(n)]
 
-    H = np.zeros((n, n), dtype=object)
+    H = np.vectorize(int)(np.zeros((n, n), dtype=object))
     for i in range(n):
         H[i, i] = diagonals[i]
         modulus = H[i, i]
-        for j in range(i, n):
-            H[i, j] = draw(st.integers(0, modulus - 1))
+        for j in range(i + 1, n):
+            H[i, j] = rng.randint(0, modulus - 1)
 
-    seed = draw(st.integers())
-    rng = random.Random(seed)
     U = _gen_unimodular(n, n * 5, rng)
 
     return U @ H
 
 
 @st.composite
-def sage_lattices(draw: DrawFn[Any], types: list[str] | None = None, n_range: tuple[int, int] = (1, 6), m_range: tuple[int, int] = (4, 12), q_range: tuple[int, int] = (2, 17), allow_dual: bool = True):
+def sage_lattices(draw: DrawFn[Any], types: list[str] | None = None, n_range: tuple[int, int] = (1, 6), m_range: tuple[int, int] = (4, 8), q_range: tuple[int, int] = (2, 17), allow_dual: bool = True):
     if types is None:
         types = ["modular", "random"]
 

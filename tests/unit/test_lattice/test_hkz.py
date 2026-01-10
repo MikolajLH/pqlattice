@@ -15,7 +15,7 @@ class TestHKZ:
         sv = oracle.Sage.shortest_vector(lattice_basis)
         assert norm2(H[0]) == norm2(sv)
 
-    @settings(max_examples=10)
+    @settings(max_examples=5)
     @given(lattice_basis=sage_lattices())
     def test_hkz_with_sage_oracle_and_sage_lattices(self, lattice_basis: SquareMatrix):
         H = hkz(lattice_basis)

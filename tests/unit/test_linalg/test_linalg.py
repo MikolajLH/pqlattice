@@ -61,7 +61,7 @@ class TestHnf:
         np.testing.assert_array_equal(H, sage_H, f"hnf missmatch for \n{m}\nexpected:\n{sage_H}\ngot\n{H}")
 
 
-class TestKernelAndImage:
+class TestImage:
     @given(m=matrices())
     def test_left_kernel(self, m: Matrix):
         K = left_kernel(m)
@@ -86,7 +86,7 @@ class TestKernelAndImage:
     def test_right_kernel(self, m: Matrix):
         K = right_kernel(m)
         if len(K) > 0:
-            assert np.all(K @ m == 0)
+            assert np.all(m @ K.T == 0)
 
         null = right_nullity(m)
 
@@ -96,7 +96,7 @@ class TestKernelAndImage:
     def test_right_kernel_with_low_rank_matrices(self, m: Matrix):
         K = right_kernel(m)
         if len(K) > 0:
-            assert np.all(K @ m == 0)
+            assert np.all(m @ K.T == 0)
 
         null = right_nullity(m)
 

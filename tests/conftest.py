@@ -9,6 +9,21 @@ settings.load_profile("default")
 
 def pytest_addoption(parser):
     parser.addoption("--sage", action="store_true", default=False, help="Enable tests that use SageMath")
+    parser.addoption("--fast-backend", action="store_true", default=False, help="Use fast backend for algorithms")
+
+
+@pytest.fixture(scope="session", autouse=True)
+def set_fast_backend(request):
+    should_set_fast_backend = request.config.getoption("--fast-backend")
+    if should_set_fast_backend:
+        import pqlattice as pq
+
+        try:
+            pq.settings.set_backend("fast")
+        except RuntimeError:
+            pytest.fail("Coulnd't set fast backend")
+
+    yield
 
 
 @pytest.fixture(scope="session", autouse=True)

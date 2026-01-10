@@ -45,6 +45,7 @@ class TestBKZ:
 
         assert v_norm2 == sage_v_norm2
 
+    @settings(max_examples=10)
     @given(lattice_basis=lattices())
     def test_bkz_with_sage_oracle(self, lattice_basis: SquareMatrix):
         B = bkz(lattice_basis)

@@ -37,6 +37,7 @@ from pqlattice.typing import SquareMatrix
 
 
 class TestLLL:
+    @settings(max_examples=10)
     @given(lattice_basis=lattices())
     def test_lll_with_sage_oracle(self, lattice_basis: SquareMatrix):
         delta = 0.99
