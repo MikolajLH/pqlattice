@@ -146,7 +146,7 @@ def left_kernel(A: Matrix):
         if np.all(H[i] == 0):
             kernel_basis.append(U[i])
 
-    return as_integer(kernel_basis)
+    return np.array(kernel_basis, dtype=object)
 
 
 @validate_aliases

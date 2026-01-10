@@ -44,7 +44,7 @@ def randlattice(n: int, det_upper_bound: int | None = None, seed: int | None = N
     for i in range(n):
         H[i, i] = diagonals[i]
         modulus = H[i, i]
-        for j in range(i, n):
+        for j in range(i + 1, n):
             H[i, j] = rng.randint(0, modulus - 1)
 
     U = _gen_unimodular(n, n * 5, rng)
