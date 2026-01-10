@@ -3,6 +3,7 @@ from functools import reduce
 import numpy as np
 from hypothesis import given, settings
 from tests import oracle
+from tests.hypothesis_config import get_profile
 from tests.strategies import lattices
 
 from pqlattice._utils import as_integer
@@ -11,7 +12,7 @@ from pqlattice.typing import SquareMatrix
 
 
 class TestGso:
-    @settings(max_examples=10)
+    @settings(max_examples=get_profile().slow_max_examples)
     @given(lattice_basis=lattices())
     def test_gso_orthogonality(self, lattice_basis: SquareMatrix):
         B_star, _ = gso(lattice_basis)
@@ -20,7 +21,7 @@ class TestGso:
 
         assert np.all(gram == 0)
 
-    @settings(max_examples=10)
+    @settings(max_examples=get_profile().slow_max_examples)
     @given(lattice_basis=lattices())
     def test_gso_basis_invariance(self, lattice_basis: SquareMatrix):
         B_star, _ = gso(lattice_basis)
@@ -29,6 +30,7 @@ class TestGso:
         sage_det2 = sage_det * sage_det
         assert gso_det2 == sage_det2
 
+    @settings(max_examples=get_profile().slow_max_examples)
     @given(lattice_basis=lattices())
     def test_gso_reconstructability(self, lattice_basis: SquareMatrix):
         B_star, U = gso(lattice_basis)

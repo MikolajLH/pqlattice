@@ -1,7 +1,7 @@
 import math
 
 import pytest
-from hypothesis import assume, given, settings
+from hypothesis import assume, given
 from hypothesis import strategies as st
 
 from pqlattice.integer._modring import mod, modinv, modpow
@@ -27,7 +27,6 @@ class TestModInv:
         assert mod(inv * a, modulus) == 1
 
     @given(st.integers(), st.integers())
-    @settings(max_examples=10)
     def test_modinv_properties_failing(self, a: int, modulus: int):
         assume(math.gcd(a, modulus) != 1)
         with pytest.raises((ValueError, ZeroDivisionError)):

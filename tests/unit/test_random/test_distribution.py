@@ -1,4 +1,4 @@
-from hypothesis import assume, given, settings
+from hypothesis import assume, given
 from hypothesis import strategies as st
 
 from pqlattice.random._distribution import DiscreteGaussian, Uniform
@@ -32,7 +32,6 @@ class TestUniform:
 
 
 class TestDiscreteGaussian:
-    @settings(max_examples=5)
     @given(seed=st.integers())
     def test_gaussian_distribution(self, seed: int):
         sigma = 3.0

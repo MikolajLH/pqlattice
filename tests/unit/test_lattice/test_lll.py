@@ -1,6 +1,7 @@
 # from typing import cast
 from hypothesis import given, settings
 from tests import oracle
+from tests.hypothesis_config import get_profile
 from tests.strategies import lattices, sage_lattices
 
 from pqlattice.lattice._lll import lll  # , is_lll_reduced
@@ -37,14 +38,14 @@ from pqlattice.typing import SquareMatrix
 
 
 class TestLLL:
-    @settings(max_examples=10)
+    @settings(max_examples=get_profile().slow_max_examples * 2)
     @given(lattice_basis=lattices())
     def test_lll_with_sage_oracle(self, lattice_basis: SquareMatrix):
         delta = 0.99
         L = lll(lattice_basis, delta)
         assert oracle.Sage.is_lll_reduced(L, delta)
 
-    @settings(max_examples=10)
+    @settings(max_examples=get_profile().slow_max_examples * 2)
     @given(lattice_basis=sage_lattices())
     def test_lll_with_sage_oracle_and_sage_lattices(self, lattice_basis: SquareMatrix):
         delta = 0.99
