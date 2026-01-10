@@ -1648,7 +1648,7 @@ tests = [
 requires-dist = [
     { name = "cysignals", marker = "extra == 'fast'", specifier = ">=1.12.6" },
     { name = "fpylll", marker = "extra == 'fast'", specifier = ">=0.6.4" },
-    { name = "numpy", specifier = ">=2.3.2" },
+    { name = "numpy", specifier = ">=1.26" },
     { name = "python-flint", marker = "extra == 'fast'", specifier = ">=0.8.0" },
 ]
 provides-extras = ["fast"]
