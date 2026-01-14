@@ -2,12 +2,14 @@ import numpy as np
 
 from .._utils import as_integer, zeros_mat
 from ..linalg import hnf
+from ..polynomial._modpolyqring import ModIntPolyQuotientRing
+from ..polynomial.poly import deg, monomial, pad
 from ..typing import Matrix, SquareMatrix, Vector, validate_aliases
 
 
 def lwe_basis(A: Matrix, q: int) -> SquareMatrix:
     """
-    _summary_
+    lattice: L = { y | y = xA mod q }
 
     Parameters
     ----------
@@ -32,7 +34,7 @@ def lwe_basis(A: Matrix, q: int) -> SquareMatrix:
 
 def sis_basis(A: Matrix, q: int) -> SquareMatrix:
     """
-    _summary_
+    lattice: L = { x | Ax = 0 mod q }
 
     Parameters
     ----------
@@ -145,5 +147,31 @@ def subset_sum(sequence: Vector, S: int) -> SquareMatrix:
 
 
 @validate_aliases
-def ntru() -> SquareMatrix:
-    raise NotImplementedError()
+def ntru(quotient: Vector, q: int, h: Vector) -> SquareMatrix:
+    """
+    construct the ntru lattice basis
+
+    Parameters
+    ----------
+    quotient : Vector
+        _description_
+    q : int
+        _description_
+    h : Vector
+        _description_
+
+    Returns
+    -------
+    SquareMatrix
+        _description_
+    """
+    N = deg(quotient)
+    Rq = ModIntPolyQuotientRing(quotient, q)
+
+    L11 = as_integer(np.identity(N))
+    L12 = as_integer([pad(Rq.mul(monomial(1, i), h), N - 1) for i in range(N)])
+    L21 = as_integer(np.zeros((N, N)))
+    L22 = q * as_integer(np.identity(N))
+
+    NTRU_B = np.block([[L11, L12], [L21, L22]])
+    return NTRU_B

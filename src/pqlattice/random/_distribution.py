@@ -43,7 +43,7 @@ class Uniform(Distribution):
         range_end : int
             end of sampling range. Inclusive
         seed : int | None, optional
-            seed for random number generator.
+            seed for random number generator, by default None
         """
         super().__init__(seed)
         self._range_beg = range_beg
@@ -52,12 +52,12 @@ class Uniform(Distribution):
     @override
     def sample_int(self, seed: int | None = None) -> int:
         """
-        Get uniform random int from range [self.beg_range, self.end_range]
+        Get uniform random int from range `[self.beg_range, self.end_range]`
 
         Parameters
         ----------
         seed : int | None, optional
-            set the new seed, if None does nothing
+            set the new seed, if None does nothing, by default None
 
         Returns
         -------
@@ -70,19 +70,20 @@ class Uniform(Distribution):
     @override
     def sample_vector(self, n: int, seed: int | None = None) -> Vector:
         """
-        _summary_
+        Get a vector of random uniform ints.
+        Each element of the vector is sampled from range `[self.beg_range, self.end_range]`.
 
         Parameters
         ----------
         n : int
-            _description_
+            dimension of the vector
         seed : int | None, optional
-            _description_, by default None
+            set the new seed, if None does nothing, by default None
 
         Returns
         -------
         Vector
-            _description_
+            vector `v` with shape `(n,)` and random elements from range `[self.beg_range, self.end_range]`
         """
         self.set_seed(seed)
         return as_integer([self.sample_int() for _ in range(n)])
@@ -90,21 +91,22 @@ class Uniform(Distribution):
     @override
     def sample_matrix(self, rows: int, cols: int | None = None, seed: int | None = None) -> Matrix:
         """
-        _summary_
+        Get a matrix of random uniform ints.
+        Each element of the matrix is sampled from range `[self.beg_range, self.end_range]`.
 
         Parameters
         ----------
         rows : int
-            _description_
+            number of rows
         cols : int | None, optional
-            _description_, by default None
+            number of cols, if None equal to number of rows , by default None
         seed : int | None, optional
-            _description_, by default None
+             set the new seed, if None does nothing, by default None
 
         Returns
         -------
         Matrix
-            _description_
+            matrix `m` with shape `(rows, cols)` and random elements from range `[self.beg_range, self.end_range]`
         """
         self.set_seed(seed)
         if cols is None:
@@ -114,14 +116,14 @@ class Uniform(Distribution):
     @override
     def set_params(self, range_beg: int | None = None, range_end: int | None = None) -> None:  # type: ignore
         """
-        _summary_
+        Set the parameters of the distribution
 
         Parameters
         ----------
         range_beg : int | None, optional
-            _description_, by default None
+            if None does nothing, by default None
         range_end : int | None, optional
-            _description_, by default None
+            if None does nothing, by default None
         """
         if range_beg is None:
             range_beg = self._range_beg
@@ -134,12 +136,12 @@ class Uniform(Distribution):
     @override
     def get_params(self) -> dict[str, int]:
         """
-        _summary_
+        returns dictionary of parameters of the distribution
 
         Returns
         -------
         dict[str, int]
-            _description_
+            dict `d = {"range_beg": self._range_beg, "range_end": self._range_end}`
         """
         return {"range_beg": self._range_beg, "range_end": self._range_end}
 
@@ -147,18 +149,19 @@ class Uniform(Distribution):
 class DiscreteGaussian(Distribution):
     def __init__(self, sigma: float, center: int | float = 0, tail_cut: float = 6.0, seed: int | None = None):
         """
-        _summary_
+        Creates DiscreteGaussian sampler that uses rejection sampling method.
+        Samples `x` are accepted with probability `exp(-((x - center) ** 2) / (2 * sigma ** 2)).
 
         Parameters
         ----------
         sigma : float
-            _description_
+            standard deviation of the distribution
         center : int | float, optional
-            _description_, by default 0
+            mean of the distribution, by default 0
         tail_cut : float, optional
-            _description_, by default 6.0
+            samples outside the range `[center - sigma * tail_cut, center + sigma * tail_cut]` are considered to have probability zero, by default 6.0
         seed : int | None, optional
-            _description_, by default None
+            seed for random number generator, by default None
         """
         super().__init__(seed)
         self.center = center
@@ -177,17 +180,17 @@ class DiscreteGaussian(Distribution):
     @override
     def sample_int(self, seed: int | None = None) -> int:
         """
-        _summary_
+        Get random int according to the gaussian probability.
 
         Parameters
         ----------
         seed : int | None, optional
-            _description_, by default None
+            set the new seed, if None does nothing, by default None
 
         Returns
         -------
         int
-            _description_
+            random integer sampled from discrete gaussian distribution
         """
         self.set_seed(seed)
 
@@ -199,19 +202,19 @@ class DiscreteGaussian(Distribution):
     @override
     def sample_vector(self, n: int, seed: int | None = None) -> Vector:
         """
-        _summary_
+        Get a vector of integers sampled from discrete gaussian distribution.
 
         Parameters
         ----------
         n : int
-            _description_
+             dimension of the vector
         seed : int | None, optional
-            _description_, by default None
+            set the new seed, if None does nothing, by default None
 
         Returns
         -------
         Vector
-            _description_
+            vector `v` with shape `(n,)` and random elements from discrete gaussian distribution.
         """
         self.set_seed(seed)
         return as_integer([self.sample_int() for _ in range(n)])
@@ -219,21 +222,21 @@ class DiscreteGaussian(Distribution):
     @override
     def sample_matrix(self, rows: int, cols: int | None = None, seed: int | None = None) -> Matrix:
         """
-        _summary_
+        Get a matrix of integers sampled from discrete gaussian distribution.
 
         Parameters
         ----------
         rows : int
-            _description_
+            number of rows
         cols : int | None, optional
-            _description_, by default None
+            number of cols, if None equal to number of rows , by default None
         seed : int | None, optional
-            _description_, by default None
+            set the new seed, if None does nothing, by default None
 
         Returns
         -------
         Matrix
-            _description_
+            matrix `m` with shape `(rows, cols)` and random elements from discrete gaussian distribution.
         """
         self.set_seed(seed)
         if cols is None:
@@ -243,16 +246,16 @@ class DiscreteGaussian(Distribution):
     @override
     def set_params(self, sigma: float | None = None, center: float | int | None = None, tail_cut: float | None = None) -> None:  # type: ignore
         """
-        _summary_
+        Set the parameters of the distribution
 
         Parameters
         ----------
         sigma : float | None, optional
-            _description_, by default None
+            if None does nothing, by default None
         center : float | int | None, optional
-            _description_, by default None
+            if None does nothing, by default None
         tail_cut : float | None, optional
-            _description_, by default None
+            if None does nothing, by default None
         """
         if sigma is None:
             sigma = self.sigma
@@ -268,12 +271,12 @@ class DiscreteGaussian(Distribution):
 
     def get_params(self) -> dict[str, float]:
         """
-        _summary_
+        returns dictionary of parameters of the distribution
 
         Returns
         -------
         dict[str, float]
-            _description_
+            dict `d = {"sigma": self.sigma, "center": self.center, "tail_cut": self.tail_cut, "bound": self.bound}`
         """
         return {"sigma": self.sigma, "center": self.center, "tail_cut": self.tail_cut, "bound": self.bound}
 

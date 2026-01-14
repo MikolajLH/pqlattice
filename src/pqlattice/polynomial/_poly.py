@@ -7,22 +7,22 @@ from ..typing import Vector, validate_aliases
 
 @validate_aliases
 def make_poly(data: ArrayLike) -> Vector:
-    """_summary_
+    """
+    Helper function, creates polynomial from the array like.
 
     Parameters
     ----------
-    data : Iterable[int  |  float]
-        _description_
+    data : ArrayLike
 
     Returns
     -------
     Vector
-        _description_
+        polynomial
 
     Raises
     ------
     ValueError
-        _description_
+        if the data has wrong shape
     """
     arr = as_integer(data)
 
@@ -34,22 +34,23 @@ def make_poly(data: ArrayLike) -> Vector:
 
 @validate_aliases
 def is_zero_poly(p: Vector) -> bool:
-    """_summary_
+    """
+    Checks if the poly is zero poly - all coefficients are equal to zero.
 
     Parameters
     ----------
     p : Vector
-        _description_
+        polynomial
 
     Returns
     -------
     bool
-        _description_
+        True if all coefficients are equal to zero, False otherwise
 
     Raises
     ------
     ValueError
-        _description_
+        If the given Vector is empty
     """
     if len(p) == 0:
         raise ValueError("Empty coefficient array is not a proper polynomial")
@@ -59,22 +60,23 @@ def is_zero_poly(p: Vector) -> bool:
 
 @validate_aliases
 def deg(p: Vector) -> int:
-    """_summary_
+    """
+    Returns degree of the given polynomial.
+    Assumes -1 for the zero polynomial.
 
     Parameters
     ----------
     p : Vector
-        _description_
 
     Returns
     -------
     int
-        _description_
+        degree
 
     Raises
     ------
     ValueError
-        _description_
+        If the vector is empty
     """
     if len(p) == 0:
         raise ValueError("Empty coefficient array is not a proper polynomial")
@@ -88,24 +90,25 @@ def deg(p: Vector) -> int:
 
 @validate_aliases
 def pad(p: Vector, max_deg: int) -> Vector:
-    """_summary_
+    """
+    Pad's polynomial's coefficient's array with zero entries for powers higher than polynomial's degree,
+    so that length of resulting array is equal to max_deg + 1.
 
     Parameters
     ----------
     p : Vector
-        _description_
     max_deg : int
-        _description_
+        Degree that `p` is to be expanded to
 
     Returns
     -------
     Vector
-        _description_
+        polynomial
 
     Raises
     ------
     ValueError
-        _description_
+        If max deg is less than the degree of the given polynomial
     """
     if is_zero_poly(p):
         return zero_poly(max_deg)
@@ -119,17 +122,18 @@ def pad(p: Vector, max_deg: int) -> Vector:
 
 @validate_aliases
 def trim(p: Vector) -> Vector:
-    """_summary_
+    """
+    Trims zero coefficients of powers higher than polynomial's degree,
+    so that resulting coefficient's arrray has length of `deg(p) + 1`.
 
     Parameters
     ----------
     p : Vector
-        _description_
 
     Returns
     -------
     Vector
-        _description_
+        polynomial
     """
     if is_zero_poly(p):
         return as_integer([0])
@@ -139,19 +143,18 @@ def trim(p: Vector) -> Vector:
 
 @validate_aliases
 def add(p: Vector, q: Vector) -> Vector:
-    """_summary_
+    """
+    Adds two polynomials together.
 
     Parameters
     ----------
     p : Vector
-        _description_
     q : Vector
-        _description_
 
     Returns
     -------
     Vector
-        _description_
+        polynomial
     """
     max_deg = max(deg(p), deg(q), 0)
     return trim(pad(p, max_deg) + pad(q, max_deg))
@@ -159,19 +162,18 @@ def add(p: Vector, q: Vector) -> Vector:
 
 @validate_aliases
 def sub(p: Vector, q: Vector) -> Vector:
-    """_summary_
+    """
+    Subtract one polynomial from the other
 
     Parameters
     ----------
     p : Vector
-        _description_
     q : Vector
-        _description_
 
     Returns
     -------
     Vector
-        _description_
+        polynomial
     """
     max_deg = max(deg(p), deg(q), 0)
     return trim(pad(p, max_deg) - pad(q, max_deg))
@@ -179,43 +181,41 @@ def sub(p: Vector, q: Vector) -> Vector:
 
 @validate_aliases
 def mul(p: Vector, q: Vector) -> Vector:
-    """_summary_
+    """
+    Multiplies two polynomials.
 
     Parameters
     ----------
     p : Vector
-        _description_
     q : Vector
-        _description_
 
     Returns
     -------
     Vector
-        _description_
+        polynomial
     """
     return trim(np.polymul(p[::-1], q[::-1])[::-1])
 
 
 @validate_aliases
 def monomial(coeff: int, degree: int) -> Vector:
-    """_summary_
+    """
+    For given degree `d` and coefficient `c`, constructs a monomial `cX + ** (d - 1)`
 
     Parameters
     ----------
     coeff : int
-        _description_
     degree : int
-        _description_
 
     Returns
     -------
     Vector
-        _description_
+        polynomial
 
     Raises
     ------
     ValueError
-        _description_
+        if degree is negative
     """
     if degree < 0:
         raise ValueError("degree has to be non negative")
@@ -227,22 +227,23 @@ def monomial(coeff: int, degree: int) -> Vector:
 
 @validate_aliases
 def zero_poly(max_deg: int = 0) -> Vector:
-    """_summary_
+    """
+    constructs zero polynomial, expanded to the given parameter max_deg
 
     Parameters
     ----------
     max_deg : int, optional
-        _description_, by default 0
+        by default 0
 
     Returns
     -------
     Vector
-        _description_
+        Vector of length `max_deg + 1` filled with zeros
 
     Raises
     ------
     ValueError
-        _description_
+        If the `max_deg` is negative
     """
     if max_deg < 0:
         raise ValueError("degree has to be non negative")

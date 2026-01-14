@@ -34,8 +34,6 @@
 ## SVP and CVP
 ::: pqlattice.lattice.shortest_vector
 
-::: pqlattice.lattice.closest_vector
-
 ::: pqlattice.lattice.babai_closest_vector
 
 ::: pqlattice.lattice.babai_nearest_plane
@@ -52,3 +50,5 @@
 ::: pqlattice.lattice.embeddings.bai_galbraith
 
 ::: pqlattice.lattice.embeddings.subset_sum
+
+::: pqlattice.lattice.embeddings.ntru

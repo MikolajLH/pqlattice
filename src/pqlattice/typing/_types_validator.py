@@ -42,6 +42,15 @@ def _get_predicate_for_alias[T: TypeAliasType](type_name: T) -> Callable[[T], bo
 
 
 def validate_aliases[**P, T](func: Callable[P, T]) -> Callable[P, T]:
+    """
+    Decorator that checks at runtime if the numpy's arrays have the proper shapes indicated by the type alias:
+    - Vector -> (n, )
+    - Matrix -> (rows, cols)
+    - SquareMatrix -> (n, n)
+
+    If any of the arguments does not fullfill its type's predicate, the TypeError is raised
+    """
+
     def wrapper(*args: P.args, **kwds: P.kwargs) -> T:
         sig = signature(func)
         bounded_args = sig.bind(*args, **kwds)

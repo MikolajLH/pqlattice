@@ -46,17 +46,31 @@ def get_backend() -> BackendInterface:
 
 
 def set_backend(name: BackendName) -> None:
+    """
+    Changes the computational backend
+
+    Parameters
+    ----------
+    name : BackendName
+        "fast" or "native"
+    """
     _config.set_backend(name)
 
 
 @contextlib.contextmanager
 def backend(name: BackendName) -> Generator[None, None, None]:
     """
-    Context manager to temporarily switch the backend.
+    Contextmanager for backends
 
-    Usage:
-        with pq.settings.backend("fpylll"):
-            pq.lattice.lll(B)
+    Parameters
+    ----------
+    name : BackendName
+        "fast" or "native"
+
+    Usage
+    -------
+    >>> with pq.settings.backend("fast"):
+    >>>     pq.lattice.lll(B)
     """
     previous = _config.backend_name
     try:

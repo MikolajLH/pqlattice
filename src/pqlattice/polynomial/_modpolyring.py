@@ -5,17 +5,18 @@ from . import _poly as poly
 
 class ModIntPolyRing:
     def __init__(self, modulus: int):
-        """_summary_
+        """
+        Construct the polynomial ring over coefficients from integer quotient ring with given modulus.
 
         Parameters
         ----------
         modulus : int
-            _description_
+            integer quotient ring modulus
 
         Raises
         ------
         ValueError
-            _description_
+            If the modulus is less than 2
         """
         if modulus <= 1:
             raise ValueError("Modulus has to be greater than 1")
@@ -24,126 +25,122 @@ class ModIntPolyRing:
 
     @validate_aliases
     def reduce(self, polynomial: Vector) -> Vector:
-        """_summary_
+        """
+        Reduces the polynomials coefficients according to the ring, that is modulo `self.modulus`
 
         Parameters
         ----------
         polynomial : Vector
-            _description_
 
         Returns
         -------
         Vector
-            _description_
+            polynomial with coefficients from range `[0, self.modulus)`
         """
         return poly.trim(mod(polynomial, self.modulus))
 
     @validate_aliases
     def is_zero(self, polynomial: Vector) -> bool:
-        """_summary_
+        """
+        Checks if the polynomial is the zero polynomial in the ring.
 
         Parameters
         ----------
         polynomial : Vector
-            _description_
 
         Returns
         -------
         bool
-            _description_
+            True if it is zero polynomial, False otherwise
         """
         return poly.is_zero_poly(self.reduce(polynomial))
 
     @validate_aliases
     def deg(self, polynomial: Vector) -> int:
-        """_summary_
+        """
+        Returns degree of the given polynomial
 
         Parameters
         ----------
         polynomial : Vector
-            _description_
 
         Returns
         -------
         int
-            _description_
+            degree
         """
         return poly.deg(self.reduce(polynomial))
 
     @validate_aliases
     def add(self, polynomial_a: Vector, polynomial_b: Vector) -> Vector:
-        """_summary_
+        """
+        Adds two polynomials
 
         Parameters
         ----------
         polynomial_a : Vector
-            _description_
         polynomial_b : Vector
-            _description_
 
         Returns
         -------
         Vector
-            _description_
+            polynomial
         """
         return self.reduce(poly.add(polynomial_a, polynomial_b))
 
     @validate_aliases
     def sub(self, polynomial_a: Vector, polynomial_b: Vector) -> Vector:
-        """_summary_
+        """
+        Subtract one polynomial from the other
 
         Parameters
         ----------
         polynomial_a : Vector
-            _description_
         polynomial_b : Vector
-            _description_
 
         Returns
         -------
         Vector
-            _description_
+            polynomial
         """
         return self.reduce(poly.sub(polynomial_a, polynomial_b))
 
     @validate_aliases
     def mul(self, polynomial_a: Vector, polynomial_b: Vector) -> Vector:
-        """_summary_
+        """
+        multiplies two polynomials
 
         Parameters
         ----------
         polynomial_a : Vector
-            _description_
         polynomial_b : Vector
-            _description_
 
         Returns
         -------
         Vector
-            _description_
+            polynomial
         """
         return self.reduce(poly.mul(polynomial_a, polynomial_b))
 
     @validate_aliases
     def euclidean_div(self, polynomial_a: Vector, polynomial_b: Vector) -> tuple[Vector, Vector]:
-        """_summary_
+        """
+        Performs the euclidean division for the polynomials
 
         Parameters
         ----------
         polynomial_a : Vector
-            _description_
         polynomial_b : Vector
-            _description_
 
         Returns
         -------
         tuple[Vector, Vector]
-            _description_
+            `tuple[q, r]` such that `polynomial_a == q * polynomial_b + r`
 
         Raises
         ------
         ZeroDivisionError
-            _description_
+            If the `polynomial_b` is the zero polynomial
         """
         if self.is_zero(polynomial_b):
             raise ZeroDivisionError("Can't divide by zero polynomial")
@@ -162,53 +159,53 @@ class ModIntPolyRing:
 
     @validate_aliases
     def rem(self, polynomial_a: Vector, polynomial_b: Vector) -> Vector:
-        """_summary_
+        """
+        Returns remainder of the euclidean division
 
         Parameters
         ----------
         polynomial_a : Vector
-            _description_
         polynomial_b : Vector
-            _description_
 
         Returns
         -------
         Vector
-            _description_
+            polynomial
         """
         _, r = self.euclidean_div(polynomial_a, polynomial_b)
         return r
 
     def to_monic(self, polynomial: Vector) -> Vector:
-        """_summary_
+        """
+        Transformt the given polynomial to its monic form, that is multiplies the polynomial by the modular inverse of the leading coefficient.
 
         Parameters
         ----------
         polynomial : Vector
-            _description_
 
         Returns
         -------
         Vector
-            _description_
+            polynomial with leading coefficient equal to one.
         """
         leading_coeff: int = polynomial[self.deg(polynomial)]
         return self.reduce(modinv(leading_coeff, self.modulus) * polynomial)
 
     def gcd(self, polynomial_a: Vector, polynomial_b: Vector) -> Vector:
-        """_summary_
+        """
+        Computes the polynomial that is the greates common divisor of the given polynomials
 
         Parameters
         ----------
         polynomial_a : Vector
-            _description_
+
         polynomial_b : Vector
-            _description_
+
 
         Returns
         -------
         Vector
-            _description_
+            polynomial
         """
         r0 = self.reduce(polynomial_a)
         r1 = self.reduce(polynomial_b)
@@ -220,20 +217,19 @@ class ModIntPolyRing:
 
         return r0
 
-    def eea(self, polynomial_a: Vector, polynomial_b: Vector):
-        """_summary_
+    def eea(self, polynomial_a: Vector, polynomial_b: Vector) -> tuple[Vector, Vector, Vector]:
+        """
+        Extended Euclidean algorithm for the polynomials.
 
         Parameters
         ----------
         polynomial_a : Vector
-            _description_
         polynomial_b : Vector
-            _description_
 
         Returns
         -------
-        _type_
-            _description_
+        tuple[Vector, Vector, Vector]
+            `tuple[s, t, gcd]` such that `polynomial_a * s + polynomial_b * t == gcd`
         """
         f0, f1 = self.reduce(polynomial_a), self.reduce(polynomial_b)
         a0, a1 = poly.monomial(1, 0), poly.zero_poly()
@@ -250,18 +246,17 @@ class ModIntPolyRing:
         return f0, a0, b0
 
     def coprime(self, polynomial_a: Vector, polynomial_b: Vector) -> bool:
-        """_summary_
+        """
+        Checks if two polynomials are coprime, that is if their `gcd == 1`
 
         Parameters
         ----------
         polynomial_a : Vector
-            _description_
         polynomial_b : Vector
-            _description_
 
         Returns
         -------
         bool
-            _description_
+            True if coprime, False otherwise
         """
         return all(self.to_monic(self.gcd(polynomial_a, polynomial_b)) == poly.monomial(1, 0))

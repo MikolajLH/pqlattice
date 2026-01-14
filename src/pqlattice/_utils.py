@@ -66,10 +66,50 @@ def as_rational(obj: ArrayLike) -> Array:
 
 
 def zeros_vec(n: int) -> Vector:
+    """
+    Wrapper around `numpy.zeros`
+
+    Parameters
+    ----------
+    n : int
+        vector dimension
+
+    Returns
+    -------
+    Vector
+        Integer vector of zeros with shape (n,)
+
+    Examples
+    --------
+    >>> import pqlattice as pq
+    >>> v = pq.zeros_vec(5)
+    >>> assert v.shape == (5,)
+    """
     return as_integer(np.zeros((n,)))
 
 
 def zeros_mat(rows: int, cols: int | None = None) -> Matrix:
+    """
+    Wrapper around `numpy.zeros`
+
+    Parameters
+    ----------
+    rows : int
+        number of rows
+    cols : int | None, optional
+        number of cols if None cols is equal to rows, by default None
+
+    Returns
+    -------
+    Matrix
+        Integer matrix of zeros with shape (rows, cols)
+
+    Examples
+    --------
+    >>> import pqlattice as pq
+    >>> M = pq.zeros_mat(5)
+    >>> assert M.shape == (5, 5)
+    """
     if cols is None:
         cols = rows
     return as_integer(np.zeros((rows, cols)))

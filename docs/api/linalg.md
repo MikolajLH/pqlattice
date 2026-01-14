@@ -13,6 +13,10 @@
 ::: pqlattice.linalg.row_scale
 ::: pqlattice.linalg.row_swap
 
+::: pqlattice.linalg.col_add
+::: pqlattice.linalg.col_scale
+::: pqlattice.linalg.col_swap
+
 ---
 
 ## Functions for integral matrices
