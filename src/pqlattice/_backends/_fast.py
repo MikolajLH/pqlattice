@@ -56,17 +56,7 @@ class FastBackend(BackendInterface):
 
     @override
     def shortest_vector(self, lattice_basis: SquareMatrix) -> Vector:
-        mat = self._to_fpylll(lattice_basis)
-        fpylll.LLL.reduction(mat)
-        sv = fpylll.SVP.shortest_vector(mat, pruning=False, preprocess=False)
-        return as_integer(sv)
-
-    @override
-    def closest_vector(self, lattice_basis: SquareMatrix, target_vector: Vector) -> Vector:
-        A = self._from_fpylll(lattice_basis)
-        t = target_vector.tolist()
-        v0 = fpylll.CVP.closest_vector(A, t)
-        return as_integer(v0)
+        return self.hkz(lattice_basis, 0.99)[0]
 
     @override
     def hnf(self, matrix: Matrix) -> tuple[Matrix, SquareMatrix]:
