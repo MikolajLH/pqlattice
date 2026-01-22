@@ -26,7 +26,10 @@ class LWE:
         self.U = Uniform(0, q - 1, seed=seed)
         self.D = DiscreteGaussian(sigma, seed=seed)
 
-        secret = self.U.sample_vector(n)
+        self.recompute_secret(secret_distribution)
+
+    def recompute_secret(self, secret_distribution: str) -> None:
+        secret = self.U.sample_vector(self.n)
         if secret_distribution == "uniform":
             self._secret = secret
         elif secret_distribution == "binary":

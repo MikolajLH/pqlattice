@@ -21,7 +21,7 @@ pip install "pqlattice[fast]"
 Due to fpylll depending on external binaries it might be not trival to install this version of library, especially on windows. We encourage to the users to use google-collab enviroment which already has all external libraries installed and simple `pip install "pqlattice[fast]"` should work.
 
 ## Examples
-Too see more examples check out the [examples]() page.
+Too see more examples check out the [examples](https://mikolajlh.github.io/pqlattice/examples/attacking_congruential_pkc/) page.
 ### Primary attack against LWE instance
 ```python
 import pqlattice as pq

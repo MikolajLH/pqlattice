@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 from fractions import Fraction
 from typing import Any
 
@@ -239,3 +240,128 @@ def show(a: Array, max_rows: int = 10, max_cols: int = 10, val_width: int = 15):
         for idx, cell in enumerate(row):
             formatted_row.append(cell.rjust(col_widths[idx]))
         print("  ".join(formatted_row))
+
+
+def to_bits(data: bytes) -> list[int]:
+    """
+    Converts the byte array to list of bits
+
+    Parameters
+    ----------
+    data : bytes
+
+    Returns
+    -------
+    list[int]
+        list of bits that when packed represents the given data
+
+    Examples
+    --------
+    >>> import pqlattice as pq
+    >>> f"{ord('a'):08b}"
+    '01100001'
+    >>> f"{ord('Z'):08b}"
+    '01011010'
+    >>> pq.to_bits(b"aZ")  # ascii
+    [0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0]
+    """
+    bits = [int(bit) for byte in data for bit in format(byte, "08b")]
+    return bits
+
+
+def from_bits(bits: Sequence[int]) -> bytes:
+    """
+    Converts the sequencs of bits to bytes, inverse of `pqlattice.to_bits`
+
+    Parameters
+    ----------
+    bits : Sequence[int]
+
+    Returns
+    -------
+    bytes
+        bytes representing bits packed in chunks of 8
+
+    Raises
+    ------
+    ValueError
+        _description_
+    """
+    output = bytearray()
+    for i in range(0, len(bits), 8):
+        chunk = bits[i : i + 8]
+        byte_val = 0
+        for bit in chunk:
+            if bit not in [0, 1]:
+                raise ValueError(f"bits is expected to only hold 0, 1 values found value {bit}")
+            byte_val = (byte_val << 1) | bit
+
+        output.append(byte_val)
+
+    return bytes(output)
+
+
+def pad_data(data: Vector, block_size: int) -> Vector:
+    """
+    pads the vector of bits to a given block size.
+    marks the end of a block data by putting pattern \\10+\\ at the end.
+
+    Parameters
+    ----------
+    data : Vector
+        data of bits with length strictly less than block size
+    block_size : int
+
+    Returns
+    -------
+    Vector
+        vector with lenght equal to block_size
+
+    Raises
+    ------
+    ValueError
+        if the data does not meet length constraint
+    """
+    data_len = len(data)
+    if data_len >= block_size:
+        raise ValueError(f"data has to have length < block size, got {data_len=}, {block_size=}")
+
+    m = as_integer(data)
+
+    padded = zeros_vec(block_size)
+    padded[:data_len] = m
+    padded[data_len] = 1
+
+    return padded
+
+
+def unpad_data(padded_data: Vector) -> Vector:
+    """
+    unpads the data, inverse of `pqlattice.pad_data`
+
+    Parameters
+    ----------
+    padded_data : Vector
+        data with a \\10+\\ pattern at the end
+
+    Returns
+    -------
+    Vector
+        data with the padding pattern removed
+
+    Raises
+    ------
+    ValueError
+        if the given data does not match the expected pattern
+
+    """
+    ones = np.where(padded_data == 1)[0]
+
+    if len(ones) == 0:
+        raise ValueError("marker not found; block is expected to end with pattern \\10+\\")
+
+    marker_i = ones[-1]
+    if (marker_i < len(padded_data) - 1) and np.any(padded_data[marker_i + 1 :] != 0):
+        raise ValueError("nonz zero elements found after marker; block is expected to end with pattern \\10+\\")
+
+    return padded_data[:marker_i]
