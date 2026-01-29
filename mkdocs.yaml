@@ -102,6 +102,3 @@ nav:
       - LWE primary attack: examples/LWE_primary_attack.ipynb
       - LWE dual attack: examples/LWE_dual_attack.ipynb
       - Mini Kyber: examples/toy_kyber.ipynb
-  - Development:
-      - Testing: development/testing.md
-      - Coverage: development/coverage.md
